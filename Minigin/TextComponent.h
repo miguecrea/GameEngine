@@ -20,6 +20,8 @@ namespace dae
 		TextComponent& operator=(TextComponent&& other) = default;
 
 		void SetTextToTexture(const std::string& text);
+		void SetColorRectToTexture(int width, int height);
+
 		void SetFont(std::shared_ptr<Font> font);
 		void SetColor(const SDL_Color& color);
 

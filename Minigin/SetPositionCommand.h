@@ -13,10 +13,6 @@ namespace dae
         SetPositionCommand(GameObject* pGameObject, const glm::vec3& direction);
 
 
-      //  Point2f CordinatesToGrid
-
-
-
         void Execute() override;
         void Undo() override;
 

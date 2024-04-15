@@ -27,15 +27,24 @@
     <Filter Include="Engine Files\Rendering\ImGui Files">
       <UniqueIdentifier>{4fc33164-9700-4514-8729-c8ebb606fafb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Other Files\Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Engine Files\Input\Commands">
       <UniqueIdentifier>{870c4db0-9c94-404b-b6d5-1753a8025371}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager">
+    <Filter Include="Engine Files\Input\Input Manager">
+      <UniqueIdentifier>{8d4b1216-ce2d-4d42-84df-020d4b3d14bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\MainFiles">
+      <UniqueIdentifier>{af3bdd13-5aab-415d-b912-665f855915ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\GameObjects">
+      <UniqueIdentifier>{c9b1459b-c664-4bb3-8c46-9e4998ee4223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pacman Manager">
       <UniqueIdentifier>{b495246e-c922-40cc-91dd-96789de89f77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Other Files\Observer">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +120,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="imgui_plot.h">
       <Filter>Engine Files\Rendering\ImGui Files</Filter>
     </ClInclude>
@@ -148,7 +154,7 @@
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PacmanManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Pacman Manager</Filter>
     </ClInclude>
     <ClInclude Include="SetMoveDirectionCommand.h">
       <Filter>Engine Files\Input\Commands</Filter>
@@ -159,14 +165,17 @@
     <ClInclude Include="ColliderComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ToggleMuteCommand.h">
+      <Filter>Engine Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="NextSceneCommand.h">
+      <Filter>Engine Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin.h">
+      <Filter>Engine Files\MainFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Minigin.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
@@ -264,13 +273,13 @@
       <Filter>Other Files</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Other Files\Resource Files</Filter>
+      <Filter>Other Files\Observer</Filter>
     </ClCompile>
     <ClCompile Include="StartInfoComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="PacmanManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Pacman Manager</Filter>
     </ClCompile>
     <ClCompile Include="SetMoveDirectionCommand.cpp">
       <Filter>Engine Files\Input\Commands</Filter>
@@ -280,6 +289,18 @@
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ToggleMuteCommand.cpp">
+      <Filter>Engine Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="NextSceneCommand.cpp">
+      <Filter>Engine Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Engine Files\MainFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Engine Files\MainFiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

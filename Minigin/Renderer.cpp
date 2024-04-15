@@ -211,8 +211,6 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& destinatio
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &SourceRect, &destinationRect);
 
 
-
-
 }
 
 const int dae::Renderer::Map[36][28] = {

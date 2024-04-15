@@ -9,8 +9,8 @@ namespace dae
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void OnNotify(const EventType& event) = 0;
-		virtual void OnSubjectDestroy(Subject<EventType>* pSubject) = 0;
+		virtual void OnNotify(const EventType & event) = 0;
+		virtual void OnSubjectDestroy(Subject<EventType> * pSubject) = 0;  //pointer to a subject but it has a template parameter 
 	};
 }
 

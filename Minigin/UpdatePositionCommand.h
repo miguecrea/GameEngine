@@ -29,7 +29,6 @@ namespace dae
         SceneManager* m_pSceneManager{ nullptr };
         glm::vec3 m_OldPosition;
         glm::vec3 m_Direction;
-       // std::function<void()>& function;
     };
 }
 

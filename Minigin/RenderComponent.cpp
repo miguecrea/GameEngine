@@ -40,7 +40,7 @@ void dae::RenderComponent::Render()   //animation component  // in thge cosntruv
 		 glm::vec3 position{ GetOwner()->GetWorldPosition()}; //get position of the Owner so of game object // calls the puclic function in the game object
 
 		position.x *= 2;
-		position.y *= 2;
+		position.y *= 2;   //change this for a global variable 
 
 
 		//In add component we set the owner 

@@ -202,6 +202,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="NextSceneCommand.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PacmanManager.h" />
     <ClInclude Include="RenderComponent.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="ToggleMuteCommand.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UpdatePositionCommand.h" />
   </ItemGroup>
@@ -245,6 +247,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="NextSceneCommand.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PacmanManager.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
@@ -259,6 +262,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="ToggleMuteCommand.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UpdatePositionCommand.cpp" />
   </ItemGroup>

@@ -39,6 +39,28 @@ void dae::TextComponent::SetTextToTexture(const std::string& text)
 	}
 }
 
+void dae::TextComponent::SetColorRectToTexture(int width, int height)
+{
+
+	SDL_Surface* pSurface{ SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0) };
+	SDL_FillRect(pSurface, nullptr, SDL_MapRGBA(pSurface->format, m_Color.r, m_Color.g, m_Color.b, m_Color.a));
+
+	if (pSurface == nullptr)
+	{
+		throw std::runtime_error(std::string("Render color rect failed: ") + SDL_GetError());
+	}
+
+	auto pTexture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), pSurface);
+
+	if (pTexture == nullptr)
+	{
+		throw std::runtime_error(std::string("Create color rect texture from surface failed: ") + SDL_GetError());
+	}
+
+	SDL_FreeSurface(pSurface);
+	m_pRenderComponent->SetTexture(std::make_shared<Texture2D>(pTexture));
+}
+
 void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 {
 	m_pFont = font;
