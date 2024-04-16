@@ -11,6 +11,9 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 	{
 		scene->Update();
 	}
+
+
+
 }
 
 void dae::SceneManager::FixedUpdate(float fixedTimeStep) //ALL THIS VALUES ARE FROM THE GAME LOOP
@@ -31,7 +34,7 @@ void dae::SceneManager::Render(float framePercentage) //ALL THIS VALUES ARE FROM
 	{
 		scene->Render();
 	}
-	Renderer::GetInstance().DrawMap();
+	//Renderer::GetInstance().DrawMap();
 }
 
 float dae::SceneManager::GetDeltaTime() const

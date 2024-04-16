@@ -200,6 +200,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NextSceneCommand.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="NextSceneCommand.cpp" />

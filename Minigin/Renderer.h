@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include "Singleton.h"
+#include<vector>
 
 namespace dae
 {
@@ -38,6 +39,20 @@ namespace dae
 
 
 		static const int Map[36][28];
+		
+		std::vector<std::pair<int, int>> m_positions; // Vector to store positions
+
+
+
+		//if(columns[colun][row]==2
+		//set aquare another color y en colision tambine permitirle 
+
+
+		// vector where the psoitions is to  sthat stores the row and columns 
+		//then pas that to a funtion that returns x and y psoition 
+		//draw a mini square 
+
+	//	ImVec2 GridToMap();
 
 
 		mutable SDL_Rect m_destinationRect{};
