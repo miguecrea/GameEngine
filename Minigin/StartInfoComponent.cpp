@@ -2,6 +2,10 @@
 #include "GameObject.h"
 #include "imgui.h"
 
+dae::StartInfoComponent::StartInfoComponent(int priority)
+    :Component(priority)
+{
+}
 void dae::StartInfoComponent::Render()
 {
     ImGui::Begin("Start Info");
@@ -36,7 +40,3 @@ void dae::StartInfoComponent::Render()
     ImGui::End();
 }
 
-dae::StartInfoComponent::StartInfoComponent(int priority)
-    :Component(priority)
-{
-}

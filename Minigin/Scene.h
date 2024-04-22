@@ -11,13 +11,27 @@ namespace dae
 
 	public:
 		void Add(std::shared_ptr<GameObject> object);
+
+		void ForceRemove(std::shared_ptr<GameObject> pObject);
+		void ForceRemoveAll();
+		void DestroyAll();
+
+
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
 		void CheckParentException(std::shared_ptr<GameObject> object) const;
 
 		void Update();
-		void FixedUpdate();
 		void Render() const;
+		void CleanUp();
+
+		void FixedUpdate();
+		std::string GetName() const;
+
+		void Load();
+		bool NeedsCleanUp() const;
+
+
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -29,9 +43,9 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_pObjects{};
+		std::vector <std::shared_ptr<GameObject>> m_pObjects{};
 
-		std::function<void()> m_LoadFunction;
+	
 		static unsigned int m_idCounter; 
 	};
 

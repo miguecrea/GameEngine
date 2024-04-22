@@ -34,7 +34,7 @@ namespace dae
 
 
 	private:
-		GameObject* m_pOwner{ nullptr };   //it is private we dont want people accesing it just we csan use a setter 
+		GameObject * m_pOwner{ nullptr };   //it is private we dont want people accesing it just we csan use a setter 
 		int m_Priority{ 0 };
 	};
 }

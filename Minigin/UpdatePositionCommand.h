@@ -17,7 +17,7 @@ namespace dae
     class UpdatePositionCommand final : public Command
     {
     public:
-        UpdatePositionCommand(GameObject* pGameObject, const glm::vec3& direction);
+        UpdatePositionCommand(GameObject * pGameObject, const glm::vec3& direction);
 
         Point2f GridToWorld(int row,int column);
 
@@ -25,8 +25,8 @@ namespace dae
         void Undo() override;
 
     private:
-        GameObject* m_pGameObject;
-        SceneManager* m_pSceneManager{ nullptr };
+        GameObject * m_pGameObject;
+        SceneManager * m_pSceneManager{ nullptr };
         glm::vec3 m_OldPosition;
         glm::vec3 m_Direction;
     };

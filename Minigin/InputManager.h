@@ -11,6 +11,7 @@ namespace dae
 	{
 	public:
 		InputManager();
+		void ClearCommands();
 		bool ProcessInput();
 		Controller * AddController();  //add controller there cna be 2  
 		Keyboard * GetKeyboard();  //there is only one keybaord right ?

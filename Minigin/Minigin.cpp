@@ -77,105 +77,105 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
-{
-	load();
-
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
-
-	//Update loop
-	constexpr float fixedTimeStep{ 0.016f };
-	constexpr float maximumAllowedFrameTime{ 0.1f };
-	constexpr float desiredFPS{ 170.f };
-	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / desiredFPS) };
-
-	auto lastTime{ std::chrono::high_resolution_clock::now() };
-	bool doContinue = true;
-
-
-	//Make sure to run the fixed update before the first render
-	float timeLag{ fixedTimeStep };
-
-	while (doContinue)
-	{
-		//Update time
-		const auto currentTime{ std::chrono::high_resolution_clock::now() };
-		const float deltaTime{ std::chrono::duration<float>(currentTime - lastTime).count() };
-		lastTime = currentTime;
-
-		timeLag += (std::min)(deltaTime, maximumAllowedFrameTime);
-
-		//Check input
-		doContinue = input.ProcessInput();
-
-		//Fixed update
-		while (timeLag >= fixedTimeStep)
-		{
-			sceneManager.FixedUpdate(fixedTimeStep);
-			timeLag -= fixedTimeStep;
-		}
-
-		//Update scenes
-		sceneManager.Update(deltaTime);
-
-		//Render
-		renderer.Render(timeLag / fixedTimeStep);
-
-		//Count sleep time
-		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
-		std::this_thread::sleep_for(sleepTime);
-	}
-
-}
 //void dae::Minigin::Run(const std::function<void()>& load)
 //{
-//	srand(static_cast<unsigned int>(time(nullptr)));
-//
 //	load();
 //
-////	auto& events = EventManager::GetInstance();
 //	auto& renderer = Renderer::GetInstance();
 //	auto& sceneManager = SceneManager::GetInstance();
 //	auto& input = InputManager::GetInstance();
 //
 //	//Update loop
-//	constexpr float desiredFPS{ 144.f };
+//	constexpr float fixedTimeStep{ 0.016f };
+//	constexpr float maximumAllowedFrameTime{ 0.1f };
+//	constexpr float desiredFPS{ 170.f };
 //	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / desiredFPS) };
 //
 //	auto lastTime{ std::chrono::high_resolution_clock::now() };
 //	bool doContinue = true;
+//
+//
+//	//Make sure to run the fixed update before the first render
+//	float timeLag{ fixedTimeStep };
 //
 //	while (doContinue)
 //	{
 //		//Update time
 //		const auto currentTime{ std::chrono::high_resolution_clock::now() };
 //		const float deltaTime{ std::chrono::duration<float>(currentTime - lastTime).count() };
-//
-//
 //		lastTime = currentTime;
+//
+//		timeLag += (std::min)(deltaTime, maximumAllowedFrameTime);
 //
 //		//Check input
 //		doContinue = input.ProcessInput();
+//
+//		//Fixed update
+//		while (timeLag >= fixedTimeStep)
+//		{
+//			sceneManager.FixedUpdate(fixedTimeStep);
+//			timeLag -= fixedTimeStep;
+//		}
 //
 //		//Update scenes
 //		sceneManager.Update(deltaTime);
 //
 //		//Render
-//		renderer.Render();
-//
-//		//Update Event Queues
-//		//events.HandleEvents();
-//
-//		//Delete objects
-//	//	sceneManager.CleanUp();
+//		renderer.Render(timeLag / fixedTimeStep);
 //
 //		//Count sleep time
 //		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
-//
 //		std::this_thread::sleep_for(sleepTime);
 //	}
 //
-//	//sceneManager.ForceRemoveAllObjects();
 //}
+void dae::Minigin::Run(const std::function<void()>& load)
+{
+	srand(static_cast<unsigned int>(time(nullptr)));
+
+	load();
+
+//	auto& events = EventManager::GetInstance();
+	auto& renderer = Renderer::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
+	auto& input = InputManager::GetInstance();
+
+	//Update loop
+	constexpr float desiredFPS{ 144.f };
+	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / desiredFPS) };
+
+	auto lastTime{ std::chrono::high_resolution_clock::now() };
+	bool doContinue = true;
+
+	while (doContinue)
+	{
+		//Update time
+		const auto currentTime{ std::chrono::high_resolution_clock::now() };
+		const float deltaTime{ std::chrono::duration<float>(currentTime - lastTime).count() };
+
+
+		lastTime = currentTime;
+
+		//Check input
+		doContinue = input.ProcessInput();
+
+		//Update scenes
+		sceneManager.Update(deltaTime);
+
+		//Render
+		renderer.Render();
+
+		//Update Event Queues
+		//events.HandleEvents();                              
+
+		//Delete objects
+	 	sceneManager.CleanUp();
+
+		//Count sleep time
+		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
+
+		std::this_thread::sleep_for(sleepTime);
+	}
+
+	sceneManager.ForceRemoveAllObjects();
+}

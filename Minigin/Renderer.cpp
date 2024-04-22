@@ -34,18 +34,7 @@ int GetOpenGLDriverIndex()
 
 void dae::Renderer::Init(SDL_Window* window)
 {
-	/*m_window = window;
-	m_renderer = sdl_createrenderer(window, getopengldriverindex(), sdl_renderer_accelerated);
-	if (m_renderer == nullptr)
-	{
-		throw std::runtime_error(std::string("sdl_createrenderer error: ") + sdl_geterror());
-	}
 
-	imgui_checkversion();
-	imgui::createcontext();
-	imgui_implsdl2_initforopengl(window, sdl_gl_getcurrentcontext());
-	imgui_implopengl2_init();
-*/
 	m_window = window;
 
 	// Create SDL renderer with OpenGL support
@@ -63,36 +52,9 @@ void dae::Renderer::Init(SDL_Window* window)
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
-
-
-
-	//Map = { 1,2,1};
-
-
-
-	/*for (int i = 0; i < 28; ++i) {
-		for (int j = 0; j < 36; ++j)
-		{
-			Map[i][j] = rand()%2;
-		}
-	}
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
 }
 
-void dae::Renderer::Render(float framePercentage) const    //maybe change lets see 
+void dae::Renderer::Render() const    //maybe change lets see 
 {
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
@@ -102,7 +64,8 @@ void dae::Renderer::Render(float framePercentage) const    //maybe change lets s
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-	SceneManager::GetInstance().Render(framePercentage);
+	SceneManager::GetInstance().Render();   
+	//SceneManager::GetInstance().Render(framePercentage);  old version 
 	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
@@ -215,13 +178,13 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, SDL_Rect& destinatio
 }
 
 const int dae::Renderer::Map[36][28] = {
-	2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
    ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
   , 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-	1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
+	1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1,
 	1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1,
@@ -229,17 +192,17 @@ const int dae::Renderer::Map[36][28] = {
 	1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
+	1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1,
 	1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
 	1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1,
 	1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1,
@@ -250,7 +213,7 @@ const int dae::Renderer::Map[36][28] = {
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 void dae::Renderer::DrawMap()
 {
@@ -260,11 +223,7 @@ void dae::Renderer::DrawMap()
 	//8 * 2 
 	//28 //rows
 	//36 //columns 
-
-
-
-
-
+	// 
 	//float PosX{}, PosY{}, width{ 16 };
 	//for (int rows = 0; rows < 28; rows++)
 	//{
@@ -325,10 +284,30 @@ void dae::Renderer::DrawMap()
 			}
 
 
-			//if(Renderer::)
+			if (Map[colums][rows] == 0)   //where to put points 
+			{
 
-			FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
-			DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
+				FillSquare(PosX + width * rows+8, PosY + width * colums+8, 6,SDL_Color{255,192,203,255});
+
+			}	
+			if (Map[colums][rows] == 3)  //power ups 
+			{
+
+				FillSquare(PosX + width * rows+6, PosY + width * colums+6, 12,m_PowerUpColor);
+
+			}
+
+
+		
+
+
+
+
+
+		// Degub Grid
+
+		//	FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
+			//DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
 
 
 			// int index 0 
@@ -336,33 +315,48 @@ void dae::Renderer::DrawMap()
 	}
 
 
-	std::cout << m_positions[0].first << m_positions[0].second << "\n";
+	//std::cout << m_positions[0].first << m_positions[0].second << "\n";
 				
 
 
+}
+
+void dae::Renderer::UpdateMap()
+{
 
 
 
+	m_TotalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
+
+
+	if (m_TotalTimeElapsed >= 0.16f)
+	{
+		m_TotalTimeElapsed = 0;
+		ToogleColor();
+
+		if (m_IsBlack)
+		{
+			m_PowerUpColor = m_White;
+		}
+
+		else
+		{
+			m_PowerUpColor = m_Black;
+			
+		}
 
 
 
+	
 
+	}
 
+}
 
+void dae::Renderer::ToogleColor()
+{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	m_IsBlack = !m_IsBlack;
 
 }
 
@@ -389,6 +383,19 @@ void dae::Renderer::FillSquare(float x, float y, float size, const SDL_Color& co
 	rect.y = static_cast<int>(y);
 	rect.w = static_cast<int>(size);
 	rect.h = static_cast<int>(size);
+
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderFillRect(m_renderer, &rect);
+}
+
+void dae::Renderer::FillSquare(float x, float y, float width, float height, const SDL_Color& color) const
+{
+
+	SDL_Rect rect;
+	rect.x = static_cast<int>(x);
+	rect.y = static_cast<int>(y);
+	rect.w = static_cast<int>(width);
+	rect.h = static_cast<int>(height);
 
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(m_renderer, &rect);

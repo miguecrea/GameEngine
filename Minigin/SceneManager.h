@@ -15,26 +15,15 @@ namespace dae
 		Scene & CreateScene(const std::string& name);
 
 		void Update(float deltaTime);
-		void Render(float framePercentage);
-
-		// CleanUp()
-
+	//	void Render(float framePercentage);
+		void Render() const;
+		void CleanUp();
 		float GetDeltaTime() const;
 		Scene * GetCurrentScene() const;
-
 		Scene* GetScene(const std::string& name) const;
 		void SetCurrentScene(const std::string& name);
 
-		//std::string dae::Scene::GetName() const
-		//{
-		//	//return m_name;
-		//}
-
-
-		//forceRemoveAllObjects();
-
-
-
+		void ForceRemoveAllObjects();
 
 		void FixedUpdate(float fixedTimeStep);
 		float GetFixedTimeStep() const;
@@ -43,10 +32,10 @@ namespace dae
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-
 		std::vector<std::shared_ptr<Scene>> m_pScenes;
 
 		Scene * m_CurrentScene{};
+
 
 		float m_DeltaTime{};
 		float m_FixedTimeStep{};

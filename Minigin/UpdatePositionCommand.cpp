@@ -7,7 +7,7 @@
 using namespace dae;
 
 UpdatePositionCommand::UpdatePositionCommand(GameObject* pGameObject, const glm::vec3& direction)
-	: Command{}, m_pGameObject(pGameObject),
+	: Command{}, m_pGameObject(pGameObject),   // 
 	m_OldPosition(pGameObject->GetLocalPosition()),
 	m_Direction(direction),
 	m_pSceneManager(&SceneManager::GetInstance())    //pointer needs addresss 
@@ -34,7 +34,7 @@ void UpdatePositionCommand::Execute()
 	float gridCellHeight = 8.f;
 
 	
-	int column = static_cast<int>((m_OldPosition.x + 3) / gridCellWidth);  //number columns 
+	int column = static_cast<int>((m_OldPosition.x + 3) / gridCellWidth);  //number columns   //(ancho textura /2) -1
 	int row = static_cast<int>((m_OldPosition.y + 3) / gridCellHeight);   //number of rows     
 
 	glm::vec3 newPosition = m_OldPosition + m_Direction * m_pSceneManager->GetDeltaTime();
@@ -43,6 +43,15 @@ void UpdatePositionCommand::Execute()
 	if (m_Direction.y > 0) row++;
 	if (m_Direction.y < 0) row--;
 
+	if (m_Direction.x != 0) 
+	{
+		newPosition.y = row * gridCellHeight;
+	}
+	
+	if (m_Direction.y != 0) 
+	{
+		newPosition.x = column * gridCellWidth;
+	}
 
 
 	std::cout << column << ", " << row << ": " << Renderer::Map[row][column] << "\n";

@@ -55,3 +55,7 @@ void Keyboard::MapCommandToButton(SDL_Scancode button, std::unique_ptr<Command>&
 		break;
 	}
 }
+
+void dae::Keyboard::ClearCommands()
+{
+}

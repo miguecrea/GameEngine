@@ -9,6 +9,13 @@ InputManager::InputManager()
 {
 }
 
+void dae::InputManager::ClearCommands()
+{
+	m_Keyboard.ClearCommands();
+
+	m_pControllers.clear();
+}
+
 bool InputManager::ProcessInput()
 {
 	SDL_Event e;
