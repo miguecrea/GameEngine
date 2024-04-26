@@ -14,7 +14,6 @@ namespace dae
 	class AnimationComponent;
 	
 
-
 	class RenderComponent final: public Component
 	{
 	public:
@@ -43,6 +42,8 @@ namespace dae
 		glm::vec3 m_LastPosition{};
 		
 		 SDL_Rect  m_ObjectShape;
+		// int m_state{};
+
 		  
 		float m_scale = 1 ;
 		bool m_useAnimation = false;

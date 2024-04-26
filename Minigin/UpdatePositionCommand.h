@@ -2,17 +2,12 @@
 #include "Command.h"
 #include <glm/glm.hpp>
 #include"functional"
+#include"Helper.h"
 
 namespace dae
 {
     class GameObject;
     class SceneManager;
-
-    struct Point2f
-
-    {
-        int x, y;
-    };
 
     class UpdatePositionCommand final : public Command
     {

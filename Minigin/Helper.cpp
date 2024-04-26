@@ -1,16 +1,3 @@
-#include "Helper.h"
-#include "ResourceManager.h"
-#include"RenderComponent.h"
-#include"TextComponent.h"
-#include "GameObject.h"
-#include <stdexcept>
-#include "Renderer.h"
-#include "SceneManager.h"
-#include "Texture2D.h"
-#include<iostream>
-
-
-
 
 //void dae::CreateButton(Scene& scene, const glm::vec2& position, const std::string& text, int fontSize)
 //{

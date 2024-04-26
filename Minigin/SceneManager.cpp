@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include"Renderer.h"
 #include<cassert>
+#include"Map.h"
 
 void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE GAME LOOP
 {
@@ -13,8 +14,11 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 	}*/
 
 	m_CurrentScene->Update();
+	//Map::
 
-	Renderer::GetInstance().UpdateMap();
+	//update map
+	
+	Map::GetInstance().UpdateMap();
 
 	
 }
@@ -30,7 +34,14 @@ void dae::SceneManager::Render() const//ALL THIS VALUES ARE FROM THE GAME LOOP
 {
 
 	m_CurrentScene->Render();
-	Renderer::GetInstance().DrawMap();
+
+	Map::GetInstance().DrawMap();
+
+	
+
+
+	//redner Map 
+	
 }
 
 void dae::SceneManager::CleanUp()

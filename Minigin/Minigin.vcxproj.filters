@@ -186,6 +186,9 @@
     <ClInclude Include="AIComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderComponent.cpp">

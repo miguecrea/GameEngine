@@ -66,31 +66,13 @@ void dae::Renderer::Render() const    //maybe change lets see
 
 	SceneManager::GetInstance().Render();   
 	//SceneManager::GetInstance().Render(framePercentage);  old version 
-	//ImGui::ShowDemoWindow();
-
+	ImGui::ShowDemoWindow();
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_RenderPresent(m_renderer);
 }
 
-//void dae::Renderer::Render() const
-//{
-//	const auto& color = GetBackgroundColor();
-//	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
-//	SDL_RenderClear(m_renderer);
-//
-//	ImGui_ImplOpenGL2_NewFrame();
-//	ImGui_ImplSDL2_NewFrame(m_window);
-//	ImGui::NewFrame();
-//
-//	SceneManager::GetInstance().Render();
-//
-//	ImGui::Render();
-//	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-//
-//	SDL_RenderPresent(m_renderer);
-//}
 
 void dae::Renderer::Destroy()
 {
@@ -296,16 +278,6 @@ void dae::Renderer::DrawMap()
 				FillSquare(PosX + width * rows+6, PosY + width * colums+6, 12,m_PowerUpColor);
 
 			}
-
-
-		
-
-
-
-
-
-		// Degub Grid
-
 		//	FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
 			//DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
 
@@ -315,7 +287,6 @@ void dae::Renderer::DrawMap()
 	}
 
 
-	//std::cout << m_positions[0].first << m_positions[0].second << "\n";
 				
 
 
@@ -344,9 +315,6 @@ void dae::Renderer::UpdateMap()
 			m_PowerUpColor = m_Black;
 			
 		}
-
-
-
 	
 
 	}
@@ -400,3 +368,4 @@ void dae::Renderer::FillSquare(float x, float y, float width, float height, cons
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(m_renderer, &rect);
 }
+

@@ -2,12 +2,7 @@
 
 #include "Singleton.h"
 #include"string"
-
-
-enum class GameMode
-{
-    Versus, Coop, SinglePlayer  //game mode 
-};
+#include"GameMode.h"
 
 struct PlayerInfo
 {
@@ -61,7 +56,7 @@ namespace dae
 
     private:
 
-        GameMode m_GameMode{ GameMode::SinglePlayer };
+        GameMode m_GameMode{GameMode::Menu};
 
 
 
