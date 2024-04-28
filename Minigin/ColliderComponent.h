@@ -11,7 +11,7 @@ namespace dae
 
 	public:
 	
-		ColliderComponent();
+		ColliderComponent();  //make collider width dimensions
 
 		virtual ~ColliderComponent();
 		ColliderComponent(const ColliderComponent& other) = default;
@@ -19,6 +19,8 @@ namespace dae
 		ColliderComponent& operator=(const ColliderComponent& other) = default;
 		ColliderComponent& operator=(ColliderComponent&& other) = default;
 
+
+		virtual void Render() override;
 		virtual void Update() override;
 
 		SDL_Rect m_Rect;

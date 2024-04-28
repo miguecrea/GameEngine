@@ -1,8 +1,14 @@
 #include "ColliderComponent.h"
-
+#include"GameObject.h"
 
 dae::ColliderComponent::ColliderComponent()    //make it take a render 
 {
+
+	auto  df = GetOwner();
+
+	df->GetLocalPosition();
+
+
 
 }
 
@@ -10,6 +16,13 @@ dae::ColliderComponent::~ColliderComponent()
 {
 }
 
+
+void dae::ColliderComponent::Render()
+{
+
+	
+
+}
 
 void dae::ColliderComponent::Update()
 {

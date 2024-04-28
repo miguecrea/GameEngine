@@ -34,14 +34,14 @@ namespace dae
 			return Point2f(16 * row, 16 * column);
 		}
 
-			Point2f WorldToGrid(float posx,float posy)
+		Point2f WorldToGrid(float posx, float posy)
 		{
 
-				int column = static_cast<int>((posy) / 16);
-				int row = static_cast<int>((posx) / 16);      
+			int column = static_cast<int>((posy) / 16);
+			int row = static_cast<int>((posx) / 16);
 
 
-				return Point2f{ row,column };
+			return Point2f{ row,column };
 
 
 
@@ -56,10 +56,9 @@ namespace dae
 
 		glm::vec3 m_OldPosition;
 		glm::vec3 m_Direction;
-		glm::vec3 m_TargetPos;
 
 		glm::vec3 newPosition{};
-		SceneManager * m_pSceneManager{ nullptr };
+		SceneManager* m_pSceneManager{ nullptr };
 
 
 

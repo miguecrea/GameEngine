@@ -15,8 +15,6 @@ namespace dae
 
 	};
 
-
-
 	class Texture2D;
 	/**
 	 * Simple RAII wrapper for the SDL renderer
@@ -35,8 +33,6 @@ namespace dae
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;   //what about this 
 		void RenderTexture(const Texture2D& texture, SDL_Rect & destinationRect, SDL_Rect & SourceRect) const;
 
-		void DrawMap();
-		void UpdateMap();
 
 
 		
@@ -49,12 +45,8 @@ namespace dae
 		float m_TotalTimeElapsed{};
 
 
-		static const int Map[36][28];
 		
 		std::vector<std::pair<int, int>> m_positions; // Vector to store positions
-
-
-	//	ImVec2 GridToMap();
 
 
 		mutable SDL_Rect m_destinationRect{};

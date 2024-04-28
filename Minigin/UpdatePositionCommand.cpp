@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include <iostream>
+#include"Map.h"
 
 using namespace dae;
 
@@ -54,9 +55,8 @@ void UpdatePositionCommand::Execute()
 	}
 
 
-	std::cout << column << ", " << row << ": " << Renderer::Map[row][column] << "\n";
 
-	if (Renderer::Map[row][column] != 1)
+	if (Map::GetInstance().MapArray[row][column] != 1)
 	{
 		m_pGameObject->SetPosition(newPosition.x, newPosition.y);
 	}
