@@ -115,8 +115,8 @@ void dae::Map::DrawMap()
 
 
 			//draw Debug
-				Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
-				Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
+				//Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
+				//Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
 
 
 		}

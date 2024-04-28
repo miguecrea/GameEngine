@@ -35,10 +35,7 @@ namespace dae
 
     public:
 
-        //add a player 
-        //add a power up
-
-
+       
 
         void SetGameMode(GameMode gameMode)
         {

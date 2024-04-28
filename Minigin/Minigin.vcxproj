@@ -235,7 +235,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="LoggingSystem.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Minigin.h" />
@@ -250,6 +252,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SDL_SoundSystem.h" />
     <ClInclude Include="SetMoveDirectionCommand.h" />
     <ClInclude Include="SetPositionCommand.h" />
@@ -291,7 +294,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="LoggingSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -307,6 +312,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="SDL_SoundSystem.cpp" />
     <ClCompile Include="SetMoveDirectionCommand.cpp" />
     <ClCompile Include="SetPositionCommand.cpp" />

@@ -251,6 +251,7 @@ private:
                 break;
             case SoundEventType::Mute:
                 Mute(e.volume);
+                break;
 
             default:
                 break;

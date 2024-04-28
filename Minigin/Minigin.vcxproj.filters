@@ -52,6 +52,9 @@
     <Filter Include="SoundSystem">
       <UniqueIdentifier>{f62c9ca4-b6c1-438c-a576-65dd45c4a744}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundSystem\logging">
+      <UniqueIdentifier>{f62082ef-2abf-47ae-838a-1ed74dda5dab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -207,9 +210,6 @@
     <ClInclude Include="QueueEvent.h">
       <Filter>SoundSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventQueue.h">
       <Filter>SoundSystem</Filter>
     </ClInclude>
@@ -217,7 +217,19 @@
       <Filter>SoundSystem</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSystem.h">
+      <Filter>SoundSystem\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>SoundSystem\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingSoundSystem.h">
       <Filter>SoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesComponent.h">
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,14 +386,23 @@
     <ClCompile Include="EventQueue.cpp">
       <Filter>SoundSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>SoundSystem\logging</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingSystem.cpp">
+      <Filter>SoundSystem\logging</Filter>
+    </ClCompile>
     <ClCompile Include="Helper.cpp">
       <Filter>SoundSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
+    <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>SoundSystem</Filter>
     </ClCompile>
-    <ClCompile Include="LoggingSystem.cpp">
-      <Filter>SoundSystem</Filter>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesComponent.cpp">
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

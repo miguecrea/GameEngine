@@ -5,13 +5,12 @@
 #include<vector>
 #include"Component.h"
 #include"string"
-
+#include<vector>
 
 
 namespace dae
 
 {
-
 
 	class Map : public Singleton<Map>
 	{
@@ -40,6 +39,10 @@ namespace dae
 		bool m_IsBlack = true;
 
 		float m_TotalTimeElapsed{};
+
+		std::vector<SDL_Rect> m_PelletsShape;   //make a struct with ID to know which one is power Up 
+
+
 
 
 		static int MapArray[36][28];

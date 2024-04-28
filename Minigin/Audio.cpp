@@ -6,7 +6,7 @@ std::unique_ptr<SoundSystem> Audio::s_Instance{ std::make_unique<NullSoundSystem
 
 SoundSystem & Audio::Get()
 {
-	return *s_Instance;
+	return * s_Instance;
 }
 
 void Audio::RegisterService(std::unique_ptr<SoundSystem>&& pService)
