@@ -2,6 +2,7 @@
 #include"GameObject.h"
 #include"Renderer.h"
 #include<iostream>
+#include"staticHeader.h"
 
 dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth):  //PUIT objects array in the constructor
 	m_Owner{owner},// vector of f rects 
@@ -36,9 +37,6 @@ void dae::ColliderComponent::Update()
 	m_Rect.y = int(m_Owner->GetWorldPosition().y*2);
 
 
-
-
-
 	std::cout << m_objectsVector[0].shape.x << m_objectsVector[0].shape.y << "\n";
 	
 
@@ -47,23 +45,140 @@ void dae::ColliderComponent::Update()
 
 	// cjeck the variable when colliding 
 
-	if (CheckCollision(m_Rect, m_objectsVector))
+
+
+
+	//ghost are constantly moving so the position of them can be set in the constructor we need to get them real time or evey frame 
+
+	//m_objectsVector.push_back(ghots in the constructor and then updstes well dunno yet but I will figure it out 
+
+
+
+	for (size_t i = 0; i < m_objectsVector.size(); i++)
 	{
-	
 
-
-		for (size_t i = 0; i < m_objectsVector.size(); i++)
+		// if can colliison state == collision then check collision 
+		if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
 		{
-			if (m_objectsVector[i].m_type == dae::TypeOfObject::pellet || m_objectsVector[i].m_type == dae::TypeOfObject::powerUp)
 
+			if (CheckCollision(m_Rect, m_objectsVector[i]))
 			{
-				std::cout << "collides\n";
-				m_objectsVector[0].m_SetColorBlack = true ;
+				switch (m_objectsVector[i].m_type)
+				{
+				case dae::TypeOfObject::pellet:
 
-				//std::c
+					//m_objectsVector[i].Update();
 
+					std::cout << "Is Collidiing\n" << i << "\n";
+					m_objectsVector[i].color.a = 0;
+					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
+
+					//m_objectsVector[i].
+
+			//set pellets blakc and the collision to false 
+
+				//add to score 
+
+
+					break;
+
+				case dae::TypeOfObject::powerUp:
+
+					m_GhostState = 1;    //bug all objects are of same type 
+					//set ghots blue //for 2 second 
+					// put  a variable can eat ghost with timer etc 
+
+					std::cout << "collides\n";
+
+					break;
+
+				case::dae::TypeOfObject::Enemy:
+
+					// if the m_gghots state allows it
+
+					//ghost
+		//  dye 
+		// play dead animation 
+		//-- live 
+
+
+					break;
+
+				case::dae::TypeOfObject::cherry:
+
+
+					break;
+
+
+
+
+				default:
+					break;
+
+				}
 			}
+
 		}
+
+
+	}
+
+
+	//if (CheckCollision(m_Rect, m_objectsVector))
+	//{
+
+	//	//if check collision with any of them 
+	//	//then I am setting all of them //set that individual index 
+	//
+
+
+	//	for (int i = 0; i < m_objectsVector.size(); i++)
+	//	{
+	//		switch (m_objectsVector[i].m_type)
+	//		{
+	//		case dae::TypeOfObject::pellet:
+
+	//			m_objectsVector[i].Update();
+
+	//			//set pellets blakc and the collision to false 
+
+	//			//add to score 
+	//			m_GhostState = 1;    //bug all objects are of same type 
+
+	//			break;
+
+	//		case dae::TypeOfObject::powerUp:
+
+	//			//set ghots blue //for 2 second 
+	//			// put  a variable can eat ghost with timer etc 
+
+	//			std::cout << "collides\n";
+
+	//			break;
+
+	//		case::dae::TypeOfObject::Enemy:
+
+	//			// if the m_gghots state allows it
+
+	//			//ghost
+	////  dye 
+	//// play dead animation 
+	////-- live 
+
+
+	//			break;
+
+	//		default:
+	//			break;
+
+	//		}
+	//	
+
+
+
+	//		//way to win the game where you have to eat all the pellets
+	//		
+	//	}
 
 
 
@@ -89,13 +204,8 @@ void dae::ColliderComponent::Update()
 
 
 
-	}
+	
 
-	else
-	{
-	//	std::cout << "no\n";
-
-	}
 
 
 	// if rect collides vector of f recfts // get type 
@@ -111,40 +221,25 @@ void dae::ColliderComponent::Update()
 
 }
 
-bool dae::ColliderComponent::CheckCollision(SDL_Rect & self, std::vector<Object> & objects)
 
+
+bool dae::ColliderComponent::CheckCollision(SDL_Rect& self, Object& objects)
 {
+	// If one rectangle is on left side of other
+	if (self.x + self.w < objects.shape.x || objects.shape.x + objects.shape.w < self.x)
+		return false;
 
+	// If one rectangle is on right side of other
+	if (self.x > objects.shape.x + objects.shape.w || objects.shape.x > self.x + self.w)
+		return false;
 
-	for (int index = 0; index < objects.size(); index++)
-	{
-		// If one rectangle is on left side of other
-		if (self.x + self.w < objects[index].shape.x || objects[index].shape.x + objects[index].shape.w < self.x)
-			continue;
+	// If one rectangle is above other
+	if (self.y + self.h < objects.shape.y || objects.shape.y + objects.shape.h < self.y)
+		return false;
 
-		// If one rectangle is on right side of other
-		if (self.x > objects[index].shape.x + objects[index].shape.w || objects[index].shape.x > self.x + self.w)
-			continue;
+	// If one rectangle is below other
+	if (self.y > objects.shape.y + objects.shape.h || objects.shape.y > self.y + self.h)
+		return false;
 
-		// If one rectangle is above other
-		if (self.y + self.h < objects[index].shape.y || objects[index].shape.y + objects[index].shape.h < self.y)
-			continue;
-
-		// If one rectangle is below other
-		if (self.y > objects[index].shape.y + objects[index].shape.h || objects[index].shape.y > self.y + self.h)
-			continue;
-
-		// If none of the above conditions are met, rectangles overlap
-
-		//objects[index].m_visibility = Visibility::Invisible;
-
-
-		return true;
-
-	}
-
-	// No collision detected with any object
-	return false;
-	
-	
+	return true;
 }

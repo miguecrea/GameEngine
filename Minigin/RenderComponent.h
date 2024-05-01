@@ -18,7 +18,7 @@ namespace dae
 	{
 	public:
 
-		RenderComponent(int state,int priority = -2,bool useAnimation = false);
+		RenderComponent(const int & state,int priority = -2,bool useAnimation = false);
 
 		virtual void Render() override;
 		virtual void Update() override;
@@ -42,7 +42,7 @@ namespace dae
 		glm::vec3 m_LastPosition{};
 		
 		 SDL_Rect  m_ObjectShape;
-		 int m_state{};
+		const  int & m_state;  //male this a refermnce ?
 
 		  
 		float m_scale = 1 ;

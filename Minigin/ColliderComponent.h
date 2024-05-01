@@ -28,15 +28,11 @@ namespace dae
 
 		SDL_Rect m_Rect = {};
 
-		//std::vector<
-		//has rect shape 
-		//type of 
-
 	private:
-		bool CheckCollision(SDL_Rect & self,std::vector<Object> & objects);     //put this in constructor 
+		bool CheckCollision(SDL_Rect & self,Object & objects);     //put this in constructor 
 
 
-		std::vector<Object> m_objectsVector;
+		std::vector<Object> & m_objectsVector;
 
 		// get the sahpe of other we can have a get shape compnent or add the function the the oesn we alredy have 
 

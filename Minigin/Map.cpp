@@ -192,7 +192,7 @@ void dae::Map::UpdateMap()
 
 	for (size_t i = 0; i < m_PelletsAndPowerUp.size(); i++)
 	{
-		m_PelletsAndPowerUp[i].Update();
+		m_PelletsAndPowerUp[i].Update();  //color was just getting spawmned here 
 
 	}
 

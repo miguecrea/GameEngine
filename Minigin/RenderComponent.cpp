@@ -8,7 +8,7 @@
 
 
 
-dae::RenderComponent::RenderComponent(int state,int priority, bool useAnimation)
+dae::RenderComponent::RenderComponent(const int & state,int priority, bool useAnimation)
 	:Component(priority), m_pTexture{ nullptr }, m_useAnimation{ useAnimation },m_state{state}
 {
 }
@@ -51,7 +51,9 @@ void dae::RenderComponent::Render()   //animation component  // in thge cosntruv
 		if (m_useAnimation)
 		{
 
-			//m_state = m_pacmanState;
+			//m_state = m_GhostState;
+
+
 		m_animationVector[m_state]->Draw(position.x, position.y,m_scale);
 
          m_ObjectShape = m_animationVector[m_state]->ReturnShape();
@@ -78,7 +80,7 @@ void dae::RenderComponent::Update()
 {
 	if (m_useAnimation)
 	{
-		//m_state = m_pacmanState;
+		//m_state = m_GhostState;
 	    m_animationVector[m_state]->Update(SceneManager::GetInstance().GetDeltaTime());
 
 	}

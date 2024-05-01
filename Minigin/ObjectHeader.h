@@ -24,6 +24,15 @@ enum class Visibility
 
 };
 
+
+
+enum class Collision
+{
+	CanCollide,
+	NoCollision            //wgen reseting game reset this as well 
+
+};
+
 struct Object
 {
 	Object(SDL_Rect rect, TypeOfObject type)
@@ -49,7 +58,8 @@ struct Object
 	TypeOfObject m_type;
 	bool m_SetColorBlack = false;
 	Visibility m_visibility{ Visibility::visible };
-	bool m_IsBlack;
+	bool m_IsBlack=false;
+	Collision m_collisionPreset{ Collision::CanCollide };
 
 	//add can colide enum or bool 
 
@@ -64,7 +74,7 @@ struct Object
 
 	void SetColorBlack()
 	{
-		color = SDL_Color{ Renderer::GetInstance().m_Black };
+		color =  Renderer::GetInstance().m_Black ;
 	}
 
 	void ToogleColor()
@@ -77,28 +87,40 @@ struct Object
 	void Update()
 	{
 
-		/*m_TotalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
 
-		if (m_TotalTimeElapsed >= 0.16f)
+
+		if (m_type == dae::TypeOfObject::powerUp && m_SetColorBlack!= true)
 		{
-			m_TotalTimeElapsed = 0;
-			ToogleColor();
 
-			if (m_IsBlack)
+
+			m_TotalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
+
+			if (m_TotalTimeElapsed >= 0.16f)
 			{
-				color = Renderer::GetInstance().m_White;
+				m_TotalTimeElapsed = 0;
+				ToogleColor();
+
+				if (m_IsBlack)
+				{
+					color = Renderer::GetInstance().m_White;
+				}
+
+				else
+				{
+					color = Renderer::GetInstance().m_Black;
+
+				}
+
 			}
 
-			else
-			{
-				color = Renderer::GetInstance().m_Black;
-
-			}*/
-
+		}
 		if (m_SetColorBlack)
 		{
 			SetColorBlack();
+
 		}
+
+		
 
 	}
 
