@@ -60,7 +60,7 @@ void UpdatePositionCommand::Execute()
 	{
 		m_pGameObject->SetPosition(newPosition.x, newPosition.y);
 	}
-	Renderer::GetInstance().FillSquare((column)*gridCellWidth, (row)*gridCellHeight, gridCellWidth, { 255,0,255,255 });
+	
 
 
 

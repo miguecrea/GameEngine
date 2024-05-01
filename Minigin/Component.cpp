@@ -11,7 +11,7 @@ bool dae::Component::operator<(const Component & other) const
 
 }
 
-void dae::Component::SetOwner(GameObject* pGameObject)
+void dae::Component::SetOwner(GameObject * pGameObject)
 {
 	if (m_pOwner == nullptr)
 	{

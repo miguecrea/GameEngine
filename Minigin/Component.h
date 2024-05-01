@@ -20,9 +20,6 @@ namespace dae
 		GameObject* GetOwner() const;
 		void SetOwner(GameObject* pGameObject);  //understood
 
-		//
-
-
 		//Priority
 		bool operator<(const Component& other) const;
 

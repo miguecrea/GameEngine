@@ -54,11 +54,11 @@ double calculateH(int x, int y, Node dest) {
 std::vector<Node> aStar(Node player, Node dest) {
 	std::vector<Node> empty;
 	if (!isValid(dest.x, dest.y)) {
-		std::cout << "Destination is an obstacle" << std::endl;
+		//std::cout << "Destination is an obstacle" << std::endl;
 		return empty;
 	}
 	if (isDestination(player.x, player.y, dest)) {
-		std::cout << "You are the destination" << std::endl;
+		//std::cout << "You are the destination" << std::endl;
 		return empty;
 	}
 
@@ -158,7 +158,7 @@ std::vector<Node> aStar(Node player, Node dest) {
 		}
 	}
 	if (!destinationFound) {
-		std::cout << "Destination not found" << std::endl;
+		//std::cout << "Destination not found" << std::endl;
 		for (int i = 0; i < X_MAX / X_STEP; ++i) {
 			delete[] closedList[i];
 		}
@@ -185,7 +185,7 @@ bool isValid(int x, int y)
 
 std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 	try {
-		std::cout << "Found a path" << std::endl;
+		//std::cout << "Found a path" << std::endl;
 		int x = dest.x;
 		int y = dest.y;
 		std::stack<Node> path;

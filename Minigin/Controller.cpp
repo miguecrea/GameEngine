@@ -113,8 +113,6 @@ void dae::Controller::MapCommandToButton(ControllerButtons button, std::unique_p
 	{
 	case dae::ButtonState::Up:
 		m_pButtonUpCommands.emplace(button, std::move(pCommand));
-
-
 		break;
 	case dae::ButtonState::Down:
 		m_pButtonDownCommands.emplace(button, std::move(pCommand));

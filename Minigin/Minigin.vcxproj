@@ -243,6 +243,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NextSceneCommand.h" />
+    <ClInclude Include="ObjectHeader.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PacmanManager.h" />
     <ClInclude Include="QueueEvent.h" />
@@ -259,7 +260,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="StartInfoComponent.h" />
+    <ClInclude Include="staticHeader.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="ToggleMuteCommand.h" />
@@ -318,7 +321,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="SetPositionCommand.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="StartInfoComponent.cpp" />
+    <ClCompile Include="staticHeader.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="TestCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="ToggleMuteCommand.cpp" />

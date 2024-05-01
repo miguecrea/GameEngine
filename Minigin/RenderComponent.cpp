@@ -4,12 +4,12 @@
 #include "Texture2D.h"
 #include "SceneManager.h"
 #include "GameObject.h"
+#include"staticHeader.h"
 
 
 
-
-dae::RenderComponent::RenderComponent(int priority, bool useAnimation)
-	:Component(priority), m_pTexture{ nullptr }, m_useAnimation{ useAnimation }
+dae::RenderComponent::RenderComponent(int state,int priority, bool useAnimation)
+	:Component(priority), m_pTexture{ nullptr }, m_useAnimation{ useAnimation },m_state{state}
 {
 }
 
@@ -50,9 +50,11 @@ void dae::RenderComponent::Render()   //animation component  // in thge cosntruv
 
 		if (m_useAnimation)
 		{
-		m_animationVector[0]->Draw(position.x, position.y,m_scale);
 
-         m_ObjectShape = m_animationVector[0]->ReturnShape();
+			//m_state = m_pacmanState;
+		m_animationVector[m_state]->Draw(position.x, position.y,m_scale);
+
+         m_ObjectShape = m_animationVector[m_state]->ReturnShape();
 
 
 		
@@ -76,7 +78,8 @@ void dae::RenderComponent::Update()
 {
 	if (m_useAnimation)
 	{
-	m_animationVector[0]->Update(SceneManager::GetInstance().GetDeltaTime());
+		//m_state = m_pacmanState;
+	    m_animationVector[m_state]->Update(SceneManager::GetInstance().GetDeltaTime());
 
 	}
 
