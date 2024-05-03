@@ -139,39 +139,40 @@ void dae::Map::DrawMap()
 
 
 
-	//float PosX{}, PosY{}, width{ 16 };
-	//for (int colums = 0; colums < 36; colums++)
-	//{
-	//	for (int rows = 0; rows < 28; rows++)                     //code rusn first 
-	//	{
+	float PosX{}, PosY{}, width{ 16 };
+	for (int colums = 0; colums < 36; colums++)
+	{
+		for (int rows = 0; rows < 28; rows++)                     //code rusn first 
+		{
 
-	//		if (MapArray[colums][rows] == 0)   //where to put points 
-	//		{
+			if (MapArray[colums][rows] == 0)   //where to put points 
+			{
 
-	//			//rows column to index 
+				//rows column to index 
 
-	//		//	m_PelletsAndPowerUp[]
+			//	m_PelletsAndPowerUp[]
 
-	//			//p object[de columnas y rows a index ].draw
+				//p object[de columnas y rows a index ].draw
 
-	//			Renderer::GetInstance().FillSquare(PosX + width * rows + 8, PosY + width * colums + 8, 6, m_PelletColor);
+				Renderer::GetInstance().FillSquare(PosX + width * rows + 8, PosY + width * colums + 8, 6, m_PelletColor);
 
-	//		}
-	//		if (MapArray[colums][rows] == 3)  //power ups 
+			}
+			if (MapArray[colums][rows] == 3)  //power ups 
 
-	//		{
-	//			Renderer::GetInstance().FillSquare(PosX + width * rows + 6, PosY + width * colums + 6, 12, m_PowerUpColor);
+			{
+				Renderer::GetInstance().FillSquare(PosX + width * rows + 6, PosY + width * colums + 6, 12, m_PowerUpColor);
 
-	//		}
-
-
-
-	//		//	Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, Color);
-	//		//	Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, Color2);
+			}
 
 
-	//	}
-	//}
+			SDL_Color color{255,0,0,80};
+			SDL_Color color2{255,255,255,80};
+				Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, color);
+				Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, color2);
+
+
+		}
+	}
 
 
 
@@ -217,7 +218,7 @@ void dae::Map::parseMapFile(const std::string& filename)
 	//put each number om it 
 
 
-	file.close();
+	file.close(); 
 
 }
 

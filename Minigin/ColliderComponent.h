@@ -22,7 +22,6 @@ namespace dae
 		ColliderComponent& operator=(const ColliderComponent& other) = default;
 		ColliderComponent& operator=(ColliderComponent&& other) = default;
 
-
 		virtual void Render() override;
 		virtual void Update() override;
 
@@ -30,7 +29,7 @@ namespace dae
 
 	private:
 		bool CheckCollision(SDL_Rect & self,Object & objects);     //put this in constructor 
-
+		SDL_Rect m_Collider;
 
 		std::vector<Object> & m_objectsVector;
 

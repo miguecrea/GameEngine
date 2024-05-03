@@ -21,7 +21,6 @@ dae::ColliderComponent::~ColliderComponent()
 {
 }
 
-
 void dae::ColliderComponent::Render()
 {
 
@@ -63,19 +62,23 @@ void dae::ColliderComponent::Update()
 
 			if (CheckCollision(m_Rect, m_objectsVector[i]))
 			{
+
+				/// Ownwe->OnCollision(// otro game object ); //poner logica aqui 
+
+
+
 				switch (m_objectsVector[i].m_type)
 				{
 				case dae::TypeOfObject::pellet:
 
-					//m_objectsVector[i].Update();
 
 					std::cout << "Is Collidiing\n" << i << "\n";
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
-					//m_objectsVector[i].
+	
 
-			//set pellets blakc and the collision to false 
+	
 
 				//add to score 
 
@@ -84,9 +87,15 @@ void dae::ColliderComponent::Update()
 
 				case dae::TypeOfObject::powerUp:
 
-					m_GhostState = 1;    //bug all objects are of same type 
+					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
+					m_objectsVector[i].color.a = 0;
+					m_GhostState =int(dae::GhostState::Blue);   
+					
+                   //bug all objects are of same type 
 					//set ghots blue //for 2 second 
 					// put  a variable can eat ghost with timer etc 
+
+					//ghots have to run away from me 
 
 					std::cout << "collides\n";
 
@@ -94,18 +103,32 @@ void dae::ColliderComponent::Update()
 
 				case::dae::TypeOfObject::Enemy:
 
-					// if the m_gghots state allows it
+					if (m_GhostState == int(dae::GhostState::Normal))
+					{
+						//DYE and if no more lives 
+						// reset 
+						// if has lives -- live 
+						//play dead animation
 
-					//ghost
-		//  dye 
-		// play dead animation 
-		//-- live 
+
+					}
+
+					else
+					{
+						//add to score 
+						//play eat sounds 
+
+					}
 
 
 					break;
 
 				case::dae::TypeOfObject::cherry:
 
+
+					//spawn ramdonly at some point on the map ? 
+
+	                //at any point of the match 
 
 					break;
 

@@ -240,6 +240,9 @@
     <ClInclude Include="staticHeader.h">
       <Filter>Other Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionFunctionality.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderComponent.cpp">
@@ -417,6 +420,9 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="staticHeader.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionFunctionality.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>

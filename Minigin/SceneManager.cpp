@@ -14,12 +14,11 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 	}*/
 
 	m_CurrentScene->Update();
-	//Map::
 
-	//update map
-	
-	Map::GetInstance().UpdateMap();
-
+	if (m_CurrentScene->GetName() != "MenuScene" && m_CurrentScene->GetName() != "ScoresScene")
+	{
+		Map::GetInstance().UpdateMap();
+	}
 	
 }
 
@@ -35,7 +34,11 @@ void dae::SceneManager::Render() const//ALL THIS VALUES ARE FROM THE GAME LOOP
 
 	m_CurrentScene->Render();
 
+	if (m_CurrentScene->GetName() != "MenuScene" && m_CurrentScene->GetName() != "ScoresScene")
+	{
 	Map::GetInstance().DrawMap();
+
+	}
 
 	
 

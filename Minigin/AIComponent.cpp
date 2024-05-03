@@ -2,9 +2,9 @@
 #include "GameObject.h"
 #include"SceneManager.h"
 #include "Renderer.h"
-#include"iostream"
 #include"Map.h"
 
+#include <iostream>
 #include <vector>
 #include <queue>
 #include <cmath>
@@ -54,11 +54,11 @@ double calculateH(int x, int y, Node dest) {
 std::vector<Node> aStar(Node player, Node dest) {
 	std::vector<Node> empty;
 	if (!isValid(dest.x, dest.y)) {
-		//std::cout << "Destination is an obstacle" << std::endl;
+		std::cout << "Destination is an obstacle" << std::endl;
 		return empty;
 	}
 	if (isDestination(player.x, player.y, dest)) {
-		//std::cout << "You are the destination" << std::endl;
+		std::cout << "You are the destination" << std::endl;
 		return empty;
 	}
 
@@ -175,7 +175,8 @@ bool isValid(int x, int y)
 
 	if (dae::Map::GetInstance().MapArray[y / Y_MAX / Y_STEP][x / X_MAX / X_STEP] != 1)
 	{
-		if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP)) {
+		if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP))
+		{
 			return false;
 		}
 		return true;
@@ -208,10 +209,11 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 			path.pop();
 			usablePath.emplace_back(top);
 		}
+		std::cout << "Path full, " << path.size() << std::endl;
 		return usablePath;
 	}
 	catch (const std::exception& e) {
-		std::cout << e.what() << std::endl;
+		std::cout << "Path empty, error " << e.what() << std::endl;
 		return std::vector<Node>();
 	}
 }
@@ -258,18 +260,40 @@ void dae::AIComponent::Update()
 	currentPos.y = int(m_Self->GetLocalPosition().y / Y_STEP);
 
 	Node targetPos;
-	targetPos.x = int((m_Target->GetLocalPosition().x) / X_STEP);
-	targetPos.y = int((m_Target->GetLocalPosition().y) / Y_STEP);
+	targetPos.x = int((m_Target->GetLocalPosition().x) / X_STEP) - 1;
+	targetPos.y = int((m_Target->GetLocalPosition().y) / Y_STEP) - 1;
 
+	std::cout << "Target is at " << targetPos.x << ", " << targetPos.x << "\n";
 	auto path = aStar(currentPos, targetPos);
 	if (path.size() > 0)
 	{
 		float x = float(path[0].x * X_STEP);
 		float y = float(path[0].y * Y_STEP);
-		float deltaX = (x - m_Self->GetLocalPosition().x) * .1f;
-		float deltaY = (y - m_Self->GetLocalPosition().y) * .1f;
+		float deltaX = (x - m_Self->GetLocalPosition().x);
+		float deltaY = (y - m_Self->GetLocalPosition().y);
 		m_Self->SetPosition(m_Self->GetLocalPosition().x + deltaX, m_Self->GetLocalPosition().y + deltaY);
 	}
+
+	// m_OldPosition = m_Self->GetLocalPosition();
+
+	// // Assuming playerPosition represents the position of the player object
+	// glm::vec3 playerPosition = m_Target->GetLocalPosition(); // Assuming m_Player is a pointer to the player object
+
+	// // Calculate direction vector towards the player's position
+	// glm::vec3 direction = glm::normalize(playerPosition - m_OldPosition);
+
+	// // Define movement speed
+	// float moveSpeed = 10.0f; // Adjust as needed
+
+	// // Calculate movement for this frame
+	// glm::vec3 movement = direction * moveSpeed * m_pSceneManager->GetDeltaTime();
+
+	// // Calculate new position by adding movement to the old position
+	// glm::vec3 newPositions = m_OldPosition + movement;
+
+	// // Set the position to the new calculated position
+	//m_Self->SetPosition(newPositions.x, newPositions.y);
+
 }
 
 //m_OldPosition = m_Self->GetLocalPosition();

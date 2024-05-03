@@ -5,6 +5,16 @@
 namespace dae
 {
 
+	enum class GhostState
+	{
+		Normal,
+		Blue,
+		White
+
+	};
+
+
+
 
 
 enum class TypeOfObject
@@ -88,39 +98,35 @@ struct Object
 	{
 
 
-
-		if (m_type == dae::TypeOfObject::powerUp && m_SetColorBlack!= true)
+		if (m_collisionPreset != Collision::NoCollision)
 		{
 
 
-			m_TotalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
-
-			if (m_TotalTimeElapsed >= 0.16f)
+			if (m_type == dae::TypeOfObject::powerUp)
 			{
-				m_TotalTimeElapsed = 0;
-				ToogleColor();
+				m_TotalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
 
-				if (m_IsBlack)
+				if (m_TotalTimeElapsed >= 0.16f)
 				{
-					color = Renderer::GetInstance().m_White;
-				}
+					m_TotalTimeElapsed = 0;
+					ToogleColor();
 
-				else
-				{
-					color = Renderer::GetInstance().m_Black;
+					if (m_IsBlack)
+					{
+						color = Renderer::GetInstance().m_White;
+					}
+
+					else
+					{
+						color = Renderer::GetInstance().m_Black;
+
+					}
 
 				}
 
 			}
 
 		}
-		if (m_SetColorBlack)
-		{
-			SetColorBlack();
-
-		}
-
-		
 
 	}
 

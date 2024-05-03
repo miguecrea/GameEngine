@@ -211,6 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="CollisionFunctionality.h" />
     <ClInclude Include="CombinedGraphComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
@@ -274,6 +275,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="CollisionFunctionality.cpp" />
     <ClCompile Include="CombinedGraphComponent.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />

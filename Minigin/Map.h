@@ -40,13 +40,6 @@ namespace dae
 
 
 
-
-	private:
-
-
-
-
-
 	};
 
 };
