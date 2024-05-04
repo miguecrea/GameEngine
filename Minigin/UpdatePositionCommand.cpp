@@ -4,14 +4,16 @@
 #include "Renderer.h"
 #include <iostream>
 #include"Map.h"
+#include"staticHeader.h"
 
 using namespace dae;
 
-UpdatePositionCommand::UpdatePositionCommand(GameObject* pGameObject, const glm::vec3& direction)
+UpdatePositionCommand::UpdatePositionCommand(GameObject* pGameObject, const glm::vec3& direction,int WhoIsTurning)   //pasar 
 	: Command{}, m_pGameObject(pGameObject),   // 
 	m_OldPosition(pGameObject->GetLocalPosition()),
 	m_Direction(direction),
-	m_pSceneManager(&SceneManager::GetInstance())    //pointer needs addresss 
+	m_pSceneManager(&SceneManager::GetInstance()),    //pointer needs addresss 
+	m_currentPlayer{WhoIsTurning}
 
 {
 
@@ -25,7 +27,7 @@ Point2f dae::UpdatePositionCommand::GridToWorld(int row, int column)
 void UpdatePositionCommand::Execute()
 {
 	if (!m_pGameObject) return;
-
+	
 	m_OldPosition = m_pGameObject->GetLocalPosition();
 
 
@@ -61,6 +63,20 @@ void UpdatePositionCommand::Execute()
 		m_pGameObject->SetPosition(newPosition.x, newPosition.y);
 	}
 	
+
+	// m_ varibale = 
+
+
+
+	if (m_currentPlayer == 0)
+	{
+	m_pacmanState = int(m_Direction.z);
+
+	}
+	else
+	{
+		m_MrsPacmanState = int(m_Direction.z);
+	}
 
 
 

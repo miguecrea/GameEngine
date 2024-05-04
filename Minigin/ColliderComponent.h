@@ -34,6 +34,7 @@ namespace dae
 		SDL_Rect m_Collider;
 
 		std::vector<Object> & m_objectsVector;
+		//std::vector<Object> & m_objectsVector;
 
 		bool m_StartTimer = false;
 		float m_ToogleSpriteTimer{};
@@ -46,6 +47,8 @@ namespace dae
 		//void BlockCollion();
 
 		std::shared_ptr<GameObject> m_Owner =nullptr;
+
+		std::vector<std::shared_ptr<GameObject>> m_Enemies;
 
 
 

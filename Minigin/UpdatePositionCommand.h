@@ -12,7 +12,7 @@ namespace dae
     class UpdatePositionCommand final : public Command
     {
     public:
-        UpdatePositionCommand(GameObject * pGameObject, const glm::vec3& direction);
+        UpdatePositionCommand(GameObject * pGameObject, const glm::vec3& direction,int WhoIsTurning);
 
         Point2f GridToWorld(int row,int column);
 
@@ -26,6 +26,9 @@ namespace dae
         SceneManager * m_pSceneManager{ nullptr };
         glm::vec3 m_OldPosition;
         glm::vec3 m_Direction;
+        int m_currentPlayer;
+
+
     };
 }
 

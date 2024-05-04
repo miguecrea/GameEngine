@@ -14,6 +14,8 @@ dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std
 
 	////  iNITIALIZE objects array in here 
 
+//	m_objectsVector.push_back()
+
 }
 
 dae::ColliderComponent::~ColliderComponent()
@@ -30,9 +32,9 @@ void dae::ColliderComponent::Render()
 void dae::ColliderComponent::Update()
 {
 
-
-	m_Rect.x = int(m_Owner->GetWorldPosition().x*2);
-	m_Rect.y = int(m_Owner->GetWorldPosition().y*2);
+	float scale{ 2 };
+	m_Rect.x = int(m_Owner->GetWorldPosition().x* scale);
+	m_Rect.y = int(m_Owner->GetWorldPosition().y * scale);
 
 
 	std::cout << m_objectsVector[0].shape.x << m_objectsVector[0].shape.y << "\n";
@@ -55,7 +57,21 @@ void dae::ColliderComponent::Update()
 	for (size_t i = 0; i < m_objectsVector.size(); i++)
 	{
 
+
+		//check if all the vector has no collision means all dots were picked 
+
 		// if can colliison state == collision then check collision 
+
+		//check if all the ones that are type pellets have no collision how to do that
+
+		////loopera sobre todo en vector if ver si ninguno tiene este tipo
+
+
+
+
+
+		//ALSO NEED TO PLAY SOUND 
+
 		if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
 		{
 
@@ -97,10 +113,39 @@ void dae::ColliderComponent::Update()
 
 					if (m_GhostState == int(dae::GhostState::Normal))
 					{
-						//DYE and if no more lives 
+
+
+						//play dead animation 
+						// 
+						// play dead sound 
+						// 
+						// 
+						// 
+						// 
+						// 
+						// and if no more lives 
+						// }
+						// DYE ();
+						// //cambiar scene a Scores 
+						// 
+						// 
+						// }
+						// else
+						// 
+						// {
 						// reset 
 						// if has lives -- live 
 						//play dead animation
+						// 
+						// // resetear el mapa 
+						// //todos los puntos //poner collision otra ves 
+						// 
+						// // poner puntos visisbles otra vez
+						// /
+						// 
+						// }
+						// 
+						// 
 
 
 					}
