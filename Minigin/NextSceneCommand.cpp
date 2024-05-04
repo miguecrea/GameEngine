@@ -21,6 +21,8 @@ void dae::NextSceneCommand::Execute()
 
 	 PacmanManager::GetInstance().SetGameMode(m_gameMode);
 
+
+
 }
 
 void dae::NextSceneCommand::Undo()

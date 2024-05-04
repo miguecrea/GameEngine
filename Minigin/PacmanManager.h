@@ -42,11 +42,12 @@ namespace dae
             m_GameMode = gameMode;
         }
 
-        GameMode GetMode() const
-        {
-            return m_GameMode;
-        }
 
+       const GameMode & GetMode()
+        {
+            return  m_GameMode;
+        }
+       
 
         PlayerDirection m_pacmanDirection;
 

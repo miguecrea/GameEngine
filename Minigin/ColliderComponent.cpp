@@ -5,6 +5,7 @@
 #include"staticHeader.h"
 dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth):  //PUIT objects array in the constructor
 	m_Owner{owner},// vector of f rects 
+//	m_Enemies{enemies},
 	m_objectsVector{collideswidth}
 
 {
@@ -27,6 +28,10 @@ void dae::ColliderComponent::Render()
 
 	Renderer::GetInstance().FillSquare(float(m_Rect.x),float(m_Rect.y),float(m_Rect.w),float(m_Rect.h), Renderer::GetInstance().m_White);
 
+
+
+	//Get WorldPos *2 //ghots 
+
 }
 
 void dae::ColliderComponent::Update()
@@ -37,13 +42,17 @@ void dae::ColliderComponent::Update()
 	m_Rect.y = int(m_Owner->GetWorldPosition().y * scale);
 
 
-	std::cout << m_objectsVector[0].shape.x << m_objectsVector[0].shape.y << "\n";
+
 	
 
 
-	// if (objects can collide )
+	/*for (size_t i = 0; i < length; i++)
+	{
+	m_objectsVector.push_back()
 
-	// cjeck the variable when colliding 
+	}
+*/
+
 
 
 
@@ -66,10 +75,6 @@ void dae::ColliderComponent::Update()
 
 		////loopera sobre todo en vector if ver si ninguno tiene este tipo
 
-
-
-
-
 		//ALSO NEED TO PLAY SOUND 
 
 		if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
@@ -80,14 +85,12 @@ void dae::ColliderComponent::Update()
 
 				/// Ownwe->OnCollision(// otro game object ); //poner logica aqui 
 
-
-
 				switch (m_objectsVector[i].m_type)
 				{
 				case dae::TypeOfObject::pellet:
 
 
-					std::cout << "Is Collidiing\n" << i << "\n";
+				//	std::cout << "Is Collidiing\n" << i << "\n";
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
@@ -188,8 +191,6 @@ void dae::ColliderComponent::Update()
 	{
 
 		m_totalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
-
-
 
 		if (m_totalTimeElapsed >= 3.f)
 		{

@@ -117,18 +117,24 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		renderer.Render();
 
 		//Update Event Queues
-		events.HandleEvents();                              
+		events.HandleEvents();
 
 		//Delete objects
-	 	sceneManager.CleanUp();
+		sceneManager.CleanUp();
 
 		//Count sleep time
 		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
 
 		std::this_thread::sleep_for(sleepTime);
 
-		//system("cls");
+#if DEBUG
+		system("cls");
+#endif
+
+
+
 	}
 
-	sceneManager.ForceRemoveAllObjects();
+		sceneManager.ForceRemoveAllObjects();
+
 }

@@ -3,6 +3,8 @@
 #include"Renderer.h"
 #include<cassert>
 #include"Map.h"
+#include"PacmanManager.h"
+#include"iostream"
 
 void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE GAME LOOP
 {
@@ -19,6 +21,11 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 	{
 		Map::GetInstance().UpdateMap();
 	}
+
+//	const  auto& member = dae::PacmanManager::GetInstance().GetMode();
+	//std::cout << int(member) << "\n";
+
+
 	
 }
 
