@@ -13,9 +13,9 @@
 #include <array>
 
 
-#define X_MAX 288
+#define X_MAX /*288*/224
 #define X_STEP 8
-#define Y_MAX 224
+#define Y_MAX /*224*/288
 #define Y_STEP 8
 
 struct Node
@@ -51,13 +51,13 @@ double calculateH(int x, int y, Node dest) {
 	return H;
 }
 
-std::vector<Node> aStar(Node player, Node dest) {
+std::vector<Node> aStar(Node agent, Node dest) {
 	std::vector<Node> empty;
 	if (!isValid(dest.x, dest.y)) {
 		std::cout << "Destination is an obstacle" << std::endl;
 		return empty;
 	}
-	if (isDestination(player.x, player.y, dest)) {
+	if (isDestination(agent.x, agent.y, dest)) {
 		std::cout << "You are the destination" << std::endl;
 		return empty;
 	}
@@ -89,8 +89,8 @@ std::vector<Node> aStar(Node player, Node dest) {
 	}
 
 	// Initialize starting point
-	int x = player.x;
-	int y = player.y;
+	int x = agent.x;
+	int y = agent.y;
 	allMap[x][y].fCost = 0.0;
 	allMap[x][y].gCost = 0.0;
 	allMap[x][y].hCost = 0.0;
@@ -173,12 +173,12 @@ bool isValid(int x, int y)
 	//If our Node is an obstacle it is not valid
 	// int id = x + y * (X_MAX / X_STEP);
 
-	if (dae::Map::GetInstance().MapArray[y / Y_MAX / Y_STEP][x / X_MAX / X_STEP] != 1)
+	if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP))
 	{
-		if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP))
-		{
-			return false;
-		}
+		return false;
+	}
+	if (dae::Map::GetInstance().MapArray[y][x] != 1)
+	{
 		return true;
 	}
 	return false;
@@ -209,7 +209,7 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 			path.pop();
 			usablePath.emplace_back(top);
 		}
-		std::cout << "Path full, " << path.size() << std::endl;
+		std::cout << "Path full, " << usablePath.size() << std::endl;
 		return usablePath;
 	}
 	catch (const std::exception& e) {
@@ -256,22 +256,48 @@ void dae::AIComponent::Update()
 	//TODO: algo aqui no funciona
 
 	Node currentPos;
-	currentPos.x = int(m_Self->GetLocalPosition().x / X_STEP);
-	currentPos.y = int(m_Self->GetLocalPosition().y / Y_STEP);
+	currentPos.x = int(((m_Self->GetLocalPosition().x)) / X_STEP);
+	currentPos.y = int(((m_Self->GetLocalPosition().y)) / Y_STEP);
+	std::cout << "Ghost is at " << currentPos.x << ", " << currentPos.y << "\n";
 
 	Node targetPos;
-	targetPos.x = int((m_Target->GetLocalPosition().x) / X_STEP) - 1;
-	targetPos.y = int((m_Target->GetLocalPosition().y) / Y_STEP) - 1;
+	targetPos.x = int(m_Target->GetLocalPosition().x) / X_STEP;
+	targetPos.y = int(m_Target->GetLocalPosition().y) / Y_STEP;
 
-	std::cout << "Target is at " << targetPos.x << ", " << targetPos.x << "\n";
+	std::cout << "Target is at " << targetPos.x << ", " << targetPos.y << "\n";
 	auto path = aStar(currentPos, targetPos);
-	if (path.size() > 0)
+	if (path.size() > 1)
 	{
-		float x = float(path[0].x * X_STEP);
-		float y = float(path[0].y * Y_STEP);
-		float deltaX = (x - m_Self->GetLocalPosition().x);
-		float deltaY = (y - m_Self->GetLocalPosition().y);
-		m_Self->SetPosition(m_Self->GetLocalPosition().x + deltaX, m_Self->GetLocalPosition().y + deltaY);
+		float x = float(path[1].x * X_STEP);
+		float y = float(path[1].y * Y_STEP);
+		float deltaX = (x - m_Self->GetLocalPosition().x) /*((currentPos.x != path[1].x) ? 1.f : 1.f)*/;
+		float deltaY = (y - m_Self->GetLocalPosition().y) /*((currentPos.y != path[1].y) ? 1.f : 1.f)*/;
+		m_Self->SetPosition(
+			m_Self->GetLocalPosition().x + deltaX * m_pSceneManager->GetDeltaTime(),
+			m_Self->GetLocalPosition().y + deltaY * m_pSceneManager->GetDeltaTime());
+	}
+
+	char mapVisualized[X_MAX / X_STEP][Y_MAX / Y_STEP];
+
+	for (int y{ 0 }; y < Y_MAX / Y_STEP; y++) {
+		for (int x{ 0 }; x < X_MAX / X_STEP; x++) {
+			mapVisualized[x][y] = '.';
+
+			for (const auto& node : path) {
+				if (node.x == x && node.y == y) {
+					mapVisualized[x][y] = 'x';
+					break;
+				}
+			}
+			if (currentPos.x == x && currentPos.y == y) {
+				mapVisualized[x][y] = 'C';
+			}
+			if (targetPos.x == x && targetPos.y == y) {
+				mapVisualized[x][y] = 'T';
+			}
+			//std::cout << mapVisualized[x][y];
+		}
+		std::cout << "\n";
 	}
 
 	// m_OldPosition = m_Self->GetLocalPosition();

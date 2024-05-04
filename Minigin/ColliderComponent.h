@@ -25,6 +25,8 @@ namespace dae
 		virtual void Render() override;
 		virtual void Update() override;
 
+
+		float m_totalTimeElapsed{};
 		SDL_Rect m_Rect = {};
 
 	private:
@@ -32,6 +34,11 @@ namespace dae
 		SDL_Rect m_Collider;
 
 		std::vector<Object> & m_objectsVector;
+
+		bool m_StartTimer = false;
+		float m_ToogleSpriteTimer{};
+
+		void ToogleSprite();
 
 		// get the sahpe of other we can have a get shape compnent or add the function the the oesn we alredy have 
 

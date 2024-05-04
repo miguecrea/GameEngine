@@ -3,7 +3,6 @@
 #include"Renderer.h"
 #include<iostream>
 #include"staticHeader.h"
-
 dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth):  //PUIT objects array in the constructor
 	m_Owner{owner},// vector of f rects 
 	m_objectsVector{collideswidth}
@@ -76,30 +75,23 @@ void dae::ColliderComponent::Update()
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
-	
-
-	
-
 				//add to score 
-
-
 					break;
 
 				case dae::TypeOfObject::powerUp:
 
+					m_StartTimer = true;
+					m_GhostState =int(dae::GhostState::Blue);  
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 					m_objectsVector[i].color.a = 0;
-					m_GhostState =int(dae::GhostState::Blue);   
-					
-                   //bug all objects are of same type 
-					//set ghots blue //for 2 second 
-					// put  a variable can eat ghost with timer etc 
+
+
+					//add to score //and display +2-00 srpite on screen 
 
 					//ghots have to run away from me 
 
-					std::cout << "collides\n";
 
-					break;
+				  	break;
 
 				case::dae::TypeOfObject::Enemy:
 
@@ -147,99 +139,38 @@ void dae::ColliderComponent::Update()
 	}
 
 
-	//if (CheckCollision(m_Rect, m_objectsVector))
-	//{
+	if (m_StartTimer)
+	{
 
-	//	//if check collision with any of them 
-	//	//then I am setting all of them //set that individual index 
-	//
-
-
-	//	for (int i = 0; i < m_objectsVector.size(); i++)
-	//	{
-	//		switch (m_objectsVector[i].m_type)
-	//		{
-	//		case dae::TypeOfObject::pellet:
-
-	//			m_objectsVector[i].Update();
-
-	//			//set pellets blakc and the collision to false 
-
-	//			//add to score 
-	//			m_GhostState = 1;    //bug all objects are of same type 
-
-	//			break;
-
-	//		case dae::TypeOfObject::powerUp:
-
-	//			//set ghots blue //for 2 second 
-	//			// put  a variable can eat ghost with timer etc 
-
-	//			std::cout << "collides\n";
-
-	//			break;
-
-	//		case::dae::TypeOfObject::Enemy:
-
-	//			// if the m_gghots state allows it
-
-	//			//ghost
-	////  dye 
-	//// play dead animation 
-	////-- live 
-
-
-	//			break;
-
-	//		default:
-	//			break;
-
-	//		}
-	//	
+		m_totalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
 
 
 
-	//		//way to win the game where you have to eat all the pellets
-	//		
-	//	}
+		if (m_totalTimeElapsed >= 3.f)
+		{
+			m_ToogleSpriteTimer += SceneManager::GetInstance().GetDeltaTime();
+			if (m_ToogleSpriteTimer >= 0.45f)
+			{
+				m_ToogleSpriteTimer = 0;
+				ToogleSprite();
 
+			}
 
+		}
+		if (m_totalTimeElapsed >= 7.f)
+		{
+			m_StartTimer = false;
+			m_ToogleSpriteTimer = 0;
 
+			m_GhostState = int(dae::GhostState::Normal);
+			m_totalTimeElapsed = 0;
 
-	// checkType() ;  //return type     
+			//set the bool variable to = false 
 
+		}
 
+	}
 
-		//ghost
-		//  dye 
-		// play dead animation 
-		//-- live 
-
-		// power up
-
-		//make ghots blue and etc 
-
-
-
-
-		//
-
-
-
-
-	
-
-
-
-	// if rect collides vector of f recfts // get type 
-
-
-	//type pellet 
-
-	//power up 
-
-
-	//cherry 
 
 
 }
@@ -265,4 +196,18 @@ bool dae::ColliderComponent::CheckCollision(SDL_Rect& self, Object& objects)
 		return false;
 
 	return true;
+}
+
+void dae::ColliderComponent::ToogleSprite()
+{
+	if (m_GhostState == int(dae::GhostState::Blue))
+	{
+		m_GhostState = int(dae::GhostState::White);
+	}
+	else
+	{
+		m_GhostState = int(dae::GhostState::Blue);
+	}
+
+
 }

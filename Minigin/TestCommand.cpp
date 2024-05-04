@@ -1,6 +1,7 @@
 #include "TestCommand.h"
 #include"iostream"
 #include"staticHeader.h"
+#include"Audio.h"
 dae::TestCommand::TestCommand()
 {
 }
@@ -12,6 +13,7 @@ void dae::TestCommand::Execute()
    std::cout<<m_pacmanState<<"\n";
 
 
+   Audio::Get().ToggleMute();
 
 }
 

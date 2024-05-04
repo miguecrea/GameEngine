@@ -12,6 +12,7 @@
 #include <chrono>
 #include <thread>
 #include"EventManager.h"
+#include <conio.h>
 
 SDL_Window* g_window{};
 
@@ -125,6 +126,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
 
 		std::this_thread::sleep_for(sleepTime);
+
+		//system("cls");
 	}
 
 	sceneManager.ForceRemoveAllObjects();
