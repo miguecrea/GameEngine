@@ -2,6 +2,9 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "PacmanManager.h"
+#include"staticHeader.h"
+#include"SoundSystem.h"
+#include"Audio.h"
 
 
 
@@ -20,6 +23,12 @@ void dae::NextSceneCommand::Execute()
 	 SceneManager::GetInstance().SetCurrentScene(nameOfScene);
 
 	 PacmanManager::GetInstance().SetGameMode(m_gameMode);
+
+
+	 dae::SoundSystem& audio{ dae::Audio::Get() };
+	 audio.Play(s_GameSoundId,0.5f,1);
+	
+	 
 
 
 

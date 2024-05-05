@@ -74,6 +74,10 @@ dae::Map::Map()
 		{
 
 			m_PelletsAndPowerUp.push_back(Object{ SDL_Rect{int(Posx),int(PosY),pelletSize,pelletSize},dae::TypeOfObject::pellet}); //picked or not    //le haria falata el color 
+			m_ValidIndexes.push_back(std::make_tuple(colums,rows)); 
+
+			//maybe this is flipped rows and columns 
+			
 		}
 		if (MapArray[colums][rows] == 3)  
 		{
@@ -199,6 +203,17 @@ void dae::Map::UpdateMap()
 
 }
 
+std::tuple<int, int> dae::Map::GridToPos(int row, int col)
+{
+	int Xpos = row * 8;
+	int Ypos = col * 8;
+
+	return std::make_tuple(Xpos, Ypos);
+}
+std::vector<std::tuple<int, int>> & dae::Map::ReturnValidIndexes()
+{
+	return m_ValidIndexes;
+}
 std::vector<dae::Object>& dae::Map::GetShapes()
 {
 	return m_PelletsAndPowerUp;

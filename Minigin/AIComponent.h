@@ -24,6 +24,7 @@ namespace dae
 
 
 		AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct);
+		//fantasma enum class y adentro dependiedo del typo cambio la velocidad 
 
 		virtual void Render() override;
 		virtual void Update() override;

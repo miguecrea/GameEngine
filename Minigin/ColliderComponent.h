@@ -25,6 +25,8 @@ namespace dae
 		virtual void Render() override;
 		virtual void Update() override;
 
+		void ExeceuteCollisionLogic();
+
 
 		float m_totalTimeElapsed{};
 		SDL_Rect m_Rect = {};
@@ -36,10 +38,13 @@ namespace dae
 		std::shared_ptr<GameObject> m_Owner =nullptr;
 		//std::vector<std::shared_ptr<GameObject>> m_Enemies;
 		std::vector<Object> & m_objectsVector;
+		bool m_HaveAllBeenPicked = false;
 
 		bool m_StartTimer = false;
 		float m_ToogleSpriteTimer{};
 		void ToogleSprite();
+
+		bool HasAllBeenPicked();
 
 
 		// get the sahpe of other we can have a get shape compnent or add the function the the oesn we alredy have 

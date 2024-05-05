@@ -3,14 +3,16 @@
 #include"Renderer.h"
 #include<iostream>
 #include"staticHeader.h"
+#include"Audio.h"
+#include"SoundSystem.h"
 dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth):  //PUIT objects array in the constructor
 	m_Owner{owner},// vector of f rects 
 //	m_Enemies{enemies},
 	m_objectsVector{collideswidth}
 
 {
-	m_Rect.w = 30;
-	m_Rect.h = 30;
+	m_Rect.w = 20;   //changed collider //was in 30
+	m_Rect.h = 20;
 
 
 	////  iNITIALIZE objects array in here 
@@ -63,9 +65,89 @@ void dae::ColliderComponent::Update()
 
 
 
+
+
+	// no collison picked 
+	//collison unpicked 
+
+
+	// Have all been picked is initialiali
+
+
+	//if ! all have been picked    //execute logic below 
+
+	bool allPelletsNoCollision = true; // Assume all pellets have NoCollision preset initially
+
 	for (size_t i = 0; i < m_objectsVector.size(); i++)
 	{
+		if (m_objectsVector[i].m_type == TypeOfObject::pellet)
+		{
+			if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
+			{
 
+			//if one pellet can collide   means all of the pellets are not set to no collsuom
+				// If any pellet has collision preset as CanCollide, set flag to false and break the loop
+				allPelletsNoCollision = false;
+				break;
+			}
+		}
+	}
+
+	if (allPelletsNoCollision)
+	{
+
+		std::cout << "ssds";
+		SceneManager::GetInstance().SetCurrentScene("ScoresScene");
+	}
+
+
+
+
+	if (!allPelletsNoCollision)
+	{
+
+	ExeceuteCollisionLogic();
+	}
+
+
+	if (m_StartTimer)
+	{
+
+		m_totalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
+
+		if (m_totalTimeElapsed >= 3.f)
+		{
+			m_ToogleSpriteTimer += SceneManager::GetInstance().GetDeltaTime();
+			if (m_ToogleSpriteTimer >= 0.45f)
+			{
+				m_ToogleSpriteTimer = 0;
+				ToogleSprite();
+
+			}
+
+		}
+		if (m_totalTimeElapsed >= 7.f)
+		{
+			m_StartTimer = false;
+			m_ToogleSpriteTimer = 0;
+
+			m_GhostState = int(dae::GhostState::Normal);
+			m_totalTimeElapsed = 0;
+
+			//set the bool variable to = false 
+
+		}
+
+	}
+
+
+
+}
+
+void dae::ColliderComponent::ExeceuteCollisionLogic()
+{
+	for (size_t i = 0; i < m_objectsVector.size(); i++)
+	{
 
 		//check if all the vector has no collision means all dots were picked 
 
@@ -76,6 +158,7 @@ void dae::ColliderComponent::Update()
 		////loopera sobre todo en vector if ver si ninguno tiene este tipo
 
 		//ALSO NEED TO PLAY SOUND 
+
 
 		if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
 		{
@@ -89,18 +172,24 @@ void dae::ColliderComponent::Update()
 				{
 				case dae::TypeOfObject::pellet:
 
+					Audio::Get().Play(s_PickUpPellet);
 
-				//	std::cout << "Is Collidiing\n" << i << "\n";
+					//	std::cout << "Is Collidiing\n" << i << "\n";
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
-				//add to score 
+					//add to score
+
 					break;
 
 				case dae::TypeOfObject::powerUp:
+					Audio::Get().Play(s_CanEatGhots);
+
+					//Audio::Get().Play(0);
+
 
 					m_StartTimer = true;
-					m_GhostState =int(dae::GhostState::Blue);  
+					m_GhostState = int(dae::GhostState::Blue);
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 					m_objectsVector[i].color.a = 0;
 
@@ -110,7 +199,7 @@ void dae::ColliderComponent::Update()
 					//ghots have to run away from me 
 
 
-				  	break;
+					break;
 
 				case::dae::TypeOfObject::Enemy:
 
@@ -168,7 +257,7 @@ void dae::ColliderComponent::Update()
 
 					//spawn ramdonly at some point on the map ? 
 
-	                //at any point of the match 
+					//at any point of the match 
 
 					break;
 
@@ -185,40 +274,6 @@ void dae::ColliderComponent::Update()
 
 
 	}
-
-
-	if (m_StartTimer)
-	{
-
-		m_totalTimeElapsed += SceneManager::GetInstance().GetDeltaTime();
-
-		if (m_totalTimeElapsed >= 3.f)
-		{
-			m_ToogleSpriteTimer += SceneManager::GetInstance().GetDeltaTime();
-			if (m_ToogleSpriteTimer >= 0.45f)
-			{
-				m_ToogleSpriteTimer = 0;
-				ToogleSprite();
-
-			}
-
-		}
-		if (m_totalTimeElapsed >= 7.f)
-		{
-			m_StartTimer = false;
-			m_ToogleSpriteTimer = 0;
-
-			m_GhostState = int(dae::GhostState::Normal);
-			m_totalTimeElapsed = 0;
-
-			//set the bool variable to = false 
-
-		}
-
-	}
-
-
-
 }
 
 
@@ -256,4 +311,13 @@ void dae::ColliderComponent::ToogleSprite()
 	}
 
 
+}
+
+bool dae::ColliderComponent::HasAllBeenPicked()
+
+{
+
+
+
+	return true;
 }

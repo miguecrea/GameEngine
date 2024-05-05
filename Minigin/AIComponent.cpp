@@ -11,6 +11,7 @@
 #include<set>
 #include <stack>
 #include <array>
+#include"staticHeader.h"
 
 
 
@@ -55,11 +56,11 @@ double calculateH(int x, int y, Node dest) {
 std::vector<Node> aStar(Node agent, Node dest) {
 	std::vector<Node> empty;
 	if (!isValid(dest.x, dest.y)) {
-		std::cout << "Destination is an obstacle" << std::endl;
+		//std::cout << "Destination is an obstacle" << std::endl;
 		return empty;
 	}
 	if (isDestination(agent.x, agent.y, dest)) {
-		std::cout << "You are the destination" << std::endl;
+		//std::cout << "You are the destination" << std::endl;
 		return empty;
 	}
 
@@ -167,7 +168,7 @@ std::vector<Node> aStar(Node agent, Node dest) {
 		}
 	}
 	if (!destinationFound) {
-		std::cout << "Destination not found" << std::endl;
+		//std::cout << "Destination not found" << std::endl;
 		for (int i = 0; i < X_MAX / X_STEP; ++i) {
 			delete[] closedList[i];
 		}
@@ -195,7 +196,7 @@ bool isValid(int x, int y)
 
 std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 	try {
-		std::cout << "Found a path" << std::endl;
+		//std::cout << "Found a path" << std::endl;
 		int x = dest.x;
 		int y = dest.y;
 		std::stack<Node> path;
@@ -218,7 +219,7 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 			path.pop();
 			usablePath.emplace_back(top);
 		}
-		std::cout << "Path full, " << usablePath.size() << std::endl;
+		//std::cout << "Path full, " << usablePath.size() << std::endl;
 		return usablePath;
 	}
 	catch (const std::exception& e) {
@@ -257,13 +258,42 @@ void dae::AIComponent::Update()
 	Node currentPos;
 	currentPos.x = int(m_Self->GetLocalPosition().x + 3) / X_STEP;
 	currentPos.y = int(m_Self->GetLocalPosition().y + 3) / Y_STEP;
-	std::cout << "Ghost is at " << currentPos.x << ", " << currentPos.y << "\n";
+	//std::cout << "Ghost is at " << currentPos.x << ", " << currentPos.y << "\n";
 
 	Node targetPos;
-	targetPos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
-	targetPos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
 
-	std::cout << "Target is at " << targetPos.x << ", " << targetPos.y << "\n";
+	//
+   auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
+
+  // std::cout <<// vectorValidIndexes[0]._Myfirst._Val;<<_M
+
+	if (m_GhostState == 0)
+	{
+
+		targetPos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
+		targetPos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
+	}
+	else
+	{
+	
+  /// [2][20] //get number of the cell based on twho rows 
+
+		//vector could be flipped the X and Y test first value of it 
+
+	int first_value = std::get<0>(vectorValidIndexes[rand()%10]);  //has to be ramdom between 0 and vectors size 
+	int second_value = std::get<1>(vectorValidIndexes[rand() % 10]);   //alwya schooses same pos and goes there
+
+	auto Pos = Map::GetInstance().GridToPos(second_value, first_value);
+
+	targetPos.x = (std::get<0>(Pos)) /  X_STEP;
+	targetPos.y = (std::get<1>(Pos)) /  Y_STEP;
+
+
+	}
+	//std::cout << "Target is at " << targetPos.x << ", " << targetPos.y << "\n";
+	//std::cout << first_value << " " << second_value << "\n";
+
+
 
 	auto path = aStar(currentPos, targetPos);
 	if (path.size() > 1)
