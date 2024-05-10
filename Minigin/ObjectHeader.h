@@ -14,6 +14,15 @@ namespace dae
 	};
 
 
+	enum class GhostType
+	{
+		Blue,
+		Red,
+		Pink,
+		Orange
+
+	};
+
 
 
 
@@ -62,6 +71,10 @@ struct Object
 
 	}
 
+
+
+
+
 	float m_TotalTimeElapsed{};
 	SDL_Rect shape;
 	SDL_Color color{};
@@ -76,6 +89,8 @@ struct Object
 
 	void Draw()
 	{
+
+		//should I draw if type if enemy ? 
 		Renderer::GetInstance().FillSquare(float(shape.x),float(shape.y),float(shape.w),float(shape.h), color);
 
 	}

@@ -3,6 +3,7 @@
 #include"Renderer.h"
 #include<memory>
 #include"ObjectHeader.h"
+#include"FPSComponent.h"
 
 
 namespace dae
@@ -14,7 +15,7 @@ namespace dae
 
 	public:
 	
-		ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth);  //make collider width dimensions
+		ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth, std::vector<std::shared_ptr<GameObject>> & ghosts);  //make collider width dimensions
 
 		virtual ~ColliderComponent();
 		ColliderComponent(const ColliderComponent& other) = default;
@@ -36,7 +37,8 @@ namespace dae
 		SDL_Rect m_Collider{};
 
 		std::shared_ptr<GameObject> m_Owner =nullptr;
-		//std::vector<std::shared_ptr<GameObject>> m_Enemies;
+		std::vector<std::shared_ptr<GameObject>> m_Enemies;  //this was the error was a refernce to other pointer and was going 
+		//out of scope 
 		std::vector<Object> & m_objectsVector;
 		bool m_HaveAllBeenPicked = false;
 
@@ -45,6 +47,25 @@ namespace dae
 		void ToogleSprite();
 
 		bool HasAllBeenPicked();
+		std::shared_ptr<GameObject> firstGhost =nullptr;
+	
+
+		static const int m_EnemiesPos{3};
+		int enemiesArrayX[m_EnemiesPos]{};
+		
+		int enemiesArrayY[m_EnemiesPos]{};
+
+		int x = 0;
+		int y = 0;
+		int& Xpos =x;
+		int& Ypos = y;
+
+		bool m_CanPush = true;
+		
+		std::vector<Object> m_ghotsObject{};
+
+
+
 
 
 		// get the sahpe of other we can have a get shape compnent or add the function the the oesn we alredy have 

@@ -5,24 +5,25 @@
 #include"staticHeader.h"
 #include"Audio.h"
 #include"SoundSystem.h"
-dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth):  //PUIT objects array in the constructor
-	m_Owner{owner},// vector of f rects 
-//	m_Enemies{enemies},
-	m_objectsVector{collideswidth}
+#include"AIComponent.h"
+#include"Map.h"
+dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object>& collideswidth, std::vector<std::shared_ptr<GameObject>>& ghosts) :  //PUIT objects array in the constructor
+	m_Owner{ owner },// vector of f rects 
+	m_Enemies{ ghosts },
+	m_objectsVector{ collideswidth }
 
 {
-	m_Rect.w = 20;   //changed collider //was in 30
-	m_Rect.h = 20;
+	m_Rect.w = 30;   //changed collider //was in 30
+	m_Rect.h = 30;
 
 
-	////  iNITIALIZE objects array in here 
 
-//	m_objectsVector.push_back()
 
 }
 
 dae::ColliderComponent::~ColliderComponent()
 {
+	
 }
 
 void dae::ColliderComponent::Render()
@@ -31,8 +32,7 @@ void dae::ColliderComponent::Render()
 	Renderer::GetInstance().FillSquare(float(m_Rect.x),float(m_Rect.y),float(m_Rect.w),float(m_Rect.h), Renderer::GetInstance().m_White);
 
 
-
-	//Get WorldPos *2 //ghots 
+	Renderer::GetInstance().FillSquare(float(x),float(y), float(m_Rect.w), float(m_Rect.h), Renderer::GetInstance().m_White);
 
 }
 
@@ -40,38 +40,117 @@ void dae::ColliderComponent::Update()
 {
 
 	float scale{ 2 };
-	m_Rect.x = int(m_Owner->GetWorldPosition().x* scale);
-	m_Rect.y = int(m_Owner->GetWorldPosition().y * scale);
+	for (int index = 0; index < m_Enemies.size(); index++)
+	{
 
+		enemiesArrayX[index] = int(m_Enemies[index]->GetWorldPosition().x * scale);
+		enemiesArrayY[index] = int(m_Enemies[index]->GetWorldPosition().y * scale);
+
+	}
+
+	x = int(m_Enemies[0]->GetWorldPosition().x * 2);
+	y = int(m_Enemies[0]->GetWorldPosition().y * 2);
+
+
+	m_Rect.x = int(m_Owner->GetWorldPosition().x * scale);
+	m_Rect.y = int(m_Owner->GetWorldPosition().y * scale);
 
 
 	
 
+	Object ghosts1={ Object{SDL_Rect{enemiesArrayX[0],enemiesArrayY[0],30,30},dae::TypeOfObject::Enemy }};
+	Object ghosts2={ Object{SDL_Rect{enemiesArrayX[1],enemiesArrayY[1],30,30},dae::TypeOfObject::Enemy }};
+	Object ghosts3={ Object{SDL_Rect{enemiesArrayX[2],enemiesArrayY[2],30,30},dae::TypeOfObject::Enemy }};
+//	Object ghosts4={ Object{SDL_Rect{enemiesArrayX[3],enemiesArrayY[3],30,30},dae::TypeOfObject::Enemy }};
+	
 
-	/*for (size_t i = 0; i < length; i++)
-	{
-	m_objectsVector.push_back()
-
-	}
-*/
-
-
-
+		if (CheckCollision(m_Rect, ghosts1))
+		{
 
 
-	//ghost are constantly moving so the position of them can be set in the constructor we need to get them real time or evey frame 
-
-	//m_objectsVector.push_back(ghots in the constructor and then updstes well dunno yet but I will figure it out 
+			std::cout << "ghots\n";
 
 
+			if (m_GhostState == int(dae::GhostState::Normal))
+			{
+				std::cout << "Ghost\n";
+
+				m_pacmanState = 0;
+
+				//ownder->Set that variable to 
+
+				//play dead animation 
+				// 
+				// play dead sound 
+				// 
+				// 
+				// 
+				// 
+				 //if
+				// and if no more lives 
+				// }
+				// DYE ();
+				// //cambiar scene a Scores 
+				// 
+				// 
+				// }
+				// else
+				// 
+				// {
+				// 
+				// 
+				// 
+				Map::GetInstance().ResetMap();   //reset points //uf no more lives ofcourse 
+				// reset 
+				// if has lives -- live 
+				//play dead animation
+				// 
+				// // resetear el mapa 
+				// //todos los puntos //poner collision otra ves 
+				// 
+				// // poner puntos visisbles otra vez
+				// /
+				// 
+				// }
+				// 
+				// 
+
+
+			}
+
+			else
+			{
+
+				m_Enemies[0]->SetPosition(30, 30);
+				//add to score 
+				//play eat sounds 
+
+			}
 
 
 
-	// no collison picked 
-	//collison unpicked 
 
 
-	// Have all been picked is initialiali
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	//if ! all have been picked    //execute logic below 
@@ -95,8 +174,6 @@ void dae::ColliderComponent::Update()
 
 	if (allPelletsNoCollision)
 	{
-
-		std::cout << "ssds";
 		SceneManager::GetInstance().SetCurrentScene("ScoresScene");
 	}
 
@@ -146,6 +223,9 @@ void dae::ColliderComponent::Update()
 
 void dae::ColliderComponent::ExeceuteCollisionLogic()
 {
+
+
+
 	for (size_t i = 0; i < m_objectsVector.size(); i++)
 	{
 
@@ -179,7 +259,9 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
 					//add to score
+					s_Score+=10;
 
+					
 					break;
 
 				case dae::TypeOfObject::powerUp:
@@ -203,9 +285,11 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 				case::dae::TypeOfObject::Enemy:
 
+						std::cout << "Ghost\n";
+
 					if (m_GhostState == int(dae::GhostState::Normal))
 					{
-
+						std::cout << "Ghost\n";
 
 						//play dead animation 
 						// 
@@ -248,22 +332,7 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 						//play eat sounds 
 
 					}
-
-
 					break;
-
-				case::dae::TypeOfObject::cherry:
-
-
-					//spawn ramdonly at some point on the map ? 
-
-					//at any point of the match 
-
-					break;
-
-
-
-
 				default:
 					break;
 
@@ -274,6 +343,7 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 
 	}
+
 }
 
 

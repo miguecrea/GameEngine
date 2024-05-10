@@ -3,38 +3,21 @@
 #include "TextComponent.h"
 #include <string>
 #include <iostream>
+#include"staticHeader.h"
 
-void dae::FPSComponent::Update()
+dae::LivesConponent::LivesConponent(int Lives, std::shared_ptr<TextComponent> pTextComponent, int priority)
+	:Component(priority), m_pTextComponent{ pTextComponent },m_Lives{Lives}
 {
-	const float deltaTime{ SceneManager::GetInstance().GetDeltaTime() };
-
-	//frameRate = frames/elapsedTime
-	++m_NrFrames;
-	m_ElapsedTime += deltaTime;
-
-	if (m_ElapsedTime >= m_RefreshTime)
-	{
-		const int currentFrameRate{ static_cast<int>(m_NrFrames / m_ElapsedTime) };
-
-		//Dirty flag
-		if (currentFrameRate != m_FrameRate)
-		{
-			m_FrameRate = currentFrameRate;
-			const std::string frameRateString{ std::to_string(m_FrameRate) + " FPS" };
+}
+void dae::LivesConponent::Update()
+{
 
 			if (m_pTextComponent)
 			{
-				//Output to render component
-				m_pTextComponent->SetTextToTexture(frameRateString);
+			//	Output to render component
+			//	m_pTextComponent->SetTextToTexture(std::to_string(m_Lives));
+				m_pTextComponent->SetTextToTexture("Score is "+ std::to_string(s_Score));
 			}
-		}
-
-		m_NrFrames = 0;
-		m_ElapsedTime = 0.f;
-	}
+	
 }
 
-dae::FPSComponent::FPSComponent(std::shared_ptr<TextComponent> pTextComponent, float waitingTime, int priority)
-	:Component(priority), m_pTextComponent{ pTextComponent }, m_RefreshTime{ std::max(0.f, waitingTime) }
-{
-}

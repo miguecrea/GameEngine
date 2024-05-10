@@ -24,10 +24,10 @@
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 4, 4, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 4, 4, 4, 4, 4, 4, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1,
@@ -57,6 +57,10 @@ dae::Map::Map()
 
 
 
+	rowTest = 4;
+	Column = 1;
+
+
 	for (int colums = 0; colums < 36; colums++)
 	{
 		for (int rows = 0; rows < 28; rows++)                     //code rusn first 
@@ -79,6 +83,8 @@ dae::Map::Map()
 			//maybe this is flipped rows and columns 
 			
 		}
+
+
 		if (MapArray[colums][rows] == 3)  
 		{
 
@@ -86,11 +92,14 @@ dae::Map::Map()
 				
 		}
 
+
+
+
+
+
+
 		}
 	}
-
-
-
 
 
 
@@ -141,46 +150,58 @@ void dae::Map::DrawMap()
 
 
 
-
+	///// BORAR ESTO DESPUES
 
 	//float PosX{}, PosY{}, width{ 16 };
 	//for (int colums = 0; colums < 36; colums++)
 	//{
 	//	for (int rows = 0; rows < 28; rows++)                     //code rusn first 
 	//	{
-
-	//		if (MapArray[colums][rows] == 0)   //where to put points 
-	//		{
-
-	//			//rows column to index 
-
-	//		//	m_PelletsAndPowerUp[]
-
-	//			//p object[de columnas y rows a index ].draw
-
-	//			//Renderer::GetInstance().FillSquare(PosX + width * rows + 8, PosY + width * colums + 8, 6, m_PelletColor);
-
-	//		}
-	//		if (MapArray[colums][rows] == 3)  //power ups 
-
-	//		{
-	//			//Renderer::GetInstance().FillSquare(PosX + width * rows + 6, PosY + width * colums + 6, 12, m_PowerUpColor);
-
-	//		}
-
-
 	//		SDL_Color color{255,0,0,80};
 	//		SDL_Color color2{255,255,255,80};
+
+	//		if (MapArray[colums][rows] != 1)   //where to put points 
+	//		{
+
 	//			Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, color);
+	//
+
+	//		}
+	//		if (MapArray[colums][rows] == 1)  //power ups 
+
+	//		{
+	//			Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, color2);
+	//		
+
+	//		}
+
 	//			Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, color2);
 
-
 	//	}
+
+
 	//}
 
+	auto test = Map::GetInstance().GridToPos(Column,rowTest);     //column //then row 
+	auto orange1 = Map::GetInstance().GridToPos(10,20);     //column //then row 
+	auto orange2 = Map::GetInstance().GridToPos(23,23);     //column //then row 
+	auto orange3 = Map::GetInstance().GridToPos(12,8);     //column //then row 
+	auto orange4 = Map::GetInstance().GridToPos(12,12);     //column //then row 
 
 
 
+
+
+
+	int roww  = std::get<0>(test);
+	int column  = std::get<1>(test);
+
+	Renderer::GetInstance().FillSquare(float(roww)*2,float(column)*2, 16, 16, SDL_Color{0,0,0,255});   //renderizo mal 
+
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange1))*2,float(std::get<1>(orange1))*2, 16, 16, SDL_Color{0,0,255,255});   
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange2))*2,float(std::get<1>(orange2))*2, 16, 16, SDL_Color{0,0,255,255});   
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange3))*2,float(std::get<1>(orange3))*2, 16, 16, SDL_Color{0,0,255,255});   
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange4))*2,float(std::get<1>(orange4))*2, 16, 16, SDL_Color{0,0,255,255});   
 
 
 
@@ -203,13 +224,27 @@ void dae::Map::UpdateMap()
 
 }
 
-std::tuple<int, int> dae::Map::GridToPos(int row, int col)
+void dae::Map::ResetMap()
+{
+
+	for (size_t i = 0; i < m_PelletsAndPowerUp.size(); i++)
+	{
+		m_PelletsAndPowerUp[i].m_collisionPreset = dae::Collision::CanCollide;
+		m_PelletsAndPowerUp[i].color.a = 255;
+	}
+}
+
+std::tuple<int, int> dae::Map::GridToPos(int  row, int  col)
 {
 	int Xpos = row * 8;
 	int Ypos = col * 8;
 
 	return std::make_tuple(Xpos, Ypos);
 }
+
+
+
+
 std::vector<std::tuple<int, int>> & dae::Map::ReturnValidIndexes()
 {
 	return m_ValidIndexes;

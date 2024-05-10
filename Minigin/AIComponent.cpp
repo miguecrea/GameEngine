@@ -15,21 +15,12 @@
 
 
 
-#define X_MAX /*288*/224
+#define X_MAX 224
 #define X_STEP 8
-#define Y_MAX /*224*/288
+#define Y_MAX 288
 #define Y_STEP 8
 
-struct Node
-{
-	int y;
-	int x;
-	int parentX;
-	int parentY;
-	float gCost;
-	float hCost;
-	float fCost;
-};
+
 std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest);
 bool isValid(int x, int y);
 
@@ -105,11 +96,12 @@ std::vector<Node> aStar(Node agent, Node dest) {
 
 	while (!openList.empty() && openList.size() < (X_MAX / X_STEP) * (Y_MAX / Y_STEP)) {
 		Node node;
+		//it = next(it)
 		do {
 			float temp = FLT_MAX;
 			std::vector<Node>::iterator itNode;
 			for (std::vector<Node>::iterator it = openList.begin();
-				it != openList.end(); it = next(it)) {
+				it != openList.end(); ++it) {
 				Node n = *it;
 				if (n.fCost < temp)
 				{
@@ -119,7 +111,7 @@ std::vector<Node> aStar(Node agent, Node dest) {
 			}
 			node = *itNode;
 			openList.erase(itNode);
-		} while (!isValid(node.x, node.y));
+		} while (!isValid(node.x, node.y) && !openList.empty());
 
 		x = node.x;
 		y = node.y;
@@ -228,13 +220,44 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 	}
 }
 
-dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct) :
+dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type) :
 	m_Self{ SelfGameObject },
 	m_Target{ pTargetGameObejct },
 	m_OldPosition(SelfGameObject->GetLocalPosition()),
 	m_pSceneManager(&SceneManager::GetInstance()),//pointer needs addresss 
-	m_Direction{ 0 }
+	m_Direction{ 0 },
+	m_TypeOfGhost{Type}
 {
+
+	m_OrangeGhosts.push_back(std::make_tuple(10,20));
+	m_OrangeGhosts.push_back(std::make_tuple(20,34));
+	m_OrangeGhosts.push_back(std::make_tuple(2,4));
+	m_OrangeGhosts.push_back(std::make_tuple(4,4));
+	
+	switch (m_TypeOfGhost)
+	{
+	case dae::GhostType::Blue:
+		m_Speed = 25.f;
+
+		break;
+	case dae::GhostType::Red:
+		m_Speed = 30.f;
+
+		break;
+	case dae::GhostType::Pink:
+
+		m_Speed = 15.f;
+		break;
+	case dae::GhostType::Orange:
+		m_Speed = 23.f;
+
+		break;
+	default:
+		break;
+	}
+
+
+	
 
 }//puede tomar un game object 
 
@@ -242,57 +265,56 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 void dae::AIComponent::Render()
 
 {
-	//Point2f Grid = pos(27,35);    
-	// Renderer::GetInstance().FillSquare(float(Grid.x),float(Grid.y), 16, SDL_Color{255,0,0,255});
 
-	//Renderer::GetInstance().FillSquare(m_OldPosition.x, m_OldPosition.y, 16, SDL_Color{ 255,0,0,255 });
+
+
+	//auto test = Map::GetInstance().GridToPos(rowTest, Column);
+
+	//int roww = std::get<0>(test);
+	//int column = std::get<0>(test);
+
+	//Renderer::GetInstance().FillSquare(float(roww) * 2, float(column) * 2, 16, 16, SDL_Color{ 0,0,0,255 });
+	//Renderer::GetInstance().FillSquare(0,0, 16, 16, SDL_Color{ 0,0,0,255 });
+
+
+
+	
 
 }
 
 void dae::AIComponent::Update()
 {
-	//TODO: algo aqui no funciona
 
-	// todo no funcionaaa 
 
 	Node currentPos;
 	currentPos.x = int(m_Self->GetLocalPosition().x + 3) / X_STEP;
 	currentPos.y = int(m_Self->GetLocalPosition().y + 3) / Y_STEP;
+
 	//std::cout << "Ghost is at " << currentPos.x << ", " << currentPos.y << "\n";
 
 	Node targetPos;
 
-	//
-   auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
+	
 
-  // std::cout <<// vectorValidIndexes[0]._Myfirst._Val;<<_M
-
-	if (m_GhostState == 0)
+	if (m_GhostState ==int(GhostState::Normal))
 	{
 
 		targetPos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
 		targetPos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
+
+
+	//	 CheckGhost(m_TypeOfGhost);  //can take Taget Pos by refrence 
 	}
 	else
 	{
-	
-  /// [2][20] //get number of the cell based on twho rows 
 
-		//vector could be flipped the X and Y test first value of it 
-
-	int first_value = std::get<0>(vectorValidIndexes[rand()%10]);  //has to be ramdom between 0 and vectors size 
-	int second_value = std::get<1>(vectorValidIndexes[rand() % 10]);   //alwya schooses same pos and goes there
-
-	auto Pos = Map::GetInstance().GridToPos(second_value, first_value);
-
-	targetPos.x = (std::get<0>(Pos)) /  X_STEP;
-	targetPos.y = (std::get<1>(Pos)) /  Y_STEP;
-
+		RunAway(currentPos.x, currentPos.y,targetPos); 
 
 	}
-	//std::cout << "Target is at " << targetPos.x << ", " << targetPos.y << "\n";
-	//std::cout << first_value << " " << second_value << "\n";
 
+
+
+	//std::cout << "Playeraaaaaa is at " << targetPos.x << ", " << targetPos.y << "\n";
 
 
 	auto path = aStar(currentPos, targetPos);
@@ -314,7 +336,7 @@ void dae::AIComponent::Update()
 			// Check if the X coordinate needs to be adjusted
 			if (fabs(deltaX) > snapThreshold) {
 				// Adjust the X coordinate
-				float moveX = (deltaX > 0 ? 1 : -1) * 25.f * m_pSceneManager->GetDeltaTime();
+				float moveX = (deltaX > 0 ? 1 : -1) * m_Speed * m_pSceneManager->GetDeltaTime();
 				m_Self->SetPosition(
 					m_Self->GetLocalPosition().x + moveX,
 					m_Self->GetLocalPosition().y
@@ -324,40 +346,173 @@ void dae::AIComponent::Update()
 			// Check if the Y coordinate needs to be adjusted
 			if (fabs(deltaY) > snapThreshold) {
 				// Adjust the Y coordinate
-				float moveY = (deltaY > 0 ? 1 : -1) * 25.f * m_pSceneManager->GetDeltaTime();
+				float moveY = (deltaY > 0 ? 1 : -1) * m_Speed * m_pSceneManager->GetDeltaTime();
 				m_Self->SetPosition(
 					m_Self->GetLocalPosition().x,
 					m_Self->GetLocalPosition().y + moveY
 				);
 			}
-		
-
 	
-
-	//char mapVisualized[X_MAX / X_STEP][Y_MAX / Y_STEP];
-
-	// for (int y{ 0 }; y < Y_MAX / Y_STEP; y++) {
-	// 	for (int x{ 0 }; x < X_MAX / X_STEP; x++) {
-	// 		mapVisualized[x][y] = '.';
-
-	// 		for (const auto& node : path) {
-	// 			if (node.x == x && node.y == y) {
-	// 				mapVisualized[x][y] = 'x';
-	// 				break;
-	// 			}
-	// 		}
-	// 		if (currentPos.x == x && currentPos.y == y) {
-	// 			mapVisualized[x][y] = 'C';
-	// 		}
-	// 		if (targetPos.x == x && targetPos.y == y) {
-	// 			mapVisualized[x][y] = 'T';
-	// 		}
-	// 		std::cout << mapVisualized[x][y];
-	// 	}
-	// 	std::cout << "\n";
-	// }
 	}
 }
+
+void dae::AIComponent::CheckGhost(GhostType WhichGhost)
+{
+
+	rowTest = 11;
+	Column = 10;
+
+
+	switch (WhichGhost)
+	{
+	case dae::GhostType::Blue:
+
+		CheckState();      // can have  mutiple functions since they all ahd different 
+
+		//checkSttae() // al paramteres timepo de espera ,,etc 
+		break;
+	case dae::GhostType::Red:
+
+		break;
+	case dae::GhostType::Pink:
+
+		break;
+	case dae::GhostType::Orange:
+
+		break;
+	default:
+		break;
+	}
+
+
+
+
+}
+
+void dae::AIComponent::CheckState()
+{
+
+
+
+	switch (m_GhotsAiState)
+	{
+	case dae::GhostAiState::Waiting:
+
+		//between to cells   //can be parameter 
+
+
+
+		// 
+		// add timer and Call function that checks if it should patrol or chase 
+
+
+
+
+		break;
+	case dae::GhostAiState::Patrolling:
+
+		//parameter the array with the points
+
+
+
+		 
+		break;
+	case dae::GhostAiState::Chasing:   //difrents type of chasing 
+
+		// if
+
+		//chase the target 
+
+
+		break;
+	default:
+		break;
+	}
+
+
+
+}
+
+void dae::AIComponent::RunAway(const int& ghotsPosX, const int& ghotsPosY, Node & TargetNode)
+{
+
+	
+	// set to run away 
+  auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
+
+//int first_value = std::get<0>(vectorValidIndexes[rand]);  //10        //row           //vector of valid indexes 
+//int second_value = std::get<1>(vectorValidIndexes[rand]);  //1      //colummnb         //vector of valid indexes 
+
+    
+
+  int row{20};          //solo se mueve si es valida la casilla 
+  int column{21};
+
+  
+auto  Pos = Map::GetInstance().GridToPos(column,row);   //primero column y luego row 
+
+
+TargetNode.x = (std::get<0>(Pos)) / X_STEP;
+TargetNode.y = (std::get<1>(Pos)) /  Y_STEP;
+
+
+
+
+//Node destiantion{};
+//destiantion.x = targetPosX = (std::get<0>(Pos)) / X_STEP;     //cualqier pos / step 
+//destiantion .y = TargetPosY = (std::get<1>(Pos)) /  Y_STEP;   //opne this here 
+
+
+
+
+if(isDestination(ghotsPosX, ghotsPosY,TargetNode))
+{
+
+
+	auto  Pos2 = Map::GetInstance().GridToPos(1,4);   //primero column y luego row 
+
+
+	TargetNode.x = (std::get<0>(Pos2)) / X_STEP;
+	TargetNode.y = (std::get<1>(Pos2)) / Y_STEP;
+
+
+
+}
+
+	//std::cout << TargetNode.x << " " << TargetNode.y<<"\n";
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //m_OldPosition = m_Self->GetLocalPosition();
 //glm::vec3 newPosition = m_OldPosition + glm::vec3{10,0,0} * m_pSceneManager->GetDeltaTime();
@@ -428,3 +583,26 @@ void dae::AIComponent::Update()
 
 
 
+
+	//char mapVisualized[X_MAX / X_STEP][Y_MAX / Y_STEP];
+
+	// for (int y{ 0 }; y < Y_MAX / Y_STEP; y++) {
+	// 	for (int x{ 0 }; x < X_MAX / X_STEP; x++) {
+	// 		mapVisualized[x][y] = '.';
+
+	// 		for (const auto& node : path) {
+	// 			if (node.x == x && node.y == y) {
+	// 				mapVisualized[x][y] = 'x';
+	// 				break;
+	// 			}
+	// 		}
+	// 		if (currentPos.x == x && currentPos.y == y) {
+	// 			mapVisualized[x][y] = 'C';
+	// 		}
+	// 		if (targetPos.x == x && targetPos.y == y) {
+	// 			mapVisualized[x][y] = 'T';
+	// 		}
+	// 		std::cout << mapVisualized[x][y];
+	// 	}
+	// 	std::cout << "\n";
+	// }

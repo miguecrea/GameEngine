@@ -8,5 +8,7 @@ extern int s_GameSoundId;   //id of music
 extern int s_MenuMusicId;  //
 extern int s_CanEatGhots;
 extern int s_PickUpPellet;
+extern int s_Score;
+extern int s_Lives;
 
 

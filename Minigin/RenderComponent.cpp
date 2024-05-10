@@ -51,9 +51,6 @@ void dae::RenderComponent::Render()   //animation component  // in thge cosntruv
 		if (m_useAnimation)
 		{
 
-			//m_state = m_GhostState;
-
-
 		m_animationVector[m_state]->Draw(position.x, position.y,m_scale);
 
          m_ObjectShape = m_animationVector[m_state]->ReturnShape();
@@ -80,18 +77,10 @@ void dae::RenderComponent::Update()
 {
 	if (m_useAnimation)
 	{
-		//m_state = m_GhostState;
+		
 	    m_animationVector[m_state]->Update(SceneManager::GetInstance().GetDeltaTime());
 
 	}
-
-
-
-	//if (m_ObjectShape.x + m_ObjectShape.w >= 200)
-	//{
-	//	GetOwner()->SetPosition(float(200-(m_ObjectShape.x + m_ObjectShape.w)), 30);
-	//
-	//}
 
 }
 

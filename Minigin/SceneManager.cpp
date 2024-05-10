@@ -22,11 +22,6 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 		Map::GetInstance().UpdateMap();
 	}
 
-//	const  auto& member = dae::PacmanManager::GetInstance().GetMode();
-	//std::cout << int(member) << "\n";
-
-
-	
 }
 
 void dae::SceneManager::FixedUpdate(float fixedTimeStep) //ALL THIS VALUES ARE FROM THE GAME LOOP
@@ -46,11 +41,6 @@ void dae::SceneManager::Render() const//ALL THIS VALUES ARE FROM THE GAME LOOP
 	Map::GetInstance().DrawMap();
 
 	}
-
-	
-
-
-	//redner Map 
 	
 }
 

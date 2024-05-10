@@ -6,28 +6,34 @@ namespace dae
 {
 	class GameObject;
 
-	class FPSComponent final :public Component
+	class LivesConponent final :public Component
 	{
 	public:
 
 		virtual void Update() override;
-		FPSComponent(std::shared_ptr<TextComponent> pTextComponent = nullptr, float refreshTime = 0.5f, int priority = 0);
+		LivesConponent(int Lives,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
 
 
-		virtual ~FPSComponent() = default;
-		FPSComponent(const FPSComponent& other) = default;
-		FPSComponent(FPSComponent&& other) = default;
-		FPSComponent& operator=(const FPSComponent& other) = default;
-		FPSComponent& operator=(FPSComponent&& other) = default;
+		virtual ~LivesConponent() = default;
+		LivesConponent(const LivesConponent& other) = default;
+		LivesConponent(LivesConponent&& other) = default;
+		LivesConponent& operator=(const LivesConponent& other) = default;
+		LivesConponent& operator=(LivesConponent&& other) = default;
 
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;
-		float m_RefreshTime;
-		float m_ElapsedTime{ 0.f };
-		int m_NrFrames{};
-		int m_FrameRate{};
 
+		void SetText()
+		{
+			if (m_pTextComponent)
+			{
+				//Output to render component
+				m_pTextComponent->SetTextToTexture(std::to_string(m_Lives));
+			}
 
+		}
+		
+		int  m_Lives;
 
 
 	};

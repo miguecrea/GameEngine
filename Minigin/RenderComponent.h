@@ -42,7 +42,7 @@ namespace dae
 		glm::vec3 m_LastPosition{};
 		
 		 SDL_Rect  m_ObjectShape;
-		const  int & m_state;  //male this a refermnce ?
+		const int & m_state;  //male this a refermnce ?
 
 		  
 		float m_scale = 1 ;

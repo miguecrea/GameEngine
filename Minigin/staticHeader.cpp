@@ -11,3 +11,7 @@ int m_GhostState = 0;
  int s_CanEatGhots = 0;
  int s_PickUpPellet= 1;
 
+ int s_Score = 0;
+ int s_Lives = 3;
+
+
