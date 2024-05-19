@@ -11,7 +11,7 @@ namespace dae
 	public:
 
 		virtual void Update() override;
-		LivesConponent(int Lives,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
+		LivesConponent(bool isScore,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
 
 
 		virtual ~LivesConponent() = default;
@@ -23,17 +23,10 @@ namespace dae
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;
 
-		void SetText()
-		{
-			if (m_pTextComponent)
-			{
-				//Output to render component
-				m_pTextComponent->SetTextToTexture(std::to_string(m_Lives));
-			}
 
-		}
+
+		bool m_IsScore = false;
 		
-		int  m_Lives;
 
 
 	};

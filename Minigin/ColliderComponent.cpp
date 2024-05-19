@@ -13,12 +13,8 @@ dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std
 	m_objectsVector{ collideswidth }
 
 {
-	m_Rect.w = 30;   //changed collider //was in 30
-	m_Rect.h = 30;
-
-
-
-
+	m_Rect.w = 20;   //changed collider //was in 30
+	m_Rect.h = 20;
 }
 
 dae::ColliderComponent::~ColliderComponent()
@@ -29,10 +25,10 @@ dae::ColliderComponent::~ColliderComponent()
 void dae::ColliderComponent::Render()
 {
 
-	Renderer::GetInstance().FillSquare(float(m_Rect.x),float(m_Rect.y),float(m_Rect.w),float(m_Rect.h), Renderer::GetInstance().m_White);
+	//Renderer::GetInstance().FillSquare(float(m_Rect.x),float(m_Rect.y),float(m_Rect.w),float(m_Rect.h), Renderer::GetInstance().m_White);
 
 
-	Renderer::GetInstance().FillSquare(float(x),float(y), float(m_Rect.w), float(m_Rect.h), Renderer::GetInstance().m_White);
+	//Renderer::GetInstance().FillSquare(float(x),float(y), float(m_Rect.w), float(m_Rect.h), Renderer::GetInstance().m_White);
 
 }
 
@@ -56,102 +52,41 @@ void dae::ColliderComponent::Update()
 	m_Rect.y = int(m_Owner->GetWorldPosition().y * scale);
 
 
-	
-
 	Object ghosts1={ Object{SDL_Rect{enemiesArrayX[0],enemiesArrayY[0],30,30},dae::TypeOfObject::Enemy }};
 	Object ghosts2={ Object{SDL_Rect{enemiesArrayX[1],enemiesArrayY[1],30,30},dae::TypeOfObject::Enemy }};
 	Object ghosts3={ Object{SDL_Rect{enemiesArrayX[2],enemiesArrayY[2],30,30},dae::TypeOfObject::Enemy }};
-//	Object ghosts4={ Object{SDL_Rect{enemiesArrayX[3],enemiesArrayY[3],30,30},dae::TypeOfObject::Enemy }};
+	Object ghosts4={ Object{SDL_Rect{enemiesArrayX[3],enemiesArrayY[3],30,30},dae::TypeOfObject::Enemy }};
 	
 
-		if (CheckCollision(m_Rect, ghosts1))
+
+	HandleCollisonGhosts(ghosts1, 88, 128, 0);
+	HandleCollisonGhosts(ghosts2, 105, 128, 1);
+	HandleCollisonGhosts(ghosts3, 88, 140, 2);
+	HandleCollisonGhosts(ghosts4, 120, 128, 3);
+
+	
+
+	if (m_StartPauseGameTimer)
+	{
+		//time elasped to reset level
+		m_TimeElapsedTillResetting += SceneManager::GetInstance().GetDeltaTime();
+
+		if (m_TimeElapsedTillResetting >= 3.f )
 		{
-
-
-			std::cout << "ghots\n";
-
-
-			if (m_GhostState == int(dae::GhostState::Normal))
+			if (s_Lives > 0)
 			{
-				std::cout << "Ghost\n";
-
-				m_pacmanState = 0;
-
-				//ownder->Set that variable to 
-
-				//play dead animation 
-				// 
-				// play dead sound 
-				// 
-				// 
-				// 
-				// 
-				 //if
-				// and if no more lives 
-				// }
-				// DYE ();
-				// //cambiar scene a Scores 
-				// 
-				// 
-				// }
-				// else
-				// 
-				// {
-				// 
-				// 
-				// 
-				Map::GetInstance().ResetMap();   //reset points //uf no more lives ofcourse 
-				// reset 
-				// if has lives -- live 
-				//play dead animation
-				// 
-				// // resetear el mapa 
-				// //todos los puntos //poner collision otra ves 
-				// 
-				// // poner puntos visisbles otra vez
-				// /
-				// 
-				// }
-				// 
-				// 
-
+			Audio::Get().Play(s_GameSoundId);
 
 			}
-
-			else
-			{
-
-				m_Enemies[0]->SetPosition(30, 30);
-				//add to score 
-				//play eat sounds 
-
-			}
-
-
-
-
-
-
+			m_StartPauseGameTimer = false;
+			m_TimeElapsedTillResetting = 0;
+			s_PauseGame = 0;
 
 		}
 
+	}	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			
 
 	//if ! all have been picked    //execute logic below 
 
@@ -229,21 +164,10 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 	for (size_t i = 0; i < m_objectsVector.size(); i++)
 	{
 
-		//check if all the vector has no collision means all dots were picked 
-
-		// if can colliison state == collision then check collision 
-
-		//check if all the ones that are type pellets have no collision how to do that
-
-		////loopera sobre todo en vector if ver si ninguno tiene este tipo
-
-		//ALSO NEED TO PLAY SOUND 
-
-
 		if (m_objectsVector[i].m_collisionPreset == dae::Collision::CanCollide)
 		{
 
-			if (CheckCollision(m_Rect, m_objectsVector[i]))
+			if (Collides(m_Rect, m_objectsVector[i]))
 			{
 
 				/// Ownwe->OnCollision(// otro game object ); //poner logica aqui 
@@ -258,7 +182,6 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
-					//add to score
 					s_Score+=10;
 
 					
@@ -269,69 +192,15 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 					//Audio::Get().Play(0);
 
-
 					m_StartTimer = true;
 					m_GhostState = int(dae::GhostState::Blue);
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 					m_objectsVector[i].color.a = 0;
 
-
-					//add to score //and display +2-00 srpite on screen 
-
-					//ghots have to run away from me 
-
-
 					break;
 
 				case::dae::TypeOfObject::Enemy:
 
-						std::cout << "Ghost\n";
-
-					if (m_GhostState == int(dae::GhostState::Normal))
-					{
-						std::cout << "Ghost\n";
-
-						//play dead animation 
-						// 
-						// play dead sound 
-						// 
-						// 
-						// 
-						// 
-						// 
-						// and if no more lives 
-						// }
-						// DYE ();
-						// //cambiar scene a Scores 
-						// 
-						// 
-						// }
-						// else
-						// 
-						// {
-						// reset 
-						// if has lives -- live 
-						//play dead animation
-						// 
-						// // resetear el mapa 
-						// //todos los puntos //poner collision otra ves 
-						// 
-						// // poner puntos visisbles otra vez
-						// /
-						// 
-						// }
-						// 
-						// 
-
-
-					}
-
-					else
-					{
-						//add to score 
-						//play eat sounds 
-
-					}
 					break;
 				default:
 					break;
@@ -348,21 +217,17 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 
 
-bool dae::ColliderComponent::CheckCollision(SDL_Rect& self, Object& objects)
+bool dae::ColliderComponent::Collides(SDL_Rect& self, Object& objects)
 {
-	// If one rectangle is on left side of other
 	if (self.x + self.w < objects.shape.x || objects.shape.x + objects.shape.w < self.x)
 		return false;
 
-	// If one rectangle is on right side of other
 	if (self.x > objects.shape.x + objects.shape.w || objects.shape.x > self.x + self.w)
 		return false;
 
-	// If one rectangle is above other
 	if (self.y + self.h < objects.shape.y || objects.shape.y + objects.shape.h < self.y)
 		return false;
 
-	// If one rectangle is below other
 	if (self.y > objects.shape.y + objects.shape.h || objects.shape.y > self.y + self.h)
 		return false;
 
@@ -386,8 +251,101 @@ void dae::ColliderComponent::ToogleSprite()
 bool dae::ColliderComponent::HasAllBeenPicked()
 
 {
-
-
-
 	return true;
+}
+
+void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, int CenterY, int id)
+{
+
+	bool collisionDetected = false;
+
+	// Check collision only if collision preset allows it
+	if (ghots.m_collisionPreset == Collision::CanCollide)        //id
+	{
+		if (Collides(m_Rect, ghots))
+		{
+			if (!collisionDetected) // Check if collision has already been detected in this frame
+			{
+
+				collisionDetected = true; // Set collision detected flag
+
+				if (CheckState() == m_normalState)
+				{
+					// Deduct life only if lives are greater than 0
+					if (s_Lives > 0)
+					{
+
+						Audio::Get().Play(s_DeathMusic);
+
+						s_Lives--;
+
+						m_pacmanState = 0; 
+
+						m_Enemies[0]->SetPosition(88, 128);
+						m_Enemies[1]->SetPosition(105, 128);
+						m_Enemies[2]->SetPosition(88, 140);
+						m_Enemies[3]->SetPosition(120, 128);
+					
+						m_StartPauseGameTimer = true;
+						s_PauseGame = 1;
+
+
+
+					}
+
+					else
+					{
+
+						SceneManager::GetInstance().SetCurrentScene("ScoresScene");
+						Audio::Get().Play(s_MenuMusicId);
+					}
+
+
+				}
+				else
+				{
+
+					s_Score += 100;
+					Audio::Get().Play(s_AteGhostSound);
+
+					m_Enemies[id]->SetPosition(float(CenterX),float(CenterY));
+				}
+			}
+		}
+		else
+		{
+			// Reset collision detected flag if no collision detected
+			collisionDetected = false;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+int dae::ColliderComponent::CheckState()
+{
+	return m_GhostState;
+}
+
+void dae::ColliderComponent::ResetLevel()
+{
 }

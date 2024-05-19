@@ -33,7 +33,7 @@ namespace dae
 		SDL_Rect m_Rect = {};
 
 	private:
-		bool CheckCollision(SDL_Rect & self,Object & objects);     //put this in constructor 
+		bool Collides(SDL_Rect & self,Object & objects);     //put this in constructor 
 		SDL_Rect m_Collider{};
 
 		std::shared_ptr<GameObject> m_Owner =nullptr;
@@ -50,10 +50,12 @@ namespace dae
 		std::shared_ptr<GameObject> firstGhost =nullptr;
 	
 
-		static const int m_EnemiesPos{3};
+		static const int m_EnemiesPos{4};
 		int enemiesArrayX[m_EnemiesPos]{};
-		
 		int enemiesArrayY[m_EnemiesPos]{};
+
+		void HandleCollisonGhosts(Object& ghots, int x, int y, int id);
+		
 
 		int x = 0;
 		int y = 0;
@@ -64,7 +66,18 @@ namespace dae
 		
 		std::vector<Object> m_ghotsObject{};
 
+		int CheckState();
 
+		void ResetLevel();
+
+
+		int m_normalState = int(dae::GhostState::Normal);
+
+
+
+		bool m_StartPauseGameTimer = false;
+
+		float m_TimeElapsedTillResetting{ 0 };
 
 
 

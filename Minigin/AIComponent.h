@@ -53,16 +53,16 @@ namespace dae
 
 
 		//remember personalities of the ghosts 
-		void CheckState();
+		void CheckState(Node & targetpos);
 
 	private:
 		std::shared_ptr<GameObject> m_Self = nullptr;
 		std::shared_ptr<GameObject> m_Target = nullptr;
 
 
-		void CheckGhost(GhostType WhichGhost);
+		void CheckGhost(GhostType WhichGhost, Node& targetpos);
 
-		void RunAway(const int & ghotsPosX, const int& ghotsPosY,Node & TargetNode);
+		void RunAway(Node & TargetNode);
 
 		glm::vec3 m_OldPosition;
 		glm::vec3 m_Direction;
@@ -84,12 +84,23 @@ namespace dae
 
 		std::vector<  std::tuple<int, int>>m_OrangeGhosts{};
 
+		float m_timertest{0};
 
 
-		int rowTest{};
-		int Column{};
+
+		int m_rowTest{10};
+		int m_Column{9};
+		int m_index{ 0 };
 
 
+		std::vector<std::tuple<int, int>> m_GridpositionsToPatrol;
+
+		void Patrol(const std::vector<std::tuple<int, int>> & patrolPoints, Node& currentPos,Node & targetPos);
+		void Chase(Node & target);
+
+		void GoTo(int  row, int  column, Node& TargetNode);
+
+		bool HasArrived(Node& ghosts, Node& TargetNode);
 
 
 

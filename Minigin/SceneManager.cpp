@@ -5,6 +5,7 @@
 #include"Map.h"
 #include"PacmanManager.h"
 #include"iostream"
+#include"staticHeader.h"
 
 void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE GAME LOOP
 {
@@ -15,7 +16,10 @@ void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE
 		scene->Update();
 	}*/
 
+	
 	m_CurrentScene->Update();
+
+	
 
 	if (m_CurrentScene->GetName() != "MenuScene" && m_CurrentScene->GetName() != "ScoresScene")
 	{
@@ -31,7 +35,7 @@ void dae::SceneManager::FixedUpdate(float fixedTimeStep) //ALL THIS VALUES ARE F
 	m_CurrentScene->FixedUpdate();
 }
 
-void dae::SceneManager::Render() const//ALL THIS VALUES ARE FROM THE GAME LOOP
+void dae::SceneManager::Render() const  //ALL THIS VALUES ARE FROM THE GAME LOOP
 {
 
 	m_CurrentScene->Render();
@@ -51,7 +55,7 @@ void dae::SceneManager::CleanUp()
 	{
 		if (pScene->NeedsCleanUp())
 		{
-			pScene->CleanUp();                             //Clean Up
+			pScene->CleanUp();                          
 		}
 	}
 }

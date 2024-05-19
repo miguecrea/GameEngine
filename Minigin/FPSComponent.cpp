@@ -5,8 +5,8 @@
 #include <iostream>
 #include"staticHeader.h"
 
-dae::LivesConponent::LivesConponent(int Lives, std::shared_ptr<TextComponent> pTextComponent, int priority)
-	:Component(priority), m_pTextComponent{ pTextComponent },m_Lives{Lives}
+dae::LivesConponent::LivesConponent(bool isScore,std::shared_ptr<TextComponent> pTextComponent, int priority)
+	:Component(priority), m_pTextComponent{ pTextComponent},m_IsScore{isScore}
 {
 }
 void dae::LivesConponent::Update()
@@ -14,9 +14,21 @@ void dae::LivesConponent::Update()
 
 			if (m_pTextComponent)
 			{
-			//	Output to render component
-			//	m_pTextComponent->SetTextToTexture(std::to_string(m_Lives));
+
+
+				if (m_IsScore)
+				{
+
 				m_pTextComponent->SetTextToTexture("Score is "+ std::to_string(s_Score));
+				}
+				else
+				{
+					m_pTextComponent->SetTextToTexture("Lives Remanining " + std::to_string(s_Lives));
+
+				}
+
+
+
 			}
 	
 }

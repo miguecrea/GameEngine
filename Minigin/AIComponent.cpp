@@ -239,17 +239,32 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 	case dae::GhostType::Blue:
 		m_Speed = 25.f;
 
+  // 
+		m_GridpositionsToPatrol.push_back(std::make_tuple(26,20));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(30,26));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(32,15));
+
+
 		break;
 	case dae::GhostType::Red:
+		m_GridpositionsToPatrol.push_back(std::make_tuple(26, 20));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(32, 15));
 		m_Speed = 30.f;
 
 		break;
 	case dae::GhostType::Pink:
-
+		m_GridpositionsToPatrol.push_back(std::make_tuple(26, 20));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(32, 15));
 		m_Speed = 15.f;
 		break;
 	case dae::GhostType::Orange:
 		m_Speed = 23.f;
+
+		m_GridpositionsToPatrol.push_back(std::make_tuple(28, 24));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
+
 
 		break;
 	default:
@@ -286,6 +301,8 @@ void dae::AIComponent::Update()
 {
 
 
+	if (s_PauseGame == 1) return;
+
 	Node currentPos;
 	currentPos.x = int(m_Self->GetLocalPosition().x + 3) / X_STEP;
 	currentPos.y = int(m_Self->GetLocalPosition().y + 3) / Y_STEP;
@@ -299,16 +316,33 @@ void dae::AIComponent::Update()
 	if (m_GhostState ==int(GhostState::Normal))
 	{
 
-		targetPos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
-		targetPos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
+
+		if (m_TypeOfGhost == dae::GhostType::Red)
+		{
+
+		Chase(targetPos);
+		}
+		else
+		{
+
+		Patrol(m_GridpositionsToPatrol,currentPos,targetPos);
+		}
 
 
-	//	 CheckGhost(m_TypeOfGhost);  //can take Taget Pos by refrence 
+		
+
+	
+
+
+		//std::cout << targetPos.x <<" "<< targetPos.y << "\n";
+
+
+
 	}
 	else
 	{
-
-		RunAway(currentPos.x, currentPos.y,targetPos); 
+		m_timertest = 0;
+		RunAway(targetPos); 
 
 	}
 
@@ -356,29 +390,30 @@ void dae::AIComponent::Update()
 	}
 }
 
-void dae::AIComponent::CheckGhost(GhostType WhichGhost)
+void dae::AIComponent::CheckGhost(GhostType WhichGhost, Node & targetpos)
 {
 
-	rowTest = 11;
-	Column = 10;
 
 
-	switch (WhichGhost)
+	switch (WhichGhost)   //takes type of ghots 
 	{
 	case dae::GhostType::Blue:
 
-		CheckState();      // can have  mutiple functions since they all ahd different 
+		CheckState(targetpos);   //    //timepo de espera para atacar 
 
-		//checkSttae() // al paramteres timepo de espera ,,etc 
+		//checkSttae() // al paramteres timepo de espera ,,etc //patrol points 
 		break;
 	case dae::GhostType::Red:
+		CheckState(targetpos);
 
 		break;
 	case dae::GhostType::Pink:
 
+		CheckState(targetpos);
 		break;
 	case dae::GhostType::Orange:
 
+		CheckState(targetpos);
 		break;
 	default:
 		break;
@@ -389,8 +424,9 @@ void dae::AIComponent::CheckGhost(GhostType WhichGhost)
 
 }
 
-void dae::AIComponent::CheckState()
+void dae::AIComponent::CheckState(Node & targetpos)
 {
+
 
 
 
@@ -398,12 +434,10 @@ void dae::AIComponent::CheckState()
 	{
 	case dae::GhostAiState::Waiting:
 
-		//between to cells   //can be parameter 
 
+	//si es azul o rojo waiting time es major etc 
+		
 
-
-		// 
-		// add timer and Call function that checks if it should patrol or chase 
 
 
 
@@ -411,7 +445,16 @@ void dae::AIComponent::CheckState()
 		break;
 	case dae::GhostAiState::Patrolling:
 
-		//parameter the array with the points
+		//m_timertest = 0;
+
+		//int row{ 20 };          //solo se mueve si es valida la casilla 
+		//int column{ 21 };
+		//auto  Pos = Map::GetInstance().GridToPos(column, row);   //primero column y luego row 
+
+
+		//targetPos.x = (std::get<0>(Pos)) / X_STEP;
+		//targetPos.y = (std::get<1>(Pos)) / Y_STEP;
+
 
 
 
@@ -419,9 +462,13 @@ void dae::AIComponent::CheckState()
 		break;
 	case dae::GhostAiState::Chasing:   //difrents type of chasing 
 
-		// if
 
-		//chase the target 
+		targetpos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
+		targetpos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
+
+
+
+
 
 
 		break;
@@ -433,23 +480,23 @@ void dae::AIComponent::CheckState()
 
 }
 
-void dae::AIComponent::RunAway(const int& ghotsPosX, const int& ghotsPosY, Node & TargetNode)
+void dae::AIComponent::RunAway(Node & TargetNode)
 {
 
 	
-	// set to run away 
+	 
   auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
-
-//int first_value = std::get<0>(vectorValidIndexes[rand]);  //10        //row           //vector of valid indexes 
-//int second_value = std::get<1>(vectorValidIndexes[rand]);  //1      //colummnb         //vector of valid indexes 
+  
+int first_value = std::get<0>(vectorValidIndexes[10]);  //10        //row          
+int second_value = std::get<1>(vectorValidIndexes[4]);  //1      //colummnb      
 
     
 
-  int row{20};          //solo se mueve si es valida la casilla 
-  int column{21};
 
   
-auto  Pos = Map::GetInstance().GridToPos(column,row);   //primero column y luego row 
+ // int row{20};          //solo se mueve si es valida la casilla 
+ // int column{21};
+auto  Pos = Map::GetInstance().GridToPos(second_value,first_value);   //primero column y luego row 
 
 
 TargetNode.x = (std::get<0>(Pos)) / X_STEP;
@@ -458,38 +505,86 @@ TargetNode.y = (std::get<1>(Pos)) /  Y_STEP;
 
 
 
-//Node destiantion{};
-//destiantion.x = targetPosX = (std::get<0>(Pos)) / X_STEP;     //cualqier pos / step 
-//destiantion .y = TargetPosY = (std::get<1>(Pos)) /  Y_STEP;   //opne this here 
 
 
 
-
-if(isDestination(ghotsPosX, ghotsPosY,TargetNode))
-{
-
-
-	auto  Pos2 = Map::GetInstance().GridToPos(1,4);   //primero column y luego row 
-
-
-	TargetNode.x = (std::get<0>(Pos2)) / X_STEP;
-	TargetNode.y = (std::get<1>(Pos2)) / Y_STEP;
 
 
 
 }
 
-	//std::cout << TargetNode.x << " " << TargetNode.y<<"\n";
+void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPoints, Node & currentPos,Node& targetPos)
+{
+
+	//int currenttargeRow{};
+	//int currenttargeColumn{};   //if it is reached //increase the index and % size of tuple 
+
+
+
+	targetPos.x;
+	targetPos.y;
+	currentPos.x;
+	currentPos.y;
+	patrolPoints[0]._Myfirst;
+
+	//int index //the problem is that here its gets reseted evertframe
+
+	
+	m_rowTest = std::get<0>(patrolPoints[m_index]);
+	m_Column = std::get<1>(patrolPoints[m_index]);
+
+
+	GoTo(m_rowTest, m_Column, targetPos);
+	if (HasArrived(currentPos, targetPos))
+	{
+		
+		m_index = (m_index + 1) % patrolPoints.size();
+	
+
+		
+	}
+
+	//std::cout << m_rowTest << " " << m_Column<<"\n";
+	//std::cout << index << "\n";
+
+
+
+	
 
 
 
 
 
 
+}
+
+void dae::AIComponent::Chase(Node& target)
+{
+
+	target.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
+	target.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
 
 
+}
+
+void dae::AIComponent::GoTo(int  row, int  column, Node& TargetNode)
+{
 
 
+	auto  Pos = Map::GetInstance().GridToPos(column, row);   //primero column y luego row 
+
+
+	TargetNode.x = (std::get<0>(Pos)) / X_STEP;
+	TargetNode.y = (std::get<1>(Pos)) / Y_STEP;
+
+
+}
+
+bool dae::AIComponent::HasArrived(Node& ghosts, Node& TargetNode)
+{
+	
+	return ghosts.x == TargetNode.x && ghosts.y == ghosts.y;
+	
 }
 
 

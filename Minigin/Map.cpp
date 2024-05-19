@@ -5,11 +5,12 @@
 #include <sstream>
 #include <iostream> // For std::cerr
 #include <stdexcept>
+#include<filesystem>
 
 
 
  int dae::Map::MapArray[36][28] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
    ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
    ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -46,19 +47,28 @@
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-
-                     //rows //columns
-// int dae::Map::MapArray[36][28] = {};
+ int dae::Map::MapArray2[36][28] = {};
 
 dae::Map::Map()
 {
-
-	//parseMapFile("Map.txt");
-
+	std::cout<<std::filesystem::current_path()<<"\n";
 
 
-	rowTest = 4;
-	Column = 1;
+	parseMapFile("Map.txt");
+
+
+	for (int colums = 0; colums < 36; colums++)
+	{
+		for (int rows = 0; rows < 28; rows++)                     
+		{
+			std::cout << MapArray[colums][rows] << ",";
+
+		}
+
+		std::cout << "\n";
+	}
+
+
 
 
 	for (int colums = 0; colums < 36; colums++)
@@ -152,40 +162,28 @@ void dae::Map::DrawMap()
 
 	///// BORAR ESTO DESPUES
 
-	//float PosX{}, PosY{}, width{ 16 };
-	//for (int colums = 0; colums < 36; colums++)
-	//{
-	//	for (int rows = 0; rows < 28; rows++)                     //code rusn first 
-	//	{
-	//		SDL_Color color{255,0,0,80};
-	//		SDL_Color color2{255,255,255,80};
+	float PosX{}, PosY{}, width{ 16 };
+	for (int colums = 0; colums < 36; colums++)
+	{
+		for (int rows = 0; rows < 28; rows++)                     //code rusn first 
+		{
+			SDL_Color color{255,0,0,80};
+		
 
-	//		if (MapArray[colums][rows] != 1)   //where to put points 
-	//		{
+				Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, color);
 
-	//			Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, color);
-	//
-
-	//		}
-	//		if (MapArray[colums][rows] == 1)  //power ups 
-
-	//		{
-	//			Renderer::GetInstance().FillSquare(PosX + width * rows, PosY + width * colums, width, color2);
-	//		
-
-	//		}
-
-	//			Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, color2);
-
-	//	}
+		}
 
 
-	//}
+	}
 
 	auto test = Map::GetInstance().GridToPos(Column,rowTest);     //column //then row 
-	auto orange1 = Map::GetInstance().GridToPos(10,20);     //column //then row 
-	auto orange2 = Map::GetInstance().GridToPos(23,23);     //column //then row 
-	auto orange3 = Map::GetInstance().GridToPos(12,8);     //column //then row 
+	auto orange1 = Map::GetInstance().GridToPos(20,26);     //column //then row 
+	auto orange2 = Map::GetInstance().GridToPos(26,30);     //column //then row 
+
+
+	auto orange3 = Map::GetInstance().GridToPos(15,32);     //column //then row 
+
 	auto orange4 = Map::GetInstance().GridToPos(12,12);     //column //then row 
 
 
@@ -200,8 +198,8 @@ void dae::Map::DrawMap()
 
 	Renderer::GetInstance().FillSquare(float(std::get<0>(orange1))*2,float(std::get<1>(orange1))*2, 16, 16, SDL_Color{0,0,255,255});   
 	Renderer::GetInstance().FillSquare(float(std::get<0>(orange2))*2,float(std::get<1>(orange2))*2, 16, 16, SDL_Color{0,0,255,255});   
-	Renderer::GetInstance().FillSquare(float(std::get<0>(orange3))*2,float(std::get<1>(orange3))*2, 16, 16, SDL_Color{0,0,255,255});   
-	Renderer::GetInstance().FillSquare(float(std::get<0>(orange4))*2,float(std::get<1>(orange4))*2, 16, 16, SDL_Color{0,0,255,255});   
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange3))*2,float(std::get<1>(orange3))*2, 16, 16, SDL_Color{255,0,255,255});   
+	Renderer::GetInstance().FillSquare(float(std::get<0>(orange4))*2,float(std::get<1>(orange4))*2, 16, 16, SDL_Color{255,0,255,255});   
 
 
 
@@ -257,18 +255,33 @@ std::vector<dae::Object>& dae::Map::GetShapes()
 void dae::Map::parseMapFile(const std::string& filename)
 {
 
+
+
 	std::ifstream file(filename);
-	if (!file.is_open()) {
-		std::cerr << "Error opening file: " << filename << std::endl;
-		return;
+	std::string line;
+	int row = 0;
+
+	while (std::getline(file, line) && row < 36) { // Read each line of the file
+		std::istringstream iss(line);
+		std::string token;
+		int col = 0;
+
+		while (std::getline(iss, token, ',')) { // Tokenize each line by comma
+			MapArray2[row][col++] = std::stoi(token); // Convert token to int and fill MapArray2
+		}
+
+		row++;
 	}
 
-	// put in a vector of ints and then 
-
-	//put each number om it 
 
 
-	file.close(); 
+
+
+
+
+
+
+
 
 }
 

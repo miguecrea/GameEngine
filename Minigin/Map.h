@@ -20,6 +20,7 @@ namespace dae
 
 		Map();
 
+		static int MapArray[36][28];
 	
 		void DrawMap();
 		void UpdateMap();
@@ -39,7 +40,7 @@ namespace dae
 		std::vector<Object> m_PelletsAndPowerUp;   //make a struct with ID to know which one is power Up 
 		std::vector<Object> & GetShapes();
 
-		static int MapArray[36][28];
+		static int MapArray2[36][28];
 		void parseMapFile(const std::string& filename);
 
 

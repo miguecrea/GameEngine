@@ -26,7 +26,7 @@ Point2f dae::UpdatePositionCommand::GridToWorld(int row, int column)
 
 void UpdatePositionCommand::Execute()
 {
-	if (!m_pGameObject) return;
+	if (!m_pGameObject || s_PauseGame==1) return;
 	
 	m_OldPosition = m_pGameObject->GetLocalPosition();
 
@@ -64,7 +64,6 @@ void UpdatePositionCommand::Execute()
 	}
 	
 
-	// m_ varibale = 
 
 
 
