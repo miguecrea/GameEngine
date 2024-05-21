@@ -229,42 +229,51 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 	m_TypeOfGhost{Type}
 {
 
-	m_OrangeGhosts.push_back(std::make_tuple(10,20));
-	m_OrangeGhosts.push_back(std::make_tuple(20,34));
-	m_OrangeGhosts.push_back(std::make_tuple(2,4));
-	m_OrangeGhosts.push_back(std::make_tuple(4,4));
 	
+	auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
+
+
 	switch (m_TypeOfGhost)
 	{
 	case dae::GhostType::Blue:
 		m_Speed = 25.f;
-
-  // 
+		m_copy = m_Speed;
+ 
 		m_GridpositionsToPatrol.push_back(std::make_tuple(26,20));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(30,26));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(32,15));
 
+  
 
 		break;
 	case dae::GhostType::Red:
-		m_GridpositionsToPatrol.push_back(std::make_tuple(26, 20));
-		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
-		m_GridpositionsToPatrol.push_back(std::make_tuple(32, 15));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(8,6));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(20,13));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(8,18));
 		m_Speed = 30.f;
+		m_copy = m_Speed;
+
 
 		break;
 	case dae::GhostType::Pink:
-		m_GridpositionsToPatrol.push_back(std::make_tuple(26, 20));
-		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
-		m_GridpositionsToPatrol.push_back(std::make_tuple(32, 15));
-		m_Speed = 15.f;
+		m_Speed = 24.f;
+		m_copy = m_Speed;
+
+		m_GridpositionsToPatrol.push_back(std::make_tuple(11, 1));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(4,15));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(4, 12));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(8,26));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(17,18));
+  
 		break;
 	case dae::GhostType::Orange:
 		m_Speed = 23.f;
+		m_copy = m_Speed;
 
-		m_GridpositionsToPatrol.push_back(std::make_tuple(28, 24));
-		m_GridpositionsToPatrol.push_back(std::make_tuple(30, 26));
-
+		m_GridpositionsToPatrol.push_back(std::make_tuple(26,10));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(23, 1));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(23, 12));
+		m_GridpositionsToPatrol.push_back(std::make_tuple(26, 9));
 
 		break;
 	default:
@@ -280,19 +289,6 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 void dae::AIComponent::Render()
 
 {
-
-
-
-	//auto test = Map::GetInstance().GridToPos(rowTest, Column);
-
-	//int roww = std::get<0>(test);
-	//int column = std::get<0>(test);
-
-	//Renderer::GetInstance().FillSquare(float(roww) * 2, float(column) * 2, 16, 16, SDL_Color{ 0,0,0,255 });
-	//Renderer::GetInstance().FillSquare(0,0, 16, 16, SDL_Color{ 0,0,0,255 });
-
-
-
 	
 
 }
@@ -303,6 +299,8 @@ void dae::AIComponent::Update()
 
 	if (s_PauseGame == 1) return;
 
+	m_GhostWaitingTime += SceneManager::GetInstance().GetDeltaTime();
+
 	Node currentPos;
 	currentPos.x = int(m_Self->GetLocalPosition().x + 3) / X_STEP;
 	currentPos.y = int(m_Self->GetLocalPosition().y + 3) / Y_STEP;
@@ -311,32 +309,27 @@ void dae::AIComponent::Update()
 
 	Node targetPos;
 
-	
+
+
+
+
+
+	if (m_GhostState != int(GhostState::Normal))
+	{
+		m_Speed = 11.f	;
+	}
+	else
+	{
+		m_Speed = m_copy;
+	}
 
 	if (m_GhostState ==int(GhostState::Normal))
 	{
+		m_timertest += SceneManager::GetInstance().GetDeltaTime();
 
 
-		if (m_TypeOfGhost == dae::GhostType::Red)
-		{
-
-		Chase(targetPos);
-		}
-		else
-		{
-
-		Patrol(m_GridpositionsToPatrol,currentPos,targetPos);
-		}
-
-
+		CheckGhost(currentPos, targetPos);
 		
-
-	
-
-
-		//std::cout << targetPos.x <<" "<< targetPos.y << "\n";
-
-
 
 	}
 	else
@@ -370,7 +363,7 @@ void dae::AIComponent::Update()
 			// Check if the X coordinate needs to be adjusted
 			if (fabs(deltaX) > snapThreshold) {
 				// Adjust the X coordinate
-				float moveX = (deltaX > 0 ? 1 : -1) * m_Speed * m_pSceneManager->GetDeltaTime();
+				float moveX = (deltaX > 0 ? 1 : -1) * m_Speed  * m_pSceneManager->GetDeltaTime();
 				m_Self->SetPosition(
 					m_Self->GetLocalPosition().x + moveX,
 					m_Self->GetLocalPosition().y
@@ -390,87 +383,69 @@ void dae::AIComponent::Update()
 	}
 }
 
-void dae::AIComponent::CheckGhost(GhostType WhichGhost, Node & targetpos)
+void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 {
 
-
-
-	switch (WhichGhost)   //takes type of ghots 
+	switch (m_TypeOfGhost)  
 	{
 	case dae::GhostType::Blue:
+		
 
-		CheckState(targetpos);   //    //timepo de espera para atacar 
+		if (m_GhostWaitingTime >=20.f)
+		{
+			//m_GhostWaitingTime = 0;
 
-		//checkSttae() // al paramteres timepo de espera ,,etc //patrol points 
+		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+
+
+		}
+
+		
+
+		
+		//Chase(targetpos);
+
+		
+
+
 		break;
 	case dae::GhostType::Red:
-		CheckState(targetpos);
+
+		if (m_timertest >= 1.f)   //executing both
+		{
+			Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+
+		}
+		if (m_timertest >= 20.f)
+		{
+			Chase(targetpos);
+
+		}	
 
 		break;
 	case dae::GhostType::Pink:
 
-		CheckState(targetpos);
+
+		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+		
+
+	
+
 		break;
 	case dae::GhostType::Orange:
 
-		CheckState(targetpos);
-		break;
-	default:
-		break;
-	}
 
+			if (distanceBetweenPoints() <= 80.f)
+			{
+				Chase(targetpos);
+			}
+			else
+			{
+				Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
 
+			}
 
-
-}
-
-void dae::AIComponent::CheckState(Node & targetpos)
-{
-
-
-
-
-	switch (m_GhotsAiState)
-	{
-	case dae::GhostAiState::Waiting:
-
-
-	//si es azul o rojo waiting time es major etc 
 		
-
-
-
-
-
-		break;
-	case dae::GhostAiState::Patrolling:
-
-		//m_timertest = 0;
-
-		//int row{ 20 };          //solo se mueve si es valida la casilla 
-		//int column{ 21 };
-		//auto  Pos = Map::GetInstance().GridToPos(column, row);   //primero column y luego row 
-
-
-		//targetPos.x = (std::get<0>(Pos)) / X_STEP;
-		//targetPos.y = (std::get<1>(Pos)) / Y_STEP;
-
-
-
-
-		 
-		break;
-	case dae::GhostAiState::Chasing:   //difrents type of chasing 
-
-
-		targetpos.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
-		targetpos.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
-
-
-
-
-
-
 		break;
 	default:
 		break;
@@ -478,7 +453,10 @@ void dae::AIComponent::CheckState(Node & targetpos)
 
 
 
+
 }
+
+
 
 void dae::AIComponent::RunAway(Node & TargetNode)
 {
@@ -487,23 +465,12 @@ void dae::AIComponent::RunAway(Node & TargetNode)
 	 
   auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
   
-int first_value = std::get<0>(vectorValidIndexes[10]);  //10        //row          
-int second_value = std::get<1>(vectorValidIndexes[4]);  //1      //colummnb      
+int first_value = std::get<0>(vectorValidIndexes[17]);  //10        //row          
+int second_value = std::get<1>(vectorValidIndexes[14]);  //1      //colummnb      
 
+
+GoTo(first_value,second_value, TargetNode);
     
-
-
-  
- // int row{20};          //solo se mueve si es valida la casilla 
- // int column{21};
-auto  Pos = Map::GetInstance().GridToPos(second_value,first_value);   //primero column y luego row 
-
-
-TargetNode.x = (std::get<0>(Pos)) / X_STEP;
-TargetNode.y = (std::get<1>(Pos)) /  Y_STEP;
-
-
-
 
 
 
@@ -516,16 +483,9 @@ TargetNode.y = (std::get<1>(Pos)) /  Y_STEP;
 void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPoints, Node & currentPos,Node& targetPos)
 {
 
-	//int currenttargeRow{};
-	//int currenttargeColumn{};   //if it is reached //increase the index and % size of tuple 
+	
 
 
-
-	targetPos.x;
-	targetPos.y;
-	currentPos.x;
-	currentPos.y;
-	patrolPoints[0]._Myfirst;
 
 	//int index //the problem is that here its gets reseted evertframe
 
@@ -538,16 +498,14 @@ void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPo
 	if (HasArrived(currentPos, targetPos))
 	{
 		
-		m_index = (m_index + 1) % patrolPoints.size();
+		m_index = (m_index + 1) % m_GridpositionsToPatrol.size();
 	
 
 		
 	}
 
-	//std::cout << m_rowTest << " " << m_Column<<"\n";
-	//std::cout << index << "\n";
 
-
+//	std::cout << m_rowTest << " " << m_Column << "\n";
 
 	
 
@@ -560,7 +518,7 @@ void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPo
 
 void dae::AIComponent::Chase(Node& target)
 {
-
+	
 	target.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
 	target.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
 
@@ -585,6 +543,26 @@ bool dae::AIComponent::HasArrived(Node& ghosts, Node& TargetNode)
 	
 	return ghosts.x == TargetNode.x && ghosts.y == ghosts.y;
 	
+}
+
+float dae::AIComponent::distanceBetweenPoints()
+{
+	float targetX = m_Target->GetWorldPosition().x;
+	float targetY = m_Target->GetWorldPosition().y;
+	float selfX = m_Self->GetWorldPosition().x;
+	float selfY = m_Self->GetWorldPosition().y;
+
+	// Convert coordinates to float for accurate calculations
+	float dx = targetX * 2 - selfX * 2; // Assuming you want to scale the x-coordinate by 2
+	float dy = targetY - selfY;
+
+	// Calculate the sum of squares
+	float sumOfSquares = dx * dx + dy * dy;
+
+	// Calculate the square root of the sum to get the distance
+	float distance = std::sqrt(sumOfSquares);
+
+	return distance;
 }
 
 

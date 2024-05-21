@@ -53,14 +53,13 @@ namespace dae
 
 
 		//remember personalities of the ghosts 
-		void CheckState(Node & targetpos);
 
 	private:
 		std::shared_ptr<GameObject> m_Self = nullptr;
 		std::shared_ptr<GameObject> m_Target = nullptr;
 
 
-		void CheckGhost(GhostType WhichGhost, Node& targetpos);
+		void CheckGhost(Node & ghotsPos,Node & targetpos);
 
 		void RunAway(Node & TargetNode);
 
@@ -73,23 +72,27 @@ namespace dae
 		GhostType m_TypeOfGhost;
 
 		float m_Speed{};
+		float m_copy{};
 
 		static const int Ghosts{3};
 		float m_ghotsTimersArray[Ghosts]{};
 
 		GhostAiState m_GhotsAiState{ GhostAiState::Waiting};   //since red starts can set it is state to patrolling 
-
+		int m_firstValue;
+		int m_secondValue;
 
 		std::vector < std::tuple<int, int>>m_Pos{};
 
 		std::vector<  std::tuple<int, int>>m_OrangeGhosts{};
 
+		float m_GhostWaitingTime{0};
+
 		float m_timertest{0};
 
 
 
-		int m_rowTest{10};
-		int m_Column{9};
+		int m_rowTest{0};
+		int m_Column{0};
 		int m_index{ 0 };
 
 
@@ -101,9 +104,8 @@ namespace dae
 		void GoTo(int  row, int  column, Node& TargetNode);
 
 		bool HasArrived(Node& ghosts, Node& TargetNode);
-
-
-
+	
+		float distanceBetweenPoints();
 	};
 
 

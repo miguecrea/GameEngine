@@ -64,6 +64,9 @@ void dae::ColliderComponent::Update()
 	HandleCollisonGhosts(ghosts3, 88, 140, 2);
 	HandleCollisonGhosts(ghosts4, 120, 128, 3);
 
+
+	
+
 	
 
 	if (m_StartPauseGameTimer)
