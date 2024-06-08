@@ -47,7 +47,7 @@ void Scene::Add(std::shared_ptr<GameObject> object)   //add any game obejct to a
 void dae::Scene::ForceRemoveAll()
 {
 	//m_pNewObjects.clear();
-	m_pObjects.clear();         //removea ll game objects 
+	m_pObjects.clear();         
 }
 
 void dae::Scene::DestroyAll()
@@ -110,6 +110,23 @@ bool dae::Scene::NeedsCleanUp() const
 	return false;
 }
 
+void dae::Scene::AddPlayer(std::shared_ptr<GameObject> player)
+{
+
+	m_player = player;
+}
+
+void dae::Scene::AddPlayer2(std::shared_ptr<GameObject> player)
+{
+	
+	m_player2 = player;
+}
+
+void dae::Scene::AddEnemy(std::shared_ptr<GameObject> player)
+{
+	m_enemy = player;
+}
+
 void Scene::Render() const
 {
 	for (const auto& pObject : m_pObjects)
@@ -140,6 +157,9 @@ void dae::Scene::CleanUp()
 	//	m_LoadFunction();
 
 	//	m_ShouldLoad = false;
+	// 
+	// 
+	// 
 	//}
 
 

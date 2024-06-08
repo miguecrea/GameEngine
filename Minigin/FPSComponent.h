@@ -22,10 +22,10 @@ namespace dae
 
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;
-
-
-
 		bool m_IsScore = false;
+
+
+
 		
 
 

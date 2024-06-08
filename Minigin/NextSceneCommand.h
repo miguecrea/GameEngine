@@ -13,7 +13,7 @@ namespace dae
 
     private:
         std::string nameOfScene;
-        GameMode m_gameMode;  //reference what does it mean 
+        GameMode m_gameMode;
 
 
     };

@@ -15,7 +15,7 @@ namespace dae
 
 	public:
 	
-		ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth, std::vector<std::shared_ptr<GameObject>> & ghosts);  //make collider width dimensions
+		ColliderComponent(Scene & scene,std::shared_ptr<GameObject> owner, std::vector<Object> & collideswidth, std::vector<std::shared_ptr<GameObject>> & ghosts);  //make collider width dimensions
 
 		virtual ~ColliderComponent();
 		ColliderComponent(const ColliderComponent& other) = default;
@@ -27,6 +27,7 @@ namespace dae
 		virtual void Update() override;
 
 		void ExeceuteCollisionLogic();
+		int returnScore();
 
 
 		float m_totalTimeElapsed{};
@@ -54,7 +55,12 @@ namespace dae
 		int enemiesArrayX[m_EnemiesPos]{};
 		int enemiesArrayY[m_EnemiesPos]{};
 
+		void writeMaxScore(const std::string& filename, int score);
+		int readMaxScore(const std::string& filename);
+
+
 		void HandleCollisonGhosts(Object& ghots, int x, int y, int id);
+		Scene & scenePro;
 		
 
 		int x = 0;

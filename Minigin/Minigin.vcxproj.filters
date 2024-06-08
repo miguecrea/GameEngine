@@ -153,9 +153,6 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Other Files</Filter>
     </ClInclude>
@@ -164,12 +161,6 @@
     </ClInclude>
     <ClInclude Include="PacmanManager.h">
       <Filter>Pacman Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="SetMoveDirectionCommand.h">
-      <Filter>Engine Files\Input\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Engine Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Game Files\Components</Filter>
@@ -240,7 +231,10 @@
     <ClInclude Include="staticHeader.h">
       <Filter>Other Files</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionFunctionality.h">
+    <ClInclude Include="AddInput.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreComponent.h">
       <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -329,32 +323,17 @@
     <ClCompile Include="UpdatePositionCommand.cpp">
       <Filter>Engine Files\Input\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="SetPositionCommand.cpp">
-      <Filter>Engine Files\Input\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Other Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Other Files\Observer</Filter>
-    </ClCompile>
     <ClCompile Include="StartInfoComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="PacmanManager.cpp">
       <Filter>Pacman Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="SetMoveDirectionCommand.cpp">
-      <Filter>Engine Files\Input\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Engine Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Game Files\Components</Filter>
@@ -422,7 +401,7 @@
     <ClCompile Include="staticHeader.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionFunctionality.cpp">
+    <ClCompile Include="HighScoreComponent.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>

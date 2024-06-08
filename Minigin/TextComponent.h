@@ -19,6 +19,8 @@ namespace dae
 		TextComponent& operator=(const TextComponent& other) = default;
 		TextComponent& operator=(TextComponent&& other) = default;
 
+
+
 		void SetTextToTexture(const std::string& text);
 		void SetColorRectToTexture(int width, int height);
 

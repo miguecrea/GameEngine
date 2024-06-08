@@ -7,33 +7,55 @@
 #include"SoundSystem.h"
 #include"AIComponent.h"
 #include"Map.h"
-dae::ColliderComponent::ColliderComponent(std::shared_ptr<GameObject> owner, std::vector<Object>& collideswidth, std::vector<std::shared_ptr<GameObject>>& ghosts) :  //PUIT objects array in the constructor
+#include <fstream>
+#include <string>
+#include"Renderer.h"
+dae::ColliderComponent::ColliderComponent(Scene & scene,std::shared_ptr<GameObject> owner, std::vector<Object>& collideswidth, std::vector<std::shared_ptr<GameObject>>& ghosts) :  //PUIT objects array in the constructor
 	m_Owner{ owner },// vector of f rects 
 	m_Enemies{ ghosts },
-	m_objectsVector{ collideswidth }
+	m_objectsVector{ collideswidth },
+	scenePro{scene}
 
 {
-	m_Rect.w = 20;   //changed collider //was in 30
+	m_Rect.w = 20;   
 	m_Rect.h = 20;
+
+
+
+
+	int score = readMaxScore("Scores.txt");
+
+	std::cout << score << "\n";
+
+
 }
+
+	
 
 dae::ColliderComponent::~ColliderComponent()
 {
 	
+
 }
 
 void dae::ColliderComponent::Render()
 {
 
-	//Renderer::GetInstance().FillSquare(float(m_Rect.x),float(m_Rect.y),float(m_Rect.w),float(m_Rect.h), Renderer::GetInstance().m_White);
 
-
-	//Renderer::GetInstance().FillSquare(float(x),float(y), float(m_Rect.w), float(m_Rect.h), Renderer::GetInstance().m_White);
 
 }
 
+
+
 void dae::ColliderComponent::Update()
 {
+
+
+
+
+
+
+
 
 	float scale{ 2 };
 	for (int index = 0; index < m_Enemies.size(); index++)
@@ -43,9 +65,6 @@ void dae::ColliderComponent::Update()
 		enemiesArrayY[index] = int(m_Enemies[index]->GetWorldPosition().y * scale);
 
 	}
-
-	x = int(m_Enemies[0]->GetWorldPosition().x * 2);
-	y = int(m_Enemies[0]->GetWorldPosition().y * 2);
 
 
 	m_Rect.x = int(m_Owner->GetWorldPosition().x * scale);
@@ -155,7 +174,15 @@ void dae::ColliderComponent::Update()
 
 	}
 
+	s_HighScore = readMaxScore("Scores.txt");
 
+	if (s_Score > s_HighScore) {
+
+		writeMaxScore("Scores.txt", s_Score);
+	}
+	else {
+		std::cout << "No new high score." << std::endl;
+	}
 
 }
 
@@ -181,19 +208,17 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 					Audio::Get().Play(s_PickUpPellet);
 
-					//	std::cout << "Is Collidiing\n" << i << "\n";
 					m_objectsVector[i].color.a = 0;
 					m_objectsVector[i].m_collisionPreset = dae::Collision::NoCollision;
 
 					s_Score+=10;
 
+				
 					
 					break;
 
 				case dae::TypeOfObject::powerUp:
 					Audio::Get().Play(s_CanEatGhots);
-
-					//Audio::Get().Play(0);
 
 					m_StartTimer = true;
 					m_GhostState = int(dae::GhostState::Blue);
@@ -215,6 +240,35 @@ void dae::ColliderComponent::ExeceuteCollisionLogic()
 
 
 	}
+
+}
+
+int dae::ColliderComponent::returnScore()
+{
+	
+
+	std::ifstream inputFile("Scores.txt"); // Open file in read mode
+		int score = 0; // Default value if file cannot be opened or score is not found
+
+		if (inputFile.is_open()) {
+			std::string line;
+			while (std::getline(inputFile, line)) {
+				// Search for the line containing "score = "
+				size_t pos = line.find("score = ");
+				if (pos != std::string::npos) {
+					// Extract the score value from the line
+					score = std::stoi(line.substr(pos + 8)); // Assuming score is an integer
+					break;
+				}
+			}
+			inputFile.close(); // Close the file
+		}
+		else {
+			std::cerr << "Error opening file!" << std::endl;
+		}
+
+		return score;
+
 
 }
 
@@ -257,6 +311,36 @@ bool dae::ColliderComponent::HasAllBeenPicked()
 	return true;
 }
 
+void dae::ColliderComponent::writeMaxScore(const std::string& filename, int score)
+{
+
+	std::ofstream file(filename);
+
+	if (file.is_open()) {
+		file << score;
+		file.close();
+	}
+	else {
+		std::cerr << "Unable to open file for writing." << std::endl;
+	}
+
+}
+
+int dae::ColliderComponent::readMaxScore(const std::string& filename)
+{
+
+	std::ifstream file(filename);
+	int maxScore = 0;
+
+	if (file.is_open()) {
+		file >> maxScore;
+		file.close();
+	}
+
+	return maxScore;
+	
+}
+
 void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, int CenterY, int id)
 {
 
@@ -282,13 +366,13 @@ void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, in
 
 						s_Lives--;
 
-						m_pacmanState = 0; 
+						m_pacmanState = 0;
 
 						m_Enemies[0]->SetPosition(88, 128);
 						m_Enemies[1]->SetPosition(105, 128);
 						m_Enemies[2]->SetPosition(88, 140);
 						m_Enemies[3]->SetPosition(120, 128);
-					
+
 						m_StartPauseGameTimer = true;
 						s_PauseGame = 1;
 
@@ -300,7 +384,13 @@ void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, in
 					{
 
 						SceneManager::GetInstance().SetCurrentScene("ScoresScene");
+
 						Audio::Get().Play(s_MenuMusicId);
+
+
+
+	
+						
 					}
 
 
@@ -308,10 +398,17 @@ void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, in
 				else
 				{
 
-					s_Score += 100;
+					s_Score += 200;
+
+
+
+
 					Audio::Get().Play(s_AteGhostSound);
 
-					m_Enemies[id]->SetPosition(float(CenterX),float(CenterY));
+					m_Enemies[id]->SetPosition(float(CenterX), float(CenterY));
+
+			
+
 				}
 			}
 		}

@@ -399,15 +399,6 @@ void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 
 
 		}
-
-		
-
-		
-		//Chase(targetpos);
-
-		
-
-
 		break;
 	case dae::GhostType::Red:
 

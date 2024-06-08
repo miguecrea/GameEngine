@@ -12,9 +12,6 @@ struct PlayerInfo
     int score{ 0 };
 };
 
-
-
-
 enum class PlayerDirection
 {
 
@@ -25,40 +22,25 @@ enum class PlayerDirection
 
 };
 
-
 namespace dae
 {
 
     class PacmanManager :public dae::Singleton<PacmanManager>
     {
-
-
     public:
-
-       
-
         void SetGameMode(GameMode gameMode)
         {
             m_GameMode = gameMode;
         }
-
 
        const GameMode & GetMode()
         {
             return  m_GameMode;
         }
        
-
         PlayerDirection m_pacmanDirection;
-
-
     private:
-
         GameMode m_GameMode{GameMode::Menu};
-
-
-
-
 
     };
 

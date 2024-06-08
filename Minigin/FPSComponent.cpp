@@ -26,7 +26,9 @@ void dae::LivesConponent::Update()
 					m_pTextComponent->SetTextToTexture("Lives Remanining " + std::to_string(s_Lives));
 
 				}
+			
 
+			//		m_pTextComponent->SetTextToTexture("Lives Remanining " + std::to_string(s_Lives));
 
 
 			}

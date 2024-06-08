@@ -51,7 +51,6 @@
 
 dae::Map::Map()
 {
-	std::cout<<std::filesystem::current_path()<<"\n";
 
 
 	parseMapFile("Map.txt");
@@ -60,20 +59,6 @@ dae::Map::Map()
 	for (int colums = 0; colums < 36; colums++)
 	{
 		for (int rows = 0; rows < 28; rows++)                     
-		{
-			std::cout << MapArray[colums][rows] << ",";
-
-		}
-
-		std::cout << "\n";
-	}
-
-
-
-
-	for (int colums = 0; colums < 36; colums++)
-	{
-		for (int rows = 0; rows < 28; rows++)                     //code rusn first 
 		{
 
 	        float  width{ 16 };
@@ -103,23 +88,8 @@ dae::Map::Map()
 		}
 
 
-
-
-
-
-
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 }
@@ -131,94 +101,11 @@ void dae::Map::DrawMap()
 {
 
 
-	//ake them dissapear 
-
-	//when all cleared win the game 
-
-	//order depends on how you fill it      si es primero rows o columns llena la grid diferente 
-
-
-	//for (int colums = 0; colums < 36; colums++)
-	//{
-	//	for (int rows = 0; rows < 28; rows++)                     //code rusn first 
-	//	{
-	//		
-	//	//int currentIndex = colums * MAX_ROWS + rows;   //thislines will be different depending on what you put first columns or rows 
-
-	//	}
-	//}
-
-
-
 	for (size_t i = 0; i < m_PelletsAndPowerUp.size(); i++)
 	{
 		m_PelletsAndPowerUp[i].Draw();
 		
 	}
-
-
-
-
-
-	///// BORAR ESTO DESPUES
-
-	//float PosX{}, PosY{}, width{ 16 };
-	for (int colums = 0; colums < 36; colums++)
-	{
-		for (int rows = 0; rows < 28; rows++)                     //code rusn first 
-		{
-			SDL_Color color{255,0,0,80};
-		
-
-			//	Renderer::GetInstance().DrawSquare(PosX + width * rows, PosY + width * colums, width, color);
-
-		}
-
-
-	}
-
-	//auto test = Map::GetInstance().GridToPos(Column,rowTest);     //column //then row 
-	//auto orange1 = Map::GetInstance().GridToPos(20,26);     //column //then row 
-	//auto orange2 = Map::GetInstance().GridToPos(26,30);     //column //then row 
-	//auto orange3 = Map::GetInstance().GridToPos(15,32);     //column //then row 
-
-	//	auto orange1 = Map::GetInstance().GridToPos(1,11);     //column //then row 
-	//auto orange2 = Map::GetInstance().GridToPos(15,4);     //column //then row 
-	//auto orange3 = Map::GetInstance().GridToPos(12,4);     //column //then row 
-	//auto orange4 = Map::GetInstance().GridToPos(26,8);     //column //then row 
-	//auto orange5 = Map::GetInstance().GridToPos(18,17);     //column //then row 
-			//auto orange1 = Map::GetInstance().GridToPos(6,8);     //column //then row 
-//	auto orange2 = Map::GetInstance().GridToPos(18,8);     //column //then row 
-	//auto orange3 = Map::GetInstance().GridToPos(14,17);     //column //then row 
-	//auto orange4 = Map::GetInstance().GridToPos(12,23);     //column //then row 
-	//auto orange5 = Map::GetInstance().GridToPos(2,23);     //column //then row 
-
-
-
-	//auto orange4 = Map::GetInstance().GridToPos(12,12);     //column //then row 
-
-
-
-
-
-
-	//int roww  = std::get<0>(test);
-//	int column  = std::get<1>(test);
-
-	//Renderer::GetInstance().FillSquare(float(roww)*2,float(column)*2, 16, 16, SDL_Color{0,0,0,255});   //renderizo mal 
-
-	//Renderer::GetInstance().FillSquare(float(std::get<0>(orange3))*2,float(std::get<1>(orange3))*2, 16, 16, SDL_Color{255,0,255,255});   
-	//Renderer::GetInstance().FillSquare(float(std::get<0>(orange1))*2,float(std::get<1>(orange1))*2, 16, 16, SDL_Color{0,0,255,255});   
-	//Renderer::GetInstance().FillSquare(float(std::get<0>(orange2))*2,float(std::get<1>(orange2))*2, 16, 16, SDL_Color{0,0,255,255});   
-	//Renderer::GetInstance().FillSquare(float(std::get<0>(orange4))*2,float(std::get<1>(orange4))*2, 16, 16, SDL_Color{255,0,255,255});   
-	//Renderer::GetInstance().FillSquare(float(std::get<0>(orange5))*2,float(std::get<1>(orange5))*2, 16, 16, SDL_Color{255,0,255,255});  
-
-
-
-
-
-
-
 
 
 }

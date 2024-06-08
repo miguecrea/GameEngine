@@ -13,5 +13,6 @@ extern int s_Lives;
 extern int s_DeathMusic;
 extern int s_PauseGame;
 extern int s_AteGhostSound;
+extern int s_HighScore;
 
 

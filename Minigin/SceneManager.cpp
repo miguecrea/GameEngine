@@ -10,16 +10,7 @@
 void dae::SceneManager::Update(float deltaTime)   //ALL THIS VALUES ARE FROM THE GAME LOOP
 {
 	m_DeltaTime = deltaTime;
-
-	/*for(auto& scene : m_pScenes)
-	{
-		scene->Update();
-	}*/
-
-	
 	m_CurrentScene->Update();
-
-	
 
 	if (m_CurrentScene->GetName() != "MenuScene" && m_CurrentScene->GetName() != "ScoresScene")
 	{
@@ -96,6 +87,8 @@ void dae::SceneManager::SetCurrentScene(const std::string& name)
 	if (pScene != m_pScenes.end())
 	{
 		m_CurrentScene = (*pScene).get();
+
+
 	}
 }
 

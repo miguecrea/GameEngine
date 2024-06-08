@@ -24,21 +24,19 @@ Point2f dae::UpdatePositionCommand::GridToWorld(int row, int column)
 	return Point2f(8 * row, 8 * column);
 }
 
-void UpdatePositionCommand::Execute()
+void dae::UpdatePositionCommand::SetPositionBasedOngrid()
 {
-	if (!m_pGameObject || s_PauseGame==1) return;
-	
+
 	m_OldPosition = m_pGameObject->GetLocalPosition();
 
 
-	// Set the new position
 
-	float gridCellWidth = 8.f; // Assuming each grid cell is 16 units wide
+	float gridCellWidth = 8.f;
 	float gridCellHeight = 8.f;
 
-	
-	int column = static_cast<int>((m_OldPosition.x + 3) / gridCellWidth);  //number columns   //(ancho textura /2) -1
-	int row = static_cast<int>((m_OldPosition.y + 3) / gridCellHeight);   //number of rows     
+
+	int column = static_cast<int>((m_OldPosition.x + 3) / gridCellWidth);
+	int row = static_cast<int>((m_OldPosition.y + 3) / gridCellHeight);
 
 	glm::vec3 newPosition = m_OldPosition + m_Direction * m_pSceneManager->GetDeltaTime();
 	if (m_Direction.x > 0) column++;
@@ -46,12 +44,12 @@ void UpdatePositionCommand::Execute()
 	if (m_Direction.y > 0) row++;
 	if (m_Direction.y < 0) row--;
 
-	if (m_Direction.x != 0) 
+	if (m_Direction.x != 0)
 	{
 		newPosition.y = row * gridCellHeight;
 	}
-	
-	if (m_Direction.y != 0) 
+
+	if (m_Direction.y != 0)
 	{
 		newPosition.x = column * gridCellWidth;
 	}
@@ -62,14 +60,10 @@ void UpdatePositionCommand::Execute()
 	{
 		m_pGameObject->SetPosition(newPosition.x, newPosition.y);
 	}
-	
-
-
-
 
 	if (m_currentPlayer == 0)
 	{
-	m_pacmanState = int(m_Direction.z);
+		m_pacmanState = int(m_Direction.z);
 
 	}
 	else
@@ -77,9 +71,13 @@ void UpdatePositionCommand::Execute()
 		m_MrsPacmanState = int(m_Direction.z);
 	}
 
+}
 
+void UpdatePositionCommand::Execute()
+{
+	if (!m_pGameObject || s_PauseGame==1) return;
 
-
+	SetPositionBasedOngrid();
 
 }
 

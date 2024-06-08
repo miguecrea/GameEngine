@@ -16,6 +16,8 @@ namespace dae
 
         Point2f GridToWorld(int row,int column);
 
+        void SetPositionBasedOngrid();
+
         void Execute() override;
         void Undo() override;
 
