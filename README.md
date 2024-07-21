@@ -7,13 +7,20 @@ A* is a popular pathfinding and graph traversal algorithm used in many games and
 ![a_-search-algorithm-1](https://github.com/user-attachments/assets/7113c452-3157-490b-b493-59c3b6664fc6)
 
 
-
-
-
-
 ### Relevance to Pacman
 In the context of the Pacman game, A* is used to navigate the ghosts intelligently around the maze, chasing Pacman or fleeing to their home base. This makes the game more challenging and enjoyable by creating dynamic and unpredictable ghost behavior.
 
 ### Design and Implementation
 Problem Definition
 The goal is to implement the A* algorithm in a custom game engine to control the ghost's movement in a Pacman game. The ghosts should be able to find the shortest path to Pacman considering the layout of the maze.
+
+## How is this implemented?
+
+
+
+
+
+# Sources
+https://www.geeksforgeeks.org/a-search-algorithm/
+https://www.youtube.com/watch?v=-L-WgKMFuhE&t=226s
+https://www.codecademy.com/resources/docs/ai/search-algorithms/a-star-search
