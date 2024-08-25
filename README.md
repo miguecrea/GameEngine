@@ -1,5 +1,5 @@
 
-# A* Pathfinding Algorithm in Pacman Game
+# Combined AI behavior in Pacman Game
 ## Description of the Topic
  ### Introduction to A*
 A* is a popular pathfinding and graph traversal algorithm used in many games and applications. It aims to find the shortest path from a start node to a goal node by combining the advantages of Dijkstra’s Algorithm and Greedy Best-First-Search. The algorithm uses a heuristic to estimate the cost to reach the goal, making it both complete and optimal.
@@ -13,6 +13,7 @@ In the context of the Pacman game, A* is used to navigate the ghosts intelligent
 ### Design and Implementation
 Problem Definition
 The goal is to implement the A* algorithm in a custom game engine to control the ghost's movement in a Pacman game. The ghosts should be able to find the shortest path to Pacman considering the layout of the maze.
+but that is only the first step we ant to create an engaging Ai system that makes the ghost share information and work together in order to catch pacman 
 
 ## How is this implemented?
 
