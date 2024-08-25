@@ -211,6 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BrainComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="CombinedGraphComponent.h" />
     <ClInclude Include="Command.h" />
@@ -244,8 +245,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Map.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="NextSceneCommand.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="ObjectHeader.h" />
     <ClInclude Include="PacmanManager.h" />
+    <ClInclude Include="PathFindingAstar.h" />
     <ClInclude Include="QueueEvent.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
@@ -260,7 +263,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="StartInfoComponent.h" />
     <ClInclude Include="staticHeader.h" />
-    <ClInclude Include="Subject.h" />
     <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
@@ -272,6 +274,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BrainComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="CombinedGraphComponent.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -306,6 +309,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="NextSceneCommand.cpp" />
     <ClCompile Include="PacmanManager.cpp" />
+    <ClCompile Include="PathFindingAstar.cpp" />
     <ClCompile Include="QueueEvent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />

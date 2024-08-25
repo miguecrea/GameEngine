@@ -63,19 +63,6 @@ void dae::NextSceneCommand::Execute()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	 
 
 

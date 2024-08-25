@@ -13,13 +13,6 @@ namespace dae
 		void FixedUpdate();
 		void Render() const;
 
-
-		//3 functions 
-
-
-
-
-
 		GameObject(int priority = 0);
 		virtual ~GameObject();
 		//Rule of 5 

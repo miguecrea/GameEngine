@@ -181,7 +181,6 @@ void dae::ColliderComponent::Update()
 		writeMaxScore("Scores.txt", s_Score);
 	}
 	else {
-		std::cout << "No new high score." << std::endl;
 	}
 
 }
@@ -370,8 +369,8 @@ void dae::ColliderComponent::HandleCollisonGhosts(Object& ghots, int CenterX, in
 
 						m_Enemies[0]->SetPosition(88, 128);
 						m_Enemies[1]->SetPosition(105, 128);
-						m_Enemies[2]->SetPosition(88, 140);
-						m_Enemies[3]->SetPosition(120, 128);
+						//m_Enemies[2]->SetPosition(88, 140);
+						//m_Enemies[3]->SetPosition(120, 128);
 
 						m_StartPauseGameTimer = true;
 						s_PauseGame = 1;

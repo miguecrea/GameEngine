@@ -18,7 +18,7 @@ namespace dae
 		};
 
 	public:
-		static LoggingSystem& Get();
+		static LoggingSystem & Get();
 		static void RegisterService(std::unique_ptr<LoggingSystem>&& pService);
 
 	private:

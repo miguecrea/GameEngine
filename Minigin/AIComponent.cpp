@@ -7,12 +7,14 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <cmath>
-#include<set>
-#include <stack>
 #include <array>
 #include"staticHeader.h"
 
+
+#include"iostream"
+#include <cmath>
+#include<set>
+#include <stack>
 
 
 #define X_MAX 224
@@ -220,6 +222,8 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 	}
 }
 
+
+
 dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type) :
 	m_Self{ SelfGameObject },
 	m_Target{ pTargetGameObejct },
@@ -236,7 +240,7 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 	switch (m_TypeOfGhost)
 	{
 	case dae::GhostType::Blue:
-		m_Speed = 25.f;
+		m_Speed = 9.f;
 		m_copy = m_Speed;
  
 		m_GridpositionsToPatrol.push_back(std::make_tuple(26,20));
@@ -250,13 +254,13 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 		m_GridpositionsToPatrol.push_back(std::make_tuple(8,6));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(20,13));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(8,18));
-		m_Speed = 30.f;
+		m_Speed = 14.f;
 		m_copy = m_Speed;
 
 
 		break;
 	case dae::GhostType::Pink:
-		m_Speed = 24.f;
+		m_Speed = 12.f;
 		m_copy = m_Speed;
 
 		m_GridpositionsToPatrol.push_back(std::make_tuple(11, 1));
@@ -267,7 +271,7 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
   
 		break;
 	case dae::GhostType::Orange:
-		m_Speed = 23.f;
+		m_Speed = 11.f;
 		m_copy = m_Speed;
 
 		m_GridpositionsToPatrol.push_back(std::make_tuple(26,10));
@@ -287,9 +291,28 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 
 
 void dae::AIComponent::Render()
-
 {
 	
+
+	for (int index = 0; index < path.size(); index++)
+	{
+
+		if (m_TypeOfGhost == GhostType::Red)
+		{
+	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{255,0,0,100});
+
+		}
+		else
+		{
+	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{0,0,255,100});
+
+		}
+
+	}
+		
+
+	
+
 
 }
 
@@ -310,10 +333,6 @@ void dae::AIComponent::Update()
 	Node targetPos;
 
 
-
-
-
-
 	if (m_GhostState != int(GhostState::Normal))
 	{
 		m_Speed = 11.f	;
@@ -329,6 +348,8 @@ void dae::AIComponent::Update()
 
 
 		CheckGhost(currentPos, targetPos);
+
+
 		
 
 	}
@@ -344,15 +365,17 @@ void dae::AIComponent::Update()
 	//std::cout << "Playeraaaaaa is at " << targetPos.x << ", " << targetPos.y << "\n";
 
 
-	auto path = aStar(currentPos, targetPos);
+	 path = aStar(currentPos, targetPos);
+
+
 	if (path.size() > 1)
 	{
 		float x = float(path[1].x * X_STEP);
 		float y = float(path[1].y * Y_STEP);
-		float deltaX = (x - m_Self->GetLocalPosition().x) /*((currentPos.x != path[1].x) ? 1.f : 1.f)*/;
+		float deltaX = (x - m_Self->GetLocalPosition().x) ;
 		if (deltaX < 0) deltaX = -1;
 		else if (deltaX > 0) deltaX = 1;
-		float deltaY = (y - m_Self->GetLocalPosition().y) /*((currentPos.y != path[1].y) ? 1.f : 1.f)*/;
+		float deltaY = (y - m_Self->GetLocalPosition().y) ;
 		if (deltaY < 0) deltaY = -1;
 		else if (deltaY > 0) deltaY = 1;
 
@@ -420,8 +443,6 @@ void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
 		
 
-	
-
 		break;
 	case dae::GhostType::Orange:
 
@@ -473,11 +494,6 @@ GoTo(first_value,second_value, TargetNode);
 
 void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPoints, Node & currentPos,Node& targetPos)
 {
-
-	
-
-
-
 	//int index //the problem is that here its gets reseted evertframe
 
 	
@@ -494,16 +510,6 @@ void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPo
 
 		
 	}
-
-
-//	std::cout << m_rowTest << " " << m_Column << "\n";
-
-	
-
-
-
-
-
 
 }
 
@@ -555,24 +561,6 @@ float dae::AIComponent::distanceBetweenPoints()
 
 	return distance;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -644,8 +632,6 @@ float dae::AIComponent::distanceBetweenPoints()
 
 
  ///////////////
-
-
 
 
 	//char mapVisualized[X_MAX / X_STEP][Y_MAX / Y_STEP];

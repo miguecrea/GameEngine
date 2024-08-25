@@ -15,6 +15,6 @@ int m_GhostState = 0;
 
  int s_Score = 0;
  int s_HighScore = 0;
- int s_Lives = 3;
+ int s_Lives = 10;
 
  int s_PauseGame =  0;

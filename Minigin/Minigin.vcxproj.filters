@@ -42,10 +42,6 @@
     <Filter Include="Pacman Manager">
       <UniqueIdentifier>{b495246e-c922-40cc-91dd-96789de89f77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Other Files\Observer">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{57b6ff21-1764-42f3-b885-face8063448c}</UniqueIdentifier>
     </Filter>
@@ -153,9 +149,6 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
     <ClInclude Include="StartInfoComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
@@ -235,6 +228,15 @@
       <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="HighScoreComponent.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrainComponent.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindingAstar.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
       <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -402,6 +404,12 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="HighScoreComponent.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BrainComponent.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindingAstar.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>

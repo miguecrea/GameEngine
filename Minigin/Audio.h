@@ -6,7 +6,7 @@ namespace dae
 {
 	class Audio final
 	{
-		class NullSoundSystem final : public SoundSystem
+		class NullSoundSystem final : public SoundSystem  //null souns sytem 
 		{
 		public:
 			virtual void Play(const int, const float, const int) {};

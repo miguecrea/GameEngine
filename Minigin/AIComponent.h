@@ -5,22 +5,21 @@
 #include <glm/glm.hpp>
 #include"Helper.h"
 #include"ObjectHeader.h"
+#include"Node.h"
 
-
-	struct Node
-	{
-		int y;
-		int x;
-		int parentX;
-		int parentY;
-		float gCost;
-		float hCost;
-		float fCost;
-	};
 
 
 namespace dae
 {
+
+	struct SharedKnowledge {
+		bool pacmanSpotted;
+		Node pacmanPosition;
+		std::vector<Node> strategicPoints;
+	};
+
+	// Global shared knowledge that all ghosts can access
+	
 
 	enum class GhostAiState
 	{
@@ -42,14 +41,17 @@ namespace dae
 		// this class wil, take an enum class that /describes the personality of each Ghost 
 
 
-		//gess needs pacman position of pacmans 
 
-
+		SharedKnowledge m_sharedKnowledge;
 		AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type);
 		//fantasma enum class y adentro dependiedo del typo cambio la velocidad 
 
 		virtual void Render() override;
 		virtual void Update() override;
+
+	
+
+		std::vector<Node> path{};
 
 
 		//remember personalities of the ghosts 
@@ -67,7 +69,7 @@ namespace dae
 		glm::vec3 m_Direction;
 
 		glm::vec3 newPosition{};
-		SceneManager* m_pSceneManager{ nullptr };
+		SceneManager * m_pSceneManager{ nullptr };
 
 		GhostType m_TypeOfGhost;
 

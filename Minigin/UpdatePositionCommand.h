@@ -13,16 +13,12 @@ namespace dae
     {
     public:
         UpdatePositionCommand(GameObject * pGameObject, const glm::vec3& direction,int WhoIsTurning);
-
         Point2f GridToWorld(int row,int column);
-
-        void SetPositionBasedOngrid();
-
         void Execute() override;
-        void Undo() override;
+        void Undo() override; 
 
-       
 
+            void SetPositionBasedOngrid();
     private:
         GameObject * m_pGameObject;
         SceneManager * m_pSceneManager{ nullptr };
