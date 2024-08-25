@@ -38,17 +38,15 @@ namespace dae
 
 	public:
 
-		// this class wil, take an enum class that /describes the personality of each Ghost 
-
-
-
-		SharedKnowledge m_sharedKnowledge;
+		SharedKnowledge sharedKnowledge;
 		AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type);
 		//fantasma enum class y adentro dependiedo del typo cambio la velocidad 
 
 		virtual void Render() override;
 		virtual void Update() override;
 
+		void SpotPacman(Node pacmanPos);
+		void ClearPacmanSighting();
 	
 
 		std::vector<Node> path{};
@@ -79,7 +77,7 @@ namespace dae
 		static const int Ghosts{3};
 		float m_ghotsTimersArray[Ghosts]{};
 
-		GhostAiState m_GhotsAiState{ GhostAiState::Waiting};   //since red starts can set it is state to patrolling 
+		GhostAiState m_GhotsAiState{ GhostAiState::Waiting};   
 		int m_firstValue;
 		int m_secondValue;
 

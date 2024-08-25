@@ -406,6 +406,27 @@ void dae::AIComponent::Update()
 	}
 }
 
+void dae::AIComponent::SpotPacman(Node pacmanPos)
+{
+
+	sharedKnowledge.pacmanSpotted = true;
+	sharedKnowledge.pacmanPosition = pacmanPos;
+
+	// Define strategic points based on Pac-Man's position
+	sharedKnowledge.strategicPoints.clear();
+	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x + 1, pacmanPos.y });
+	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x - 1, pacmanPos.y });
+	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x, pacmanPos.y + 1 });
+	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x, pacmanPos.y - 1 });
+}
+
+void dae::AIComponent::ClearPacmanSighting()
+{
+
+	sharedKnowledge.pacmanSpotted = false;
+	sharedKnowledge.strategicPoints.clear();
+}
+
 void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 {
 
