@@ -1,12 +1,27 @@
 
-# Combined AI behavior in Pacman Game
+ Combined AI behavior in Pacman Game
+This is my reseach project for the course "Gameplay Programming" at Howest University of Applied Sciences.
+The whole project is written in c++ and is made using the Elite-Engine. The list of the files added by me can be found at the bottom of this readme.
+## What is this project about?
+In my research I'm figuring out how to make different formations using flocking and steering behaviours. 
+My goal was to create shapes without having to offset the position by fixed values, I wanted a system for more organic shapes.
+
+![FormationSwitching](https://user-images.githubusercontent.com/114002276/211860516-a65eda0d-d20f-4483-99b8-906b2ac22f74.gif)
+
+The second part of my project was finding a way to make the units traverse the world together. I did this by calculating only one common path for the formation.
+
+![FormationSplittingFixv2](https://user-images.githubusercontent.com/114002276/211861652-6ae09756-0175-4813-bd74-539276038716.gif)
+
+## How is this implemented?
+I started with a little setup: Every RTS-like game needs a way of selecting units and the location where the units should go. 
+When you hold the left mouse button, you can move your mouse in any direction to create a selection rectangle. The units are assigned to the formation after releasing the button. I did this by checking if the middle position of any of my agents is inside the currently selected rectangle.
+
 ## Description of the Topic
 ###  AI Behavior Overview
 The AI system controls ghost characters with different behavior patterns based on their type and state. The core components of the system are:
 
 
 ![image](https://github.com/user-attachments/assets/53c0b4d7-ba65-447d-bd25-10e5fd19b8f1)
-
 
 
  ### Introduction to A*
