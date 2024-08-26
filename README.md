@@ -1,20 +1,9 @@
 
 # Combined AI behavior in Pacman Game
 ## Description of the Topic
-# AI Behavior Overview
+###  AI Behavior Overview
 The AI system controls ghost characters with different behavior patterns based on their type and state. The core components of the system are:
 
-# Ghost Types: 
-Each ghost type (e.g., Blue, Red, Pink, Orange) has unique patrol patterns, speeds, and reactions to Pac-Man.
-# AI States:
-Ghosts can be in different states such as normal, frightened, or in a special state like when they spot Pac-Man.
-# Behavior Patterns: 
-The ghosts switch between patrolling, chasing, and evading based on their state and Pac-Man's location.
-# Ghost Types and Behavior
-Blue Ghost: Patrolling behavior with predefined waypoints.
-Red Ghost: Alternates between patrolling and chasing Pac-Man based on time and Pac-Man's location.
-Pink Ghost: Patrolling behavior with predefined waypoints.
-Orange Ghost: Patrolling behavior with a chase behavior triggered if Pac-Man is within a certain distance.
 
 ![image](https://github.com/user-attachments/assets/53c0b4d7-ba65-447d-bd25-10e5fd19b8f1)
 
