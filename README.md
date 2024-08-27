@@ -18,7 +18,19 @@ In the context of the Pacman game, A* is used to navigate the ghosts intelligent
 Problem Definition
 The goal is to implement the A* algorithm in a custom game engine to control the ghost's movement in a Pacman game. The ghosts should be able to find the shortest path to Pacman considering the layout of the maze.
 but that is only the first step we want to calculate multiple paths so I modified the algorithm to get a vector of possible paths based on a sample 
+# # # 1. Generating Multiple Paths
 ![image](https://github.com/user-attachments/assets/4d32ce7c-45be-4897-92c2-a57727347714)
+this function In a Nutshell will get all possible paths based on the sample we provided 
+
+# 2. Evaluating and Comparing Paths
+Once the paths are generated, the AI needs to evaluate them to decide which one to follow. The goal is to choose a path that not only leads to the target but also moves in a direction that is distinct from the paths chosen by other AI components
+ now we need to select the best path based on specific criteria, particularly how it relates to the AI's current direction and previously chosen paths. 
+
+# 3 Determining Path Direction
+For each path, the code calculates the direction of the path based on the second-to-last node in the path (the parent node of the last node):
+
+ 
+ 
 
 
 ## What are the results?
