@@ -51,8 +51,7 @@ The code then checks whether the calculated direction for the current path has a
 ## What are the results?
 I'm really happy with the results, you can view them below!
 
-![FinalResult](https://user-images.githubusercontent.com/114002276/211960929-d0a7d5a7-d0a8-4c7d-9967-1125ca6055a5.gif)
-![FinalResultArrow](https://user-images.githubusercontent.com/114002276/211961935-77390449-14b0-4cda-86ac-f304d3d73a55.gif)
+https://github.com/user-attachments/assets/9c1e4d52-2ac1-4d12-94d2-337097b5ddb5
 
 ## Next research topics
 1. Interactive Environment: Make the environment more complex by adding traps, teleporters, or doors that open and close. Your algorithm will need to account for these interactions.
