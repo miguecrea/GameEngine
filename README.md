@@ -2,6 +2,10 @@
  # Combined AI behavior in Pacman Game
 This is my reseach project for the course "Gameplay Programming" at Howest University of Applied Sciences.
 The whole project is written in c++ and is made using the my own game engine which I developed for the course programming 4 . 
+# Files where to find behavior 
+AiComponent.h
+AiComponent.cpp
+
 ## What is this project about?
 In my research I'm figuring out how to make a combined Ai behavior for the well known pacman game  where multiple paths within the A * algorithm
 are evaluated and every ghost should be able to pick a both unique  and best path in order to corner Pacman. 
@@ -28,11 +32,15 @@ Once the paths are generated, the AI needs to evaluate them to decide which one 
 For each path, the code calculates the direction of the path based on the second-to-last node in the path (the parent node of the last node): 
 getting the relative direction 
 ![image](https://github.com/user-attachments/assets/5c14de16-deb6-4407-be91-96d269691fd7)
- The code iterates over each generated path (paths[pathIdx]) to assess its suitability. During each iteration, it checks the direction of the path relative to the target.
 
- 
- 
+# 3. Choosing a Default Path
+If the calculated direction matches the current path direction of the AI component (m_CurrentPathDirection), and no default path has been chosen yet, this path is marked as the default:
+![image](https://github.com/user-attachments/assets/1affe1b3-3c46-4a8c-97ec-3a075756310d)
 
+# 4. Avoiding Similar Directions
+The code then checks whether the calculated direction for the current path has already been chosen by another AI component:
+
+![image](https://github.com/user-attachments/assets/8200f5d8-54e4-4f7a-a68d-fdf7c69c5ea3)
 
 ## What are the results?
 I'm really happy with the results, you can view them below!
