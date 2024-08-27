@@ -17,7 +17,9 @@ In the context of the Pacman game, A* is used to navigate the ghosts intelligent
 ### Design and Implementation
 Problem Definition
 The goal is to implement the A* algorithm in a custom game engine to control the ghost's movement in a Pacman game. The ghosts should be able to find the shortest path to Pacman considering the layout of the maze.
-but that is only the first step we want to calculate multiple paths 
+but that is only the first step we want to calculate multiple paths so I modified the algorithm to get a vector of possible paths based on a sample 
+![image](https://github.com/user-attachments/assets/4d32ce7c-45be-4897-92c2-a57727347714)
+
 
 ## What are the results?
 I'm really happy with the results, you can view them below!
