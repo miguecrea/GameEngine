@@ -172,6 +172,139 @@ std::vector<Node> aStar(Node agent, Node dest) {
 	return empty;
 }
 
+std::vector<std::vector<Node>> getPaths(Node agent, Node dest, int pathNumber) {
+
+	std::vector<std::vector<Node>> paths;
+	paths.reserve(pathNumber);
+	if (!isValid(dest.x, dest.y)) {
+		//std::cout << "Destination is an obstacle" << std::endl;
+		return paths;
+	}
+	if (isDestination(agent.x, agent.y, dest)) {
+		//std::cout << "You are the destination" << std::endl;
+		return paths;
+	}
+
+	// Dynamically allocate memory for the closedList
+	std::vector<std::vector<bool>> closedList{};
+	closedList.resize(X_MAX / X_STEP);
+
+	// Dynamically allocate memory for the allMap
+	std::vector<std::vector<Node>> allMap(X_MAX / X_STEP,
+		std::vector<Node>(Y_MAX / Y_STEP));
+
+	// Initialize whole map
+	for (int x = 0; x < X_MAX / X_STEP; x++) {
+
+		closedList.at(x).resize(Y_MAX / Y_STEP);
+
+		for (int y = 0; y < Y_MAX / Y_STEP; y++) {
+			allMap[x][y].fCost = FLT_MAX;
+			allMap[x][y].gCost = FLT_MAX;
+			allMap[x][y].hCost = FLT_MAX;
+			allMap[x][y].parentX = -1;
+			allMap[x][y].parentY = -1;
+			allMap[x][y].x = x;
+			allMap[x][y].y = y;
+
+			closedList[x][y] = false;
+		}
+	}
+
+	// Initialize starting point
+	int x = agent.x;
+	int y = agent.y;
+	allMap[x][y].fCost = 0.0;
+	allMap[x][y].gCost = 0.0;
+	allMap[x][y].hCost = 0.0;
+	allMap[x][y].parentX = x;
+	allMap[x][y].parentY = y;
+
+	std::vector<Node> openList;
+	openList.emplace_back(allMap[x][y]);
+	bool destinationFound = false;
+	bool pathsAvailable{true};
+
+	while ((!openList.empty() && openList.size() < (X_MAX / X_STEP) * (Y_MAX / Y_STEP)) && paths.size() < pathNumber && pathsAvailable) {
+		Node node{};
+		//it = next(it)
+		do {
+			float temp = FLT_MAX;
+			std::vector<Node>::iterator itNode;
+			bool replacedAtLeastOnce{ false };
+
+			for (std::vector<Node>::iterator it = openList.begin();
+				it != openList.end(); ++it) {
+				Node n = *it;
+				if (n.fCost < temp)
+				{
+					temp = n.fCost;
+					itNode = it;
+					replacedAtLeastOnce = true;
+				}
+			}
+
+			if (!openList.empty() && !replacedAtLeastOnce)
+			{
+				pathsAvailable = false;
+				break;
+			}
+
+			node = *itNode;
+			openList.erase(itNode);
+		} while (!isValid(node.x, node.y) && !openList.empty());
+
+		if (!pathsAvailable)
+		{
+			break;
+		}
+
+		x = node.x;
+		y = node.y;
+		closedList[x][y] = true;
+
+		for (int newX = -1; newX <= 1; newX++)
+		{
+			for (int newY = -1; newY <= 1; newY++) {
+				double gNew, hNew, fNew;
+				if (isValid(x + newX, y + newY) && 
+					((x + newX) < closedList.size()) &&
+					((x + newY) < closedList.at(x + newX).size())) {
+					if (isDestination(x + newX, y + newY, dest)) {
+						allMap[x + newX][y + newY].parentX = x;
+						allMap[x + newX][y + newY].parentY = y;
+						destinationFound = true;
+
+						paths.push_back(makePath(allMap, dest));
+					}
+					else if (!closedList[x + newX][y + newY]) {
+						gNew = node.gCost + 1.0;
+						hNew = calculateH(x + newX, y + newY, dest);
+						fNew = gNew + hNew;
+						if (allMap[x + newX][y + newY].fCost == FLT_MAX ||
+							allMap[x + newX][y + newY].fCost > fNew)
+						{
+							if (newX != 0 && newY != 0) {
+								fNew = FLT_MAX;
+								gNew = FLT_MAX;
+								hNew = FLT_MAX;
+							}
+							allMap[x + newX][y + newY].fCost = float(fNew);
+							allMap[x + newX][y + newY].gCost = float(gNew);
+							allMap[x + newX][y + newY].hCost = float(hNew);
+							allMap[x + newX][y + newY].parentX = x;
+							allMap[x + newX][y + newY].parentY = y;
+							openList.emplace_back(allMap[x + newX][y + newY]);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	return paths;
+}
+
 bool isValid(int x, int y)
 {
 	//If our Node is an obstacle it is not valid
@@ -223,7 +356,6 @@ std::vector<Node> makePath(std::vector<std::vector<Node>> map, Node dest) {
 }
 
 
-
 dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type) :
 	m_Self{ SelfGameObject },
 	m_Target{ pTargetGameObejct },
@@ -232,7 +364,7 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 	m_Direction{ 0 },
 	m_TypeOfGhost{Type}
 {
-
+	++s_NumOfAIComponents;
 	m_Speed = 15.f;
 	auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
 
@@ -283,7 +415,17 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 
 	
 
-}//puede tomar un game object 
+}
+
+
+std::vector<glm::ivec2> dae::AIComponent::s_PathRelativeDirections{};
+int dae::AIComponent::s_NumOfAIComponents{};
+
+dae::AIComponent::~AIComponent()
+{
+	--s_NumOfAIComponents;
+}
+//puede tomar un game object 
 
 
 void dae::AIComponent::Render()
@@ -373,12 +515,93 @@ void dae::AIComponent::Update()
 
 	}
 
+	if (m_timertest >= 10.f)
+	{
+		std::vector<std::vector<Node>> paths(getPaths(currentPos, targetPos, s_NumOfAIComponents));
+
+		int relativeCurrentLastParentX{};
+		int relativeCurrentLastParentY{};
+		int defaultIndexIfNotDifferentPath{0};
+		bool choseDefault{ false };
+
+		bool chosePath{ true };
+
+		for (int pathIdx = 0; pathIdx < paths.size(); pathIdx++)
+		{
+			chosePath = true;
+
+			size_t pathsSize{ paths.at(pathIdx).size() };
+
+			//consigues la relacion relativa de la penultima casilla al jugador
+
+			 relativeCurrentLastParentX = paths.at(pathIdx).at(pathsSize - 1).parentX;
+			 relativeCurrentLastParentY = paths.at(pathIdx).at(pathsSize - 1).parentY;
+
+			 relativeCurrentLastParentX = targetPos.x - relativeCurrentLastParentX;
+			 relativeCurrentLastParentY = targetPos.y - relativeCurrentLastParentY;
+
+			 relativeCurrentLastParentX =
+				 relativeCurrentLastParentX < 0 ? -1 :
+				 relativeCurrentLastParentX > 0 ? 1 :
+				 0;
+
+			 relativeCurrentLastParentY =
+				 relativeCurrentLastParentY < 0 ? -1 :
+				 relativeCurrentLastParentY > 0 ? 1 :
+				 0;
 
 
+			 //mantienes direccion default a la ultima direccion escogida
+			 if (m_CurrentPathDirection.x == relativeCurrentLastParentX &&
+				 m_CurrentPathDirection.y == relativeCurrentLastParentY && 
+				 !choseDefault)
+			 {
+				 choseDefault = true;
+				 defaultIndexIfNotDifferentPath = pathIdx;
+			 }
 
+			for (size_t vecIdx = 0; vecIdx < s_PathRelativeDirections.size(); vecIdx++)
+			{
+				if (s_PathRelativeDirections.at(vecIdx).x ==  relativeCurrentLastParentX &&
+					s_PathRelativeDirections.at(vecIdx).y ==  relativeCurrentLastParentY)
+				{
+					
+					chosePath = false;
 
-	 path = aStar(currentPos, targetPos);
+					break;
+				}
 
+			}
+
+			if (chosePath)
+			{
+				path = paths[pathIdx];
+
+				m_CurrentPathDirection = glm::ivec2{ relativeCurrentLastParentX , relativeCurrentLastParentY };
+				s_PathRelativeDirections.push_back(m_CurrentPathDirection);
+				
+				break;
+			}
+
+		}
+
+		if (!chosePath)// && !paths.empty())
+		{
+			path = paths[defaultIndexIfNotDifferentPath];
+		}
+
+		if (s_PathRelativeDirections.size() >= s_NumOfAIComponents)
+		{
+			s_PathRelativeDirections.clear();
+		}
+	
+	}
+	else
+	{
+		path = aStar(currentPos, targetPos);
+	}
+
+	
 
 	if (path.size() > 1)
 	{

@@ -41,6 +41,7 @@ namespace dae
 
 		SharedKnowledge sharedKnowledge;
 		AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type);
+		~AIComponent();
 		//fantasma enum class y adentro dependiedo del typo cambio la velocidad 
 
 		virtual void Render() override;
@@ -54,9 +55,14 @@ namespace dae
 		std::vector<Node> path{};
 
 	private:
+
 		std::shared_ptr<GameObject> m_Self = nullptr;
 		std::shared_ptr<GameObject> m_Target = nullptr;
-
+		static std::vector<glm::ivec2> s_PathRelativeDirections;
+		static int s_NumOfAIComponents;
+		glm::ivec2 m_CurrentPathDirection{}; //remember it is relative to player pos and normalized
+		float m_MinTimeToChangePathDirection{ 0.5f };
+		float m_CurrentTimeToChangePathDirection{ 0.5f };
 
 		void CheckGhost(Node & ghotsPos,Node & targetpos);
 

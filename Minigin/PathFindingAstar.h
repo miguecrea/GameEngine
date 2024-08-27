@@ -164,6 +164,134 @@ std::vector<Node> aStar(Node agent, Node dest) {
 	return empty;
 }
 
+std::vector<std::vector<Node>> getPaths(Node agent, Node dest, int pathNumber) {
+	
+	std::vector<std::vector<Node>> paths;
+	paths.reserve(pathNumber);
+	if (!isValid(dest.x, dest.y)) {
+		//std::cout << "Destination is an obstacle" << std::endl;
+		return paths;
+	}
+	if (isDestination(agent.x, agent.y, dest)) {
+		//std::cout << "You are the destination" << std::endl;
+		return paths;
+	}
+
+	// Dynamically allocate memory for the closedList
+	bool** closedList = new bool* [X_MAX / X_STEP];
+	for (int i = 0; i < X_MAX / X_STEP; ++i) {
+		closedList[i] = new bool[Y_MAX / Y_STEP];
+		std::fill_n(closedList[i], Y_MAX / Y_STEP, false);
+	}
+
+	// Dynamically allocate memory for the allMap
+	std::vector<std::vector<Node>> allMap(X_MAX / X_STEP,
+		std::vector<Node>(Y_MAX / Y_STEP));
+
+	// Initialize whole map
+	for (int x = 0; x < X_MAX / X_STEP; x++) {
+		for (int y = 0; y < Y_MAX / Y_STEP; y++) {
+			allMap[x][y].fCost = FLT_MAX;
+			allMap[x][y].gCost = FLT_MAX;
+			allMap[x][y].hCost = FLT_MAX;
+			allMap[x][y].parentX = -1;
+			allMap[x][y].parentY = -1;
+			allMap[x][y].x = x;
+			allMap[x][y].y = y;
+
+			closedList[x][y] = false;
+		}
+	}
+
+	// Initialize starting point
+	int x = agent.x;
+	int y = agent.y;
+	allMap[x][y].fCost = 0.0;
+	allMap[x][y].gCost = 0.0;
+	allMap[x][y].hCost = 0.0;
+	allMap[x][y].parentX = x;
+	allMap[x][y].parentY = y;
+
+	std::vector<Node> openList;
+	openList.emplace_back(allMap[x][y]);
+	bool destinationFound = false;
+
+	while ((!openList.empty() && openList.size() < (X_MAX / X_STEP) * (Y_MAX / Y_STEP)) || paths.size() < pathNumber) {
+		Node node;
+		//it = next(it)
+		do {
+			float temp = FLT_MAX;
+			std::vector<Node>::iterator itNode;
+			for (std::vector<Node>::iterator it = openList.begin();
+				it != openList.end(); ++it) {
+				Node n = *it;
+				if (n.fCost < temp)
+				{
+					temp = n.fCost;
+					itNode = it;
+				}
+			}
+			node = *itNode;
+			openList.erase(itNode);
+		} while (!isValid(node.x, node.y) && !openList.empty());
+
+		x = node.x;
+		y = node.y;
+		closedList[x][y] = true;
+
+		for (int newX = -1; newX <= 1; newX++)
+		{
+			for (int newY = -1; newY <= 1; newY++) {
+				double gNew, hNew, fNew;
+				if (isValid(x + newX, y + newY)) {
+					if (isDestination(x + newX, y + newY, dest)) {
+						allMap[x + newX][y + newY].parentX = x;
+						allMap[x + newX][y + newY].parentY = y;
+						destinationFound = true;
+
+						// Clean up dynamically allocated memory
+						for (int i = 0; i < X_MAX / X_STEP; ++i) {
+							delete[] closedList[i];
+						}
+						delete[] closedList;
+
+						paths.push_back(makePath(allMap, dest));
+					}
+					else if (!closedList[x + newX][y + newY]) {
+						gNew = node.gCost + 1.0;
+						hNew = calculateH(x + newX, y + newY, dest);
+						fNew = gNew + hNew;
+						if (allMap[x + newX][y + newY].fCost == FLT_MAX ||
+							allMap[x + newX][y + newY].fCost > fNew)
+						{
+							if (newX != 0 && newY != 0) {
+								fNew = FLT_MAX;
+								gNew = FLT_MAX;
+								hNew = FLT_MAX;
+							}
+							allMap[x + newX][y + newY].fCost = float(fNew);
+							allMap[x + newX][y + newY].gCost = float(gNew);
+							allMap[x + newX][y + newY].hCost = float(hNew);
+							allMap[x + newX][y + newY].parentX = x;
+							allMap[x + newX][y + newY].parentY = y;
+							openList.emplace_back(allMap[x + newX][y + newY]);
+						}
+					}
+				}
+			}
+		}
+	}
+	if (!destinationFound) {
+		//std::cout << "Destination not found" << std::endl;
+		for (int i = 0; i < X_MAX / X_STEP; ++i) {
+			delete[] closedList[i];
+		}
+		delete[] closedList;
+		return paths;
+	}
+	return paths;
+}
+
 bool isValid(int x, int y)
 {
 	//If our Node is an obstacle it is not valid
