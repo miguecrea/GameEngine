@@ -22,12 +22,13 @@ but that is only the first step we want to calculate multiple paths so I modifie
 ![image](https://github.com/user-attachments/assets/4d32ce7c-45be-4897-92c2-a57727347714)
 this function In a Nutshell will get all possible paths based on the sample we provided 
 
-# 2. Evaluating and Comparing Paths
+# 2. Evaluating ,comparing Paths and Determining Path Direction
 Once the paths are generated, the AI needs to evaluate them to decide which one to follow. The goal is to choose a path that not only leads to the target but also moves in a direction that is distinct from the paths chosen by other AI components
  now we need to select the best path based on specific criteria, particularly how it relates to the AI's current direction and previously chosen paths. 
-
-# 3 Determining Path Direction
-For each path, the code calculates the direction of the path based on the second-to-last node in the path (the parent node of the last node):
+For each path, the code calculates the direction of the path based on the second-to-last node in the path (the parent node of the last node): 
+getting the relative direction 
+![image](https://github.com/user-attachments/assets/5c14de16-deb6-4407-be91-96d269691fd7)
+ The code iterates over each generated path (paths[pathIdx]) to assess its suitability. During each iteration, it checks the direction of the path relative to the target.
 
  
  
