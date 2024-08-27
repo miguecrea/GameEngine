@@ -49,14 +49,14 @@ The code then checks whether the calculated direction for the current path has a
 ![image](https://github.com/user-attachments/assets/8200f5d8-54e4-4f7a-a68d-fdf7c69c5ea3)
 
 ## What are the results?
-I'm really happy with the results, you can view them below!
-
 https://github.com/user-attachments/assets/9c1e4d52-2ac1-4d12-94d2-337097b5ddb5
 
 ## Next research topics
 1. Interactive Environment: Make the environment more complex by adding traps, teleporters, or doors that open and close. Your algorithm will need to account for these interactions.
 2 .Dynamic Pathfinding: Investigate algorithms that adapt to changing environments in real-time. For instance, explore how AI components can dynamically re-route if new obstacles are introduced or if the target position changes.
  3. Multi-Agent Pathfinding (MAPF): Research how to optimize pathfinding for multiple AI components simultaneously, minimizing conflicts and collisions between them. This could involve developing or refining MAPF algorithms like Cooperative A*, prioritized planning, or conflict-based search..
+## Conclusion
+This AI pathfinding and decision-making project represents a significant advancement in creating intelligent, adaptive behaviors for AI components in dynamic environments. By integrating complex algorithms, such as A* and cooperative strategies, and addressing challenges like collision avoidance and real-time decision-making, the project enhances the realism and interactivity of AI entities.
 
 # Sources
 https://www.geeksforgeeks.org/a-search-algorithm/
