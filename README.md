@@ -48,6 +48,10 @@ The code then checks whether the calculated direction for the current path has a
 
 ![image](https://github.com/user-attachments/assets/8200f5d8-54e4-4f7a-a68d-fdf7c69c5ea3)
 
+# Summary Of code 
+this section of the code is crucial for managing the pathfinding behavior of multiple AI components in a dynamic and interactive environment. The AI generates multiple potential paths and evaluates them based on their direction relative to the target. It seeks to choose a path that is unique and different from those chosen by other AI components, thereby avoiding predictable or repetitive behavior. If no unique path is available, it falls back on a default option. The code also incorporates a mechanism to reset directional choices periodically, ensuring that the AI behavior remains diverse and adaptable over time. This approach enhances the complexity and realism of the AI's navigation, making it more challenging and engaging for players.
+
+
 ## What are the results?
 https://github.com/user-attachments/assets/9c1e4d52-2ac1-4d12-94d2-337097b5ddb5
 
