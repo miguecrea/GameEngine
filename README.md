@@ -28,7 +28,6 @@ In the context of the Pacman game, A* is used to navigate the ghosts intelligent
 Problem Definition
 The goal is to implement the A* algorithm in a custom game engine to control the ghost's movement in a Pacman game. The ghosts should be able to find the shortest path to Pacman considering the layout of the maze.
 but that is only the first step we ant to create an engaging Ai system that makes the ghost share information and work together in order to catch pacman 
-
 ## How is this implemented?
 
 
@@ -40,15 +39,12 @@ I'm really happy with the results, you can view them below!
 ![FinalResult](https://user-images.githubusercontent.com/114002276/211960929-d0a7d5a7-d0a8-4c7d-9967-1125ca6055a5.gif)
 ![FinalResultArrow](https://user-images.githubusercontent.com/114002276/211961935-77390449-14b0-4cda-86ac-f304d3d73a55.gif)
 
-My conclusion is that this system is fun to play with and after some polishing it could be used in a real game. While making the project I found out that dot and cross products are very usefull and finally understood how to use them correctly. 
-
 ## Next research topics
-If you want, you can do a follow up project based on my work. I would recommend to work on the things where I did not have time to finish:
-1. Correct offset when moving next to obstacles. (The path finder self could also take the formation width into account)
-2. Subgroups of the formation should always keep a relative position to eachother.
+1. Interactive Environment: Make the environment more complex by adding traps, teleporters, or doors that open and close. Your algorithm will need to account for these interactions.
+2. Reinforcement Learning: Integrate machine learning, where Pacman learns the optimal path or strategies based on rewards (like eating pellets) and penalties (like getting caught by ghosts).
 Other also interesting features would be:
-1. Creating more basic shapes, for example by means of bezier-curves.
-2. The formations could rotate to match the moving direction.
+Complex Heuristics: Enhance the A* algorithm with more sophisticated heuristics that take into account ghost movements, dynamic changes in the maze, or the location of power pellets.
+Probabilistic Heuristics: Introduce uncertainty in ghost movements and adapt your heuristics to account for this, leading to more robust pathfinding strategies.
 
 # Sources
 https://www.geeksforgeeks.org/a-search-algorithm/
