@@ -233,14 +233,13 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 	m_TypeOfGhost{Type}
 {
 
-	
+	m_Speed = 15.f;
 	auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
 
 
 	switch (m_TypeOfGhost)
 	{
 	case dae::GhostType::Blue:
-		m_Speed = 9.f;
 		m_copy = m_Speed;
  
 		m_GridpositionsToPatrol.push_back(std::make_tuple(26,20));
@@ -254,13 +253,11 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
 		m_GridpositionsToPatrol.push_back(std::make_tuple(8,6));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(20,13));
 		m_GridpositionsToPatrol.push_back(std::make_tuple(8,18));
-		m_Speed = 14.f;
 		m_copy = m_Speed;
 
 
 		break;
 	case dae::GhostType::Pink:
-		m_Speed = 12.f;
 		m_copy = m_Speed;
 
 		m_GridpositionsToPatrol.push_back(std::make_tuple(11, 1));
@@ -271,7 +268,6 @@ dae::AIComponent::AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::s
   
 		break;
 	case dae::GhostType::Orange:
-		m_Speed = 11.f;
 		m_copy = m_Speed;
 
 		m_GridpositionsToPatrol.push_back(std::make_tuple(26,10));
@@ -297,16 +293,26 @@ void dae::AIComponent::Render()
 	for (int index = 0; index < path.size(); index++)
 	{
 
-		if (m_TypeOfGhost == GhostType::Red)
-		{
-	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{255,0,0,100});
 
-		}
-		else
+
+		switch (m_TypeOfGhost)
 		{
+		case dae::GhostType::Blue:
 	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{0,0,255,100});
-
+			break;
+		case dae::GhostType::Red:
+	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{255,0,0,100});
+			break;
+		case dae::GhostType::Pink:
+	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{255,0,255,100});
+			break;
+		case dae::GhostType::Orange:
+	   Renderer::GetInstance().FillSquare(float(path[index].x * X_STEP * 2),float(path[index].y * Y_STEP*2), 16, 16, SDL_Color{255,255,0,100});
+			break;
+		default:
+			break;
 		}
+	
 
 	}
 		
@@ -321,6 +327,12 @@ void dae::AIComponent::Update()
 
 
 	if (s_PauseGame == 1) return;
+
+
+
+
+//////////////////////// SHARED AI 
+
 
 	m_GhostWaitingTime += SceneManager::GetInstance().GetDeltaTime();
 
@@ -342,6 +354,8 @@ void dae::AIComponent::Update()
 		m_Speed = m_copy;
 	}
 
+///////////////////// change the velocity based on speed 
+
 	if (m_GhostState ==int(GhostState::Normal))
 	{
 		m_timertest += SceneManager::GetInstance().GetDeltaTime();
@@ -349,12 +363,11 @@ void dae::AIComponent::Update()
 
 		CheckGhost(currentPos, targetPos);
 
-
-		
-
 	}
 	else
 	{
+
+		//when is blue it it reset 
 		m_timertest = 0;
 		RunAway(targetPos); 
 
@@ -362,7 +375,6 @@ void dae::AIComponent::Update()
 
 
 
-	//std::cout << "Playeraaaaaa is at " << targetPos.x << ", " << targetPos.y << "\n";
 
 
 	 path = aStar(currentPos, targetPos);
@@ -392,7 +404,6 @@ void dae::AIComponent::Update()
 					m_Self->GetLocalPosition().y
 				);
 			}
-		
 			// Check if the Y coordinate needs to be adjusted
 			if (fabs(deltaY) > snapThreshold) {
 				// Adjust the Y coordinate
@@ -402,56 +413,48 @@ void dae::AIComponent::Update()
 					m_Self->GetLocalPosition().y + moveY
 				);
 			}
-	
 	}
+
+
+
+
+
+
 }
 
-void dae::AIComponent::SpotPacman(Node pacmanPos)
-{
-
-	sharedKnowledge.pacmanSpotted = true;
-	sharedKnowledge.pacmanPosition = pacmanPos;
-
-	// Define strategic points based on Pac-Man's position
-	sharedKnowledge.strategicPoints.clear();
-	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x + 1, pacmanPos.y });
-	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x - 1, pacmanPos.y });
-	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x, pacmanPos.y + 1 });
-	sharedKnowledge.strategicPoints.push_back({ pacmanPos.x, pacmanPos.y - 1 });
-}
-
-void dae::AIComponent::ClearPacmanSighting()
-{
-
-	sharedKnowledge.pacmanSpotted = false;
-	sharedKnowledge.strategicPoints.clear();
-}
 
 void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 {
+
 
 	switch (m_TypeOfGhost)  
 	{
 	case dae::GhostType::Blue:
 		
-
-		if (m_GhostWaitingTime >=20.f)
-		{
-			//m_GhostWaitingTime = 0;
-
 		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
 
 
+		if (m_timertest >= 10.f)
+		{
+
+			Chase(targetpos);
+
+			
+
 		}
+
+
+
+
+
+	
+
 		break;
 	case dae::GhostType::Red:
 
-		if (m_timertest >= 1.f)   //executing both
-		{
 			Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
-
-		}
-		if (m_timertest >= 20.f)
+		
+		if (m_timertest >= 10.f)     
 		{
 			Chase(targetpos);
 
@@ -462,21 +465,27 @@ void dae::AIComponent::CheckGhost(Node & ghotsPos,Node & targetpos)
 
 
 		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+
+		if (m_timertest >= 10.f)
+		{
+			Chase(targetpos);
+
+		}
+
 		
 
 		break;
 	case dae::GhostType::Orange:
 
 
-			if (distanceBetweenPoints() <= 80.f)
-			{
-				Chase(targetpos);
-			}
-			else
-			{
-				Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+		//aptrol for 10 seodcd chase for 20 
+		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
 
-			}
+		if (m_timertest >= 10.f)
+		{
+			Chase(targetpos);
+
+		}
 
 		
 		break;
@@ -505,12 +514,6 @@ int second_value = std::get<1>(vectorValidIndexes[14]);  //1      //colummnb
 GoTo(first_value,second_value, TargetNode);
     
 
-
-
-
-
-
-
 }
 
 void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPoints, Node & currentPos,Node& targetPos)
@@ -527,8 +530,6 @@ void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>> & patrolPo
 	{
 		
 		m_index = (m_index + 1) % m_GridpositionsToPatrol.size();
-	
-
 		
 	}
 
@@ -582,6 +583,288 @@ float dae::AIComponent::distanceBetweenPoints()
 
 	return distance;
 }
+
+
+
+
+
+
+
+
+
+
+
+//void dae::AIComponent::Update()
+//{
+//
+//
+//	if (s_PauseGame == 1) return;
+//
+//
+//
+//
+//	//////////////////////// SHARED AI 
+//
+//
+//	m_GhostWaitingTime += SceneManager::GetInstance().GetDeltaTime();
+//
+//	Node currentPos;
+//	currentPos.x = int(m_Self->GetLocalPosition().x + 3) / X_STEP;
+//	currentPos.y = int(m_Self->GetLocalPosition().y + 3) / Y_STEP;
+//
+//	//std::cout << "Ghost is at " << currentPos.x << ", " << currentPos.y << "\n";
+//
+//	Node targetPos;
+//
+//
+//	if (m_GhostState != int(GhostState::Normal))
+//	{
+//		m_Speed = 11.f;
+//	}
+//	else
+//	{
+//		m_Speed = m_copy;
+//	}
+//
+//	///////////////////// change the velocity based on speed 
+//
+//	if (m_GhostState == int(GhostState::Normal))
+//	{
+//		m_timertest += SceneManager::GetInstance().GetDeltaTime();
+//
+//
+//		CheckGhost(currentPos, targetPos);
+//
+//	}
+//	else
+//	{
+//		m_timertest = 0;
+//		RunAway(targetPos);
+//
+//	}
+//
+//
+//
+//
+//
+//	path = aStar(currentPos, targetPos);
+//
+//
+//	if (path.size() > 1)
+//	{
+//		float x = float(path[1].x * X_STEP);
+//		float y = float(path[1].y * Y_STEP);
+//		float deltaX = (x - m_Self->GetLocalPosition().x);
+//		if (deltaX < 0) deltaX = -1;
+//		else if (deltaX > 0) deltaX = 1;
+//		float deltaY = (y - m_Self->GetLocalPosition().y);
+//		if (deltaY < 0) deltaY = -1;
+//		else if (deltaY > 0) deltaY = 1;
+//
+//		// Define a threshold for snapping
+//		const float snapThreshold = 0.1f; // Adjust as needed
+//
+//
+//		// Check if the X coordinate needs to be adjusted
+//		if (fabs(deltaX) > snapThreshold) {
+//			// Adjust the X coordinate
+//			float moveX = (deltaX > 0 ? 1 : -1) * m_Speed * m_pSceneManager->GetDeltaTime();
+//			m_Self->SetPosition(
+//				m_Self->GetLocalPosition().x + moveX,
+//				m_Self->GetLocalPosition().y
+//			);
+//		}
+//		// Check if the Y coordinate needs to be adjusted
+//		if (fabs(deltaY) > snapThreshold) {
+//			// Adjust the Y coordinate
+//			float moveY = (deltaY > 0 ? 1 : -1) * m_Speed * m_pSceneManager->GetDeltaTime();
+//			m_Self->SetPosition(
+//				m_Self->GetLocalPosition().x,
+//				m_Self->GetLocalPosition().y + moveY
+//			);
+//		}
+//	}
+//
+//
+//
+//
+//
+//
+//}
+//
+//void dae::AIComponent::MoveAlongPath(const std::vector<Node>& path)
+//{
+//}
+//
+//void dae::AIComponent::AdjustPosition(float deltaX, float deltaY)
+//{
+//}
+//
+//
+//void dae::AIComponent::CheckGhost(Node& ghotsPos, Node& targetpos)
+//{
+//
+//
+//	switch (m_TypeOfGhost)
+//	{
+//	case dae::GhostType::Blue:
+//
+//
+//		if (m_GhostWaitingTime >= 20.f)
+//		{
+//
+//			Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+//
+//
+//		}
+//		break;
+//	case dae::GhostType::Red:
+//
+//		if (m_timertest >= 1.f)   //executing both
+//		{
+//			Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+//
+//		}
+//		if (m_timertest >= 10.f)
+//		{
+//			Chase(targetpos);
+//
+//		}
+//
+//		break;
+//	case dae::GhostType::Pink:
+//
+//
+//		Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+//
+//
+//		break;
+//	case dae::GhostType::Orange:
+//
+//
+//		if (distanceBetweenPoints() <= 80.f)
+//		{
+//			Chase(targetpos);
+//		}
+//		else
+//		{
+//			Patrol(m_GridpositionsToPatrol, ghotsPos, targetpos);
+//
+//		}
+//
+//
+//		break;
+//	default:
+//		break;
+//	}
+//
+//
+//
+//
+//}
+//
+//
+//
+//void dae::AIComponent::RunAway(Node& TargetNode)
+//{
+//
+//
+//
+//	auto vectorValidIndexes = Map::GetInstance().ReturnValidIndexes();   //vector with a tuple of ramdom indexes 
+//
+//	int first_value = std::get<0>(vectorValidIndexes[17]);  //10        //row          
+//	int second_value = std::get<1>(vectorValidIndexes[14]);  //1      //colummnb      
+//
+//
+//	GoTo(first_value, second_value, TargetNode);
+//
+//
+//}
+//
+//void dae::AIComponent::Patrol(const std::vector<std::tuple<int, int>>& patrolPoints, Node& currentPos, Node& targetPos)
+//{
+//	//int index //the problem is that here its gets reseted evertframe
+//
+//
+//	m_rowTest = std::get<0>(patrolPoints[m_index]);
+//	m_Column = std::get<1>(patrolPoints[m_index]);
+//
+//
+//	GoTo(m_rowTest, m_Column, targetPos);
+//	if (HasArrived(currentPos, targetPos))
+//	{
+//
+//		m_index = (m_index + 1) % m_GridpositionsToPatrol.size();
+//
+//	}
+//
+//}
+//
+//void dae::AIComponent::Chase(Node& target)
+//{
+//
+//	target.x = int(m_Target->GetLocalPosition().x + 3) / X_STEP;
+//	target.y = int(m_Target->GetLocalPosition().y + 3) / Y_STEP;
+//
+//
+//}
+//
+//void dae::AIComponent::GoTo(int  row, int  column, Node& TargetNode)
+//{
+//
+//
+//	auto  Pos = Map::GetInstance().GridToPos(column, row);   //primero column y luego row 
+//
+//
+//	TargetNode.x = (std::get<0>(Pos)) / X_STEP;
+//	TargetNode.y = (std::get<1>(Pos)) / Y_STEP;
+//
+//
+//}
+//
+//bool dae::AIComponent::HasArrived(Node& ghosts, Node& TargetNode)
+//{
+//
+//	return ghosts.x == TargetNode.x && ghosts.y == ghosts.y;
+//
+//}
+//
+//float dae::AIComponent::distanceBetweenPoints()
+//{
+//	float targetX = m_Target->GetWorldPosition().x;
+//	float targetY = m_Target->GetWorldPosition().y;
+//	float selfX = m_Self->GetWorldPosition().x;
+//	float selfY = m_Self->GetWorldPosition().y;
+//
+//	// Convert coordinates to float for accurate calculations
+//	float dx = targetX * 2 - selfX * 2; // Assuming you want to scale the x-coordinate by 2
+//	float dy = targetY - selfY;
+//
+//	// Calculate the sum of squares
+//	float sumOfSquares = dx * dx + dy * dy;
+//
+//	// Calculate the square root of the sum to get the distance
+//	float distance = std::sqrt(sumOfSquares);
+//
+//	return distance;
+//}
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

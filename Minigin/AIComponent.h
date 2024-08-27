@@ -38,6 +38,7 @@ namespace dae
 
 	public:
 
+
 		SharedKnowledge sharedKnowledge;
 		AIComponent(std::shared_ptr<GameObject> SelfGameObject, std::shared_ptr<GameObject> pTargetGameObejct, dae::GhostType Type);
 		//fantasma enum class y adentro dependiedo del typo cambio la velocidad 
@@ -45,14 +46,12 @@ namespace dae
 		virtual void Render() override;
 		virtual void Update() override;
 
-		void SpotPacman(Node pacmanPos);
-		void ClearPacmanSighting();
-	
+
+		void MoveAlongPath(const std::vector<Node>& path);
+		void AdjustPosition(float deltaX, float deltaY);
+
 
 		std::vector<Node> path{};
-
-
-		//remember personalities of the ghosts 
 
 	private:
 		std::shared_ptr<GameObject> m_Self = nullptr;
@@ -81,9 +80,9 @@ namespace dae
 		int m_firstValue;
 		int m_secondValue;
 
-		std::vector < std::tuple<int, int>>m_Pos{};
+		std::vector <std::tuple<int, int>>m_Pos{};
 
-		std::vector<  std::tuple<int, int>>m_OrangeGhosts{};
+		std::vector<std::tuple<int, int>>m_OrangeGhosts{};
 
 		float m_GhostWaitingTime{0};
 
