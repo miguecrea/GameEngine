@@ -56,10 +56,8 @@ I'm really happy with the results, you can view them below!
 
 ## Next research topics
 1. Interactive Environment: Make the environment more complex by adding traps, teleporters, or doors that open and close. Your algorithm will need to account for these interactions.
-2. Reinforcement Learning: Integrate machine learning, where Pacman learns the optimal path or strategies based on rewards (like eating pellets) and penalties (like getting caught by ghosts).
-Other also interesting features would be:
-Complex Heuristics: Enhance the A* algorithm with more sophisticated heuristics that take into account ghost movements, dynamic changes in the maze, or the location of power pellets.
-Probabilistic Heuristics: Introduce uncertainty in ghost movements and adapt your heuristics to account for this, leading to more robust pathfinding strategies.
+2 .Dynamic Pathfinding: Investigate algorithms that adapt to changing environments in real-time. For instance, explore how AI components can dynamically re-route if new obstacles are introduced or if the target position changes.
+ 3. Multi-Agent Pathfinding (MAPF): Research how to optimize pathfinding for multiple AI components simultaneously, minimizing conflicts and collisions between them. This could involve developing or refining MAPF algorithms like Cooperative A*, prioritized planning, or conflict-based search..
 
 # Sources
 https://www.geeksforgeeks.org/a-search-algorithm/
